@@ -51,7 +51,10 @@ struct model
 
 struct model* train(const struct problem *prob, const struct parameter *param);
 void cross_validation(const struct problem *prob, const struct parameter *param, int nr_fold, double *target);
+static double calc_start_C(const struct problem *prob, const struct parameter *param);
+void split_data(const problem *prob, int *fold_start, int *perm, double *target, const problem *subprob, int nr_fold){
 void find_parameter_C(const struct problem *prob, const struct parameter *param, int nr_fold, double start_C, double max_C, double *best_C, double *best_rate);
+void find_parameter_C_P(const problem *prob, const parameter *param, int nr_fold, double start_C, double max_C, double start_P, double min_P, double *best_C, double *best_P, double *best_error);
 
 double predict_values(const struct model *model_, const struct feature_node *x, double* dec_values);
 double predict(const struct model *model_, const struct feature_node *x);

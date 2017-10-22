@@ -143,15 +143,25 @@ int main(int argc, char **argv)
 
 void do_find_parameter_C()
 {
-	double start_C, best_C, best_rate;
-	double max_C = 1024;
+	double start_C, best_C, start_P, best_P,best_rate, best_error;
+	double max_C = 1 << 30, min_P = 1.0 / (double) (1 << 30);
 	if (flag_C_specified)
 		start_C = param.C;
 	else
-		start_C = -1.0;
+		start_C = calc_start_C( &prob, &param);
+
 	printf("Doing parameter search with %d-fold cross validation.\n", nr_fold);
-	find_parameter_C(&prob, &param, nr_fold, start_C, max_C, &best_C, &best_rate);
-	printf("Best C = %g  CV accuracy = %g%%\n", best_C, 100.0*best_rate);
+
+	if(param.solver_type == L2R_LR || param.solver_type == L2R_L2LOSS_SVC){
+		find_parameter_C(&prob, &param, nr_fold, start_C, max_C, &best_C, &best_rate);
+		printf("Best C = %g  CV accuracy = %g%%\n", best_C, 100.0*best_rate);
+	}
+	else if(param.solver_type == L2R_L2LOSS_SVR){
+		start_P = 1 << 30;
+		find_parameter_C_P(&prob, &param, nr_fold, start_C, max_C, start_P, min_P, &best_C, &best_P, &best_error);
+		printf("Best C = %g  CV accuracy = %g\n", best_C, best_error);
+	}
+
 }
 
 void do_cross_validation()
@@ -310,9 +320,9 @@ void parse_command_line(int argc, char **argv, char *input_file_name, char *mode
 			fprintf(stderr, "Solver not specified. Using -s 2\n");
 			param.solver_type = L2R_L2LOSS_SVC;
 		}
-		else if(param.solver_type != L2R_LR && param.solver_type != L2R_L2LOSS_SVC)
+		else if(param.solver_type != L2R_LR && param.solver_type != L2R_L2LOSS_SVC && param.solver_type != L2R_L2LOSS_SVR)
 		{
-			fprintf(stderr, "Warm-start parameter search only available for -s 0 and -s 2\n");
+			fprintf(stderr, "Warm-start parameter search only available for -s 0 and -s 2 -s 11\n");
 			exit_with_help();
 		}
 	}
