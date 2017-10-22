@@ -2223,10 +2223,9 @@ static void train_one(const problem *prob, const parameter *param, double *w, do
 static double calc_start_C(const problem *prob, const parameter *param)
 {
 	int i;
-	double max_xTx = 0;
 	double xTx,max_xTx,y_min,sum_y_sqr;
 	y_min = INF;
-	sum_y_sqr = 0;
+	sum_y_sqr = max_xTx = 0;
 	for(i=0; i<prob->l; i++)
 	{
 		xTx = 0;
@@ -2280,11 +2279,10 @@ model* train(const problem *prob, const parameter *param)
 		if( param->init_sol != NULL)
 			for(i=0; i<w_size; i++)
 				model_->w[i] = param->init_sol[i]; 
-	//Disable log output for running CV at a particular C
-	set_print_string_function(&print_null);
 		else
 			for(i=0; i<w_size; i++)
 				model_->w[i] = 0;
+
 		model_->nr_class = 2;
 		model_->label = NULL;
 		train_one(prob, param, model_->w, 0, 0);
@@ -2471,7 +2469,7 @@ void cross_validation(const problem *prob, const parameter *param, int nr_fold, 
 	free(perm);
 }
 
-void split_data(const problem *prob, int *fold_start, int *perm, double *target, const problem *subprob, int nr_fold){
+void split_data(const problem *prob, int *fold_start, int *perm, double *target, problem *subprob, int nr_fold){
 	int i;
 	int l = prob->l;
 	if (nr_fold > l)
@@ -2635,7 +2633,7 @@ void find_parameter_C_P(const problem *prob, const parameter *param, int nr_fold
 	int *perm = Malloc(int, l);
 	double *target = Malloc(double, prob->l);
 	struct problem *subprob = Malloc(problem,nr_fold);
-	split_data( prob, fold_start, perm, target, subprob);
+	split_data( prob, fold_start, perm, target, subprob, nr_fold);
 
 	// variables for warm start
 	double ratio = 2;
@@ -2660,8 +2658,8 @@ void find_parameter_C_P(const problem *prob, const parameter *param, int nr_fold
 
 		if(prev_w_p[i] != NULL)
 			for(i=0; i<nr_fold; i++)
-				for(j=0; j<total_w_size)
-					prev_w[i][j] = pre_w_p[i][j];
+				for(j=0; j<total_w_size; j++)
+					prev_w[i][j] = prev_w_p[i][j];
 		
 		param1.C = start_C;
 		int num_unchanged_w = 0;
