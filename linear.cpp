@@ -2220,7 +2220,7 @@ static void train_one(const problem *prob, const parameter *param, double *w, do
 }
 
 // Calculate the initial C for parameter selection
-static double calc_start_C(const problem *prob, const parameter *param)
+double calc_start_C(const problem *prob, const parameter *param)
 {
 	int i;
 	double xTx,max_xTx,y_min,sum_y_sqr;
@@ -2647,16 +2647,16 @@ void find_parameter_C_P(const problem *prob, const parameter *param, int nr_fold
 	struct parameter param1 = *param;
 	void (*default_print_string) (const char *) = liblinear_print_string;
 
-	*best_error = 0;
+	*best_error = INF;
 	param1.p = start_P;
-
+	
 
 	while( param1.p >= min_P )
 	{
 		int total_w_size;
 		int j;
 
-		if(prev_w_p[i] != NULL)
+		if(prev_w_p[0] != NULL)
 			for(i=0; i<nr_fold; i++)
 				for(j=0; j<total_w_size; j++)
 					prev_w[i][j] = prev_w_p[i][j];
@@ -2683,7 +2683,7 @@ void find_parameter_C_P(const problem *prob, const parameter *param, int nr_fold
 				if(param1.C == start_C)
 				{
 					if(prev_w_p[i] == NULL)
-						prev_w[i] = Malloc(double, total_w_size);
+						prev_w_p[i] = Malloc(double, total_w_size);
 					for(j=0; j<total_w_size; j++)
 						prev_w_p[i][j] = submodel->w[j];
 				}
@@ -2734,8 +2734,9 @@ void find_parameter_C_P(const problem *prob, const parameter *param, int nr_fold
 				*best_C = param1.C;
 				*best_P = param1.p;
 				*best_error = current_error;
+				info("log2c=%7.2f\tlog2p=%7.2f\terror=%g\n",log(param1.C)/log(2.0),log(param1.p)/log(2.0),current_error);
 			}
-			info("log2c=%7.2f\tlog2p=%7.2f\terror=%g\n",log(param1.C)/log(2.0),log(param1.p)/log(2.0),current_error);
+			//info("log2c=%7.2f\tlog2p=%7.2f\terror=%g\n",log(param1.C)/log(2.0),log(param1.p)/log(2.0),current_error);
 			
 			num_unchanged_w++;
 			if(num_unchanged_w == 3)

@@ -144,7 +144,7 @@ int main(int argc, char **argv)
 void do_find_parameter_C()
 {
 	double start_C, best_C, start_P, best_P,best_rate, best_error;
-	double max_C = 1 << 30, min_P = 1.0 / (double) (1 << 30);
+	double max_C = 1 << 30, min_P = 1.0 / (double) ((long long)1 << 62);
 	if (flag_C_specified)
 		start_C = param.C;
 	else
@@ -159,7 +159,7 @@ void do_find_parameter_C()
 	else if(param.solver_type == L2R_L2LOSS_SVR){
 		start_P = 1 << 30;
 		find_parameter_C_P(&prob, &param, nr_fold, start_C, max_C, start_P, min_P, &best_C, &best_P, &best_error);
-		printf("Best C = %g  CV accuracy = %g\n", best_C, best_error);
+		printf("Best C = %f Best P = %f CV accuracy = %g\n", log(best_C)/log(2.0), log(best_P)/log(2.0), best_error);
 	}
 
 }
