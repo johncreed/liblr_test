@@ -8,41 +8,17 @@ eps_b = 2 ** -10
 eps_e = 2 ** 10
 eps = eps_b
 train_big = False
-data_path = "/home/johncreed/liblr_test/data_r/"
+data_path = "/home/johncreed/data/reg/"
 out_path = "/home/johncreed/liblr_test/out/"
 program_path = "/home/johncreed/liblr_test/"
-command_param = "train -s 11 -C -p "
+command_param = "train -s 11 -C"
 big_data_list = ['log1p.E2006.train', 'YearPredictionMSD', 'E2006.train']
 small_data_list = [ f for f in os.listdir(data_path) if f not in big_data_list ]
-"""
-def go(f):
-    cmd = program_path+command_param+str(eps)+" "+data_path+f+" > "+out_path+f+"_"+str(math.log(eps, 2))
-    print (cmd)
-    os.system(cmd)
-
-
-def train():
-    if(train_big):
-        pool = mp.Pool(5)
-        pool.map(go,big_data_list)
-        pool.close()
-    else:
-        #go(small_data_list)
-        pool = mp.Pool(5)
-        pool.map(go,small_data_list)
-        pool.close()
-
-while eps_b <= eps < eps_e:
-    train()
-    print (eps , "finished")
-    eps *= 2
-
-"""
 
 file = "123"
 
-def go( eps ):
-    cmd = program_path+command_param+str(2**eps)+" "+data_path+file+" > "+out_path+file+"_"+str(eps)
+def go():
+    cmd = program_path+command_param+" "+data_path+file+" > "+out_path+file+"_"+str(eps)
     print (cmd)
     os.system(cmd)
 
@@ -55,20 +31,8 @@ if (len(sys.argv) > 1):
 if(train_big):
     for f in big_data_list:
         file = f
-        """
-        pool = mp.Pool(5)
-        pool.map(go,eps_range)
-        pool.close()
-        """
-        for x in eps_range:
-            go(x)
+        go()
 else:
     for f in small_data_list:
         file = f
-        """
-        pool = mp.Pool(5)
-        pool.map(go,eps_range)
-        pool.close()
-        """
-        for x in eps_range:
-            go(x)
+        go()
