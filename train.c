@@ -148,7 +148,9 @@ void do_find_parameter_C()
 	if (flag_C_specified)
 		start_C = param.C;
 	else
-		start_C = calc_start_C( &prob, &param);
+		calc_start_C( &prob, &param, &start_C, &start_P);
+
+	//Notice if P is specitfy, it will be set to default
 
 	printf("Doing parameter search with %d-fold cross validation.\n", nr_fold);
 
@@ -157,7 +159,6 @@ void do_find_parameter_C()
 		printf("Best C = %g  CV accuracy = %g%%\n", best_C, 100.0*best_rate);
 	}
 	else if(param.solver_type == L2R_L2LOSS_SVR){
-		start_P = 1 << 30;
 		find_parameter_C_P(&prob, &param, nr_fold, start_C, max_C, start_P, min_P, &best_C, &best_P, &best_error);
 		printf("Best C = %f Best P = %f CV accuracy = %g\n", log(best_C)/log(2.0), log(best_P)/log(2.0), best_error);
 	}

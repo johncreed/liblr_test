@@ -1,0 +1,13 @@
+out/
+out*/
+pictures*/
+*.o
+*.a
+*.sh
+*.swp
+*.model
+data_c
+data_r
+predict
+train
+

@@ -2220,17 +2220,19 @@ static void train_one(const problem *prob, const parameter *param, double *w, do
 }
 
 // Calculate the initial C for parameter selection
-double calc_start_C(const problem *prob, const parameter *param)
+void calc_start_C(const problem *prob, const parameter *param, double * start_C, double * start_P)
 {
 	int i;
-	double xTx,max_xTx,y_min,sum_y_sqr;
+	double xTx, max_xTx, y_min, sum_y_sqr, max_y;
 	y_min = INF;
+	max_y = 0;
 	sum_y_sqr = max_xTx = 0;
 	for(i=0; i<prob->l; i++)
 	{
 		xTx = 0;
 		feature_node *xi=prob->x[i];
 		double yi_abs = (prob->y[i] >= 0) ? prob->y[i] : -prob->y[i];
+		max_y = max( max_y, yi_abs);
 		if(y_min > yi_abs && yi_abs > 0) y_min = yi_abs;
 		sum_y_sqr += yi_abs * yi_abs;
 		while(xi->index != -1)
@@ -2251,7 +2253,98 @@ double calc_start_C(const problem *prob, const parameter *param)
 	else if(param->solver_type == L2R_L2LOSS_SVR)
 		min_C = y_min * y_min / (2 * sum_y_sqr * max_xTx);
 
-	return pow( 2, floor(log(min_C) / log(2.0)) );
+	*start_C = pow( 2, floor(log(min_C) / log(2.0)) );
+	*start_P = max_y;
+	printf("start_C %f start_P %f\n", log(*start_C)/log(2.0), log(*start_P)/log(2.0));
+}
+
+double calc_min_P(const problem *prob, const problem *subprob, const parameter *param,const int * fold_start,const int *perm, const int nr_fold, const double start_C, const double max_C)
+{
+		int i, j;
+		double ratio = 2;
+		double bound_p = INF;
+
+		double **prev_w = Malloc(double*, nr_fold);
+		double *target = Malloc(double, prob->l);
+		void (*default_print_string) (const char *) = liblinear_print_string;
+		int total_w_size;
+		int num_unchanged_w = 0;
+
+		struct parameter param1 = *param;
+		param1.C = start_C;
+		param1.p = 0;
+		
+		for(i = 0; i < nr_fold; i++)
+			prev_w[i] = NULL;
+
+		while(param1.C <= max_C)
+		{
+			//Disable log output for running CV at a particular C
+			set_print_string_function(&print_null);
+			for(i=0; i<nr_fold; i++)
+			{
+				int begin = fold_start[i];
+				int end = fold_start[i+1];
+
+				param1.init_sol = prev_w[i];
+				struct model *submodel = train(&subprob[i],&param1);
+
+				if(submodel->nr_class == 2)
+					total_w_size = subprob[i].n;
+				else
+					total_w_size = subprob[i].n * submodel->nr_class;
+
+				if(prev_w[i] == NULL)
+				{
+					prev_w[i] = Malloc(double, total_w_size);
+					for(j=0; j<total_w_size; j++)
+						prev_w[i][j] = submodel->w[j];
+				}
+				else if(num_unchanged_w >= 0)
+				{
+					double norm_w_diff = 0;
+					for(j=0; j<total_w_size; j++)
+					{
+						norm_w_diff += (submodel->w[j] - prev_w[i][j])*(submodel->w[j] - prev_w[i][j]);
+						prev_w[i][j] = submodel->w[j];
+					}
+					norm_w_diff = sqrt(norm_w_diff);
+
+					if(norm_w_diff > 1e-15)
+						num_unchanged_w = -1;
+				}
+				else
+				{
+					for(j=0; j<total_w_size; j++)
+						prev_w[i][j] = submodel->w[j];
+				}
+
+				for(j=begin; j<end; j++)
+					target[perm[j]] = predict(submodel,prob->x[perm[j]]);
+
+				free_and_destroy_model(&submodel);
+			}
+
+			set_print_string_function(default_print_string);
+
+			for(i=0; i<prob->l; i++)
+			{
+				double y = prob->y[i];
+				double v = target[i];
+				double diff = ( y-v >= 0.0) ? (y - v) : -1 * (y - v);
+				if( diff != 0.0 ) bound_p = min(bound_p, diff);
+			}
+			if(num_unchanged_w == 3)
+				break;
+			param1.C = param1.C*ratio;
+		}
+
+		free(target);
+		for(i=0; i<nr_fold; i++)
+			free(prev_w[i]);
+		free(prev_w);
+
+		return bound_p;
 }
 
 
@@ -2627,7 +2720,7 @@ void find_parameter_C(const problem *prob, const parameter *param, int nr_fold, 
 void find_parameter_C_P(const problem *prob, const parameter *param, int nr_fold, double start_C, double max_C, double start_P, double min_P, double *best_C, double *best_P, double *best_error)
 {
 	// variables for CV
-	int i;
+	int i, j;
 	int l = prob->l;
 	int *fold_start = Malloc(int,nr_fold+1);
 	int *perm = Malloc(int, l);
@@ -2645,24 +2738,23 @@ void find_parameter_C_P(const problem *prob, const parameter *param, int nr_fold
 		prev_w_p[i] = NULL;
 	}
 	struct parameter param1 = *param;
+	int num_unchanged_w;
+	int total_w_size = prob->n;
 	void (*default_print_string) (const char *) = liblinear_print_string;
-
+	min_P = calc_min_P( prob, subprob, param, fold_start, perm, nr_fold, start_C, max_C);
 	*best_error = INF;
 	param1.p = start_P;
-	
 
 	while( param1.p >= min_P )
 	{
-		int total_w_size;
-		int j;
-
+		// Initialize for new round parameter C search
 		if(prev_w_p[0] != NULL)
 			for(i=0; i<nr_fold; i++)
 				for(j=0; j<total_w_size; j++)
 					prev_w[i][j] = prev_w_p[i][j];
-		
+		num_unchanged_w = 0;
 		param1.C = start_C;
-		int num_unchanged_w = 0;
+
 		while(param1.C <= max_C)
 		{
 			//Disable log output for running CV at a particular C
@@ -2674,11 +2766,6 @@ void find_parameter_C_P(const problem *prob, const parameter *param, int nr_fold
 
 				param1.init_sol = prev_w[i];
 				struct model *submodel = train(&subprob[i],&param1);
-
-				if(submodel->nr_class == 2)
-					total_w_size = subprob[i].n;
-				else
-					total_w_size = subprob[i].n * submodel->nr_class;
 
 				if(param1.C == start_C)
 				{
@@ -2734,15 +2821,15 @@ void find_parameter_C_P(const problem *prob, const parameter *param, int nr_fold
 				*best_C = param1.C;
 				*best_P = param1.p;
 				*best_error = current_error;
-				info("log2c=%7.2f\tlog2p=%7.2f\terror=%g\n",log(param1.C)/log(2.0),log(param1.p)/log(2.0),current_error);
 			}
-			//info("log2c=%7.2f\tlog2p=%7.2f\terror=%g\n",log(param1.C)/log(2.0),log(param1.p)/log(2.0),current_error);
+			info("log2c %7.2f\t log2p %7.2f\t current_errot %g\n",log(param1.C)/log(2.0),log(param1.p)/log(2.0),current_error);
 			
 			num_unchanged_w++;
 			if(num_unchanged_w == 3)
 				break;
 			param1.C = param1.C*ratio;
 		}
+
 		param1.p = param1.p / ratio;
 	}
 
