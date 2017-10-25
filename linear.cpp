@@ -2258,6 +2258,67 @@ void calc_start_C(const problem *prob, const parameter *param, double * start_C,
 	printf("start_C %f start_P %f\n", log(*start_C)/log(2.0), log(*start_P)/log(2.0));
 }
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+extern double dnrm2_(int *, double *, int *);
+#ifdef __cplusplus
+}
+#endif
+double calc_min_P_2(const problem *prob, const problem *subprob, const int nr_fold, const double start_P, const double start_C, const double max_C)
+{
+	int i,j;
+	int n = prob->n;
+	int inc = 1;
+	double *w0 = new double[n];
+	double *g = new double[n];
+	for (i=0; i<n; i++)
+		w0[i] = 0;
+	double min_P = start_P;
+	double cur_C = start_C;
+	double ratio = 2;
+	double max_x = 0;
+	for(i=0; i<prob->l; i++)
+	{
+		feature_node *xi=prob->x[i];
+		while(xi->index != -1)
+		{
+			double abs_xi = (xi->value > 0)? xi->value : -xi->value;
+			max_x = max( max_x, abs_xi);
+			xi++;
+		}
+	}
+
+	while(cur_C <= max_C)
+	{
+		double gnorm0 = INF;
+		for(i=0; i<nr_fold; i++){
+			double *C = new double[subprob[i].l];
+			for(j=0; j < subprob[i].l; j++)
+				C[j] = cur_C;
+			function * fun_obj=new l2r_l2_svr_fun(subprob + i, C, 0.0);
+			fun_obj->grad(w0, g);
+			gnorm0 = min(gnorm0, dnrm2_(&n, g, &inc));
+			free(C);
+			free(fun_obj);
+		}
+		while(1)
+		{
+			double diff_est = 2 * cur_C * min_P * (prob->l / (double) nr_fold) * sqrt(n) * max_x;
+			if( diff_est / gnorm0 > 0.0001 ){
+				min_P = min_P / ratio;
+			}
+			else{
+				break;
+			}
+		}
+		cur_C = cur_C*ratio;
+	}
+	free(w0);
+	free(g);
+	return min_P;
+}
+
 double calc_min_P(const problem *prob, const problem *subprob, const parameter *param,const int * fold_start,const int *perm, const int nr_fold, const double start_C, const double max_C)
 {
 		int i, j;
@@ -2741,10 +2802,21 @@ void find_parameter_C_P(const problem *prob, const parameter *param, int nr_fold
 	int num_unchanged_w;
 	int total_w_size = prob->n;
 	void (*default_print_string) (const char *) = liblinear_print_string;
-	min_P = calc_min_P( prob, subprob, param, fold_start, perm, nr_fold, start_C, max_C);
+	//test_code{
+	//min_P = calc_min_P( prob, subprob, param, fold_start, perm, nr_fold, start_C, max_C);
+	min_P = calc_min_P_2(prob, subprob, nr_fold, start_P, start_C, max_C);
+	//}
 	*best_error = INF;
 	param1.p = start_P;
-
+	
+	//test code{
+	double bound_best_C, bound_best_P, bound_best_error;
+	bool bound_reach = false;
+	printf("min_P is %f\n", log(min_P)/log(2.0) );
+	double bound_P = min_P;
+	min_P = 1.0 / (double) ((long long)1 << 62);
+	//}
+	
 	while( param1.p >= min_P )
 	{
 		// Initialize for new round parameter C search
@@ -2755,6 +2827,9 @@ void find_parameter_C_P(const problem *prob, const parameter *param, int nr_fold
 		num_unchanged_w = 0;
 		param1.C = start_C;
 
+		//test code{
+		bool break_cond = false;
+		//}
 		while(param1.C <= max_C)
 		{
 			//Disable log output for running CV at a particular C
@@ -2816,7 +2891,7 @@ void find_parameter_C_P(const problem *prob, const parameter *param, int nr_fold
 				total_error += (v-y) * (v-y);
 			}
 			double current_error = total_error/prob->l;
-			if(current_error < *best_error)
+			if(current_error < *best_error && break_cond == false)
 			{
 				*best_C = param1.C;
 				*best_P = param1.p;
@@ -2825,13 +2900,29 @@ void find_parameter_C_P(const problem *prob, const parameter *param, int nr_fold
 			info("log2c %7.2f\t log2p %7.2f\t current_errot %g\n",log(param1.C)/log(2.0),log(param1.p)/log(2.0),current_error);
 			
 			num_unchanged_w++;
-			if(num_unchanged_w == 3)
-				break;
+			// test code{
+			//if(num_unchanged_w == 3)
+				//break;
+			if(num_unchanged_w == 3 || break_cond)
+				break_cond = true;
+			//}
 			param1.C = param1.C*ratio;
 		}
-
 		param1.p = param1.p / ratio;
+		//test code{
+		if(param1.p < bound_P && bound_reach == false){
+			bound_best_C = *best_C;
+			bound_best_P = *best_P;
+			bound_best_error = *best_error;
+			bound_reach = true;
+		}
+		//}
 	}
+	
+	//test code{
+		printf("Bound Best C = %f Best P = %f CV accuracy = %g\n", log(bound_best_C)/log(2.0), log(bound_best_P)/log(2.0), bound_best_error);
+		printf("Relative Diff %.10f\n", (bound_best_error - *best_error) / (bound_best_error));
+	//}
 
 	if(param1.C > max_C && max_C > start_C)
 		info("warning: maximum C reached.\n");

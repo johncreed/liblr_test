@@ -58,6 +58,14 @@ def draw_3D():
         x = []
         y = []
         z = []
+        b_C = []
+        b_P = []
+        C = []
+        P = []
+        b_err = []
+        err = []
+        tle = ""
+        min_P = rel_diff  = 0.0
         with open(out_path+file_name) as f:
             for line in f:
                 tmp = line.split();
@@ -65,22 +73,52 @@ def draw_3D():
                     x.append(float(tmp[1]))
                     y.append(float(tmp[3]))
                     z.append(math.log10(float(tmp[5])))
+                if(tmp[0] == "Bound"):
+                    b_C.append(float(tmp[4]))
+                    b_P.append(float(tmp[8]))
+                    b_err.append(math.log10(float(tmp[-1])))
+                if(tmp[0] == "Best"):
+                    C.append(float(tmp[3]))
+                    P.append(float(tmp[7]))
+                    err.append(math.log10(float(tmp[-1])))
+                if(tmp[0] == "min_P"):
+                    tle = tmp[0] + "=" + tmp[-1]
+                    min_P = float(tmp[-1])
+                if(tmp[0] == "Relative"):
+                    rel_diff = float(tmp[-1])
         xa = np.asarray(x)
         ya = np.asarray(y)
         za = np.asarray(z)
+        b_Ca = np.asarray(b_C)
+        b_Pa = np.asarray(b_P)
+        b_erra = np.asarray(b_err)
+        Ca = np.asarray(C)
+        Pa = np.asarray(P)
+        erra = np.asarray(err)
+        print(b_Ca, b_Pa, b_erra)
+        print(Ca, Pa, erra)
+        tle = tle + " " + "Best: " + str(10 ** err[0])[0:10] + " Bound: " + str(10**b_err[0])[0:10] + "\n" + " Relative diff: " + str(rel_diff)[0:10]
 
-        #angle_list = [0 , 270]
-        #for angle in angle_list:
-        fig=p.figure()
-        ax = p3.Axes3D(fig)
-        ax.scatter3D(xa,ya,za)
-        ax.set_xlabel('C')
-        ax.set_ylabel('P')
-        ax.set_zlabel('Error')
-        ax.view_init(10, -30)
-        fig.add_axes(ax)
-        plt.savefig(pictures_path+file_name+"_"+".eps", format="eps", dpi=1000)
-        plt.close()
+        b_l_x = np.linspace(-20,40, 100)
+        b_l_y = np.linspace(min_P, min_P, 100)
+        b_l_z = np.linspace(err[0], err[0], 100)
+
+        angle_list = [0 , 270]
+        for angle in angle_list:
+            fig=p.figure()
+            ax = p3.Axes3D(fig)
+            p.title(tle)
+            ax.scatter3D(xa,ya,za, s=[1] ,c = "b",marker = '.')
+            ax.scatter3D(b_Ca,b_Pa,b_erra, s = [80],c = "red", marker = 'o')
+            ax.scatter3D(Ca,Pa, erra, s =  [40],c = "green", marker = 'o')
+            ax.plot(b_l_x, b_l_y, b_l_z)
+            ax.set_xlabel('C')
+            ax.set_ylabel('P')
+            ax.set_zlabel('Error')
+            ax.view_init(10, angle)
+            fig.add_axes(ax)
+            plt.savefig(pictures_path+file_name+"_"+str(angle)+".eps", format="eps", dpi=1000)
+            plt.close()
 
 
 
