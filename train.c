@@ -5,6 +5,7 @@
 #include <ctype.h>
 #include <errno.h>
 #include "linear.h"
+#include "exp_code.h"
 #define Malloc(type,n) (type *)malloc((n)*sizeof(type))
 #define INF HUGE_VAL
 
@@ -150,7 +151,7 @@ void do_find_parameter_C()
 	else
 		start_C = -1.0;
 	printf("Doing parameter search with %d-fold cross validation.\n", nr_fold);
-	find_parameter_C(&prob, &param, nr_fold, start_C, max_C, &best_C, &best_rate);
+	find_parameter(&prob, &param, nr_fold, start_C, max_C, &best_C, &best_rate);
 	printf("Best C = %g  CV accuracy = %g%%\n", best_C, 100.0*best_rate);
 }
 
@@ -310,7 +311,7 @@ void parse_command_line(int argc, char **argv, char *input_file_name, char *mode
 			fprintf(stderr, "Solver not specified. Using -s 2\n");
 			param.solver_type = L2R_L2LOSS_SVC;
 		}
-		else if(param.solver_type != L2R_LR && param.solver_type != L2R_L2LOSS_SVC)
+		else if(param.solver_type != L2R_LR && param.solver_type != L2R_L2LOSS_SVC && param.solver_type != L2R_L2LOSS_SVR)
 		{
 			fprintf(stderr, "Warm-start parameter search only available for -s 0 and -s 2\n");
 			exit_with_help();

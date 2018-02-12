@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include "tron.h"
+#include "exp_code.h"
 
 #ifndef min
 template <class T> static inline T min(T x,T y) { return (x<y)?x:y; }
@@ -133,6 +134,7 @@ void TRON::tron(double *w)
 		}
 
 		info("iter %2d act %5.3e pre %5.3e delta %5.3e f %5.3e |g| %5.3e CG %3d\n", iter, actred, prered, delta, f, gnorm, cg_iter);
+		add_iter(cg_iter);
 
 		if (actred > eta0*prered)
 		{

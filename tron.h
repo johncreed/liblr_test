@@ -1,6 +1,7 @@
 #ifndef _TRON_H
 #define _TRON_H
 
+
 class function
 {
 public:

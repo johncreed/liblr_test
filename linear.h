@@ -3,9 +3,12 @@
 
 #define LIBLINEAR_VERSION 211
 
+#include "tron.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 
 extern int liblinear_version;
 
@@ -74,6 +77,51 @@ const char *check_parameter(const struct problem *prob, const struct parameter *
 int check_probability_model(const struct model *model);
 int check_regression_model(const struct model *model);
 void set_print_string_function(void (*print_func) (const char*));
+
+
+double calc_start_C(const problem *prob, const parameter *param);
+
+
+
+
+class l2r_l2_svc_fun: public function
+{
+public:
+	l2r_l2_svc_fun(const problem *prob, double *C);
+	~l2r_l2_svc_fun();
+
+	double fun(double *w);
+	void grad(double *w, double *g);
+	void Hv(double *s, double *Hs);
+
+	int get_nr_variable(void);
+
+protected:
+	void Xv(double *v, double *Xv);
+	void subXTv(double *v, double *XTv);
+
+	double *C;
+	double *z;
+	int *I;
+	int sizeI;
+	const problem *prob;
+};
+
+
+class l2r_l2_svr_fun: public l2r_l2_svc_fun
+{
+public:
+	l2r_l2_svr_fun(const problem *prob, double *C, double p);
+
+	double fun(double *w);
+	void grad(double *w, double *g);
+
+private:
+	double p;
+};
+
+
+
 
 #ifdef __cplusplus
 }
