@@ -80,7 +80,7 @@ public:
 		}
 	}
 };
-
+/*
 class l2r_lr_fun: public function
 {
 public:
@@ -102,6 +102,7 @@ private:
 	double *D;
 	const problem *prob;
 };
+*/
 
 l2r_lr_fun::l2r_lr_fun(const problem *prob, double *C)
 {

@@ -145,14 +145,23 @@ int main(int argc, char **argv)
 void do_find_parameter_C()
 {
 	double start_C, best_C, best_rate;
-	double max_C = 1024;
+	double max_C = pow(2,50);
 	if (flag_C_specified)
 		start_C = param.C;
 	else
 		start_C = -1.0;
 	printf("Doing parameter search with %d-fold cross validation.\n", nr_fold);
-	find_parameter(&prob, &param, nr_fold, start_C, max_C, &best_C, &best_rate);
-	printf("Best C = %g  CV accuracy = %g%%\n", best_C, 100.0*best_rate);
+	if( param.solver_type == L2R_LR || param.solver_type == L2R_L2LOSS_SVC){
+		printf("Do classification\n");
+		find_parameter_classification(&prob, &param, nr_fold, start_C, max_C, &best_C, &best_rate);
+	}
+	else if( param.solver_type == L2R_L2LOSS_SVR){
+		printf("Fix p go C\n");
+		find_parameter(&prob, &param, nr_fold);
+		//printf("Fix C go p\n");
+		//find_parameter_v2(&prob, &param, nr_fold);
+	}
+	//printf("Best C = %g  CV accuracy = %g%%\n", best_C, 100.0*best_rate);
 }
 
 void do_cross_validation()

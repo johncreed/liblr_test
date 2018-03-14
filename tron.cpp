@@ -88,6 +88,7 @@ void TRON::tron(double *w)
 
 	if (gnorm <= eps*gnorm0)
 		search = 0;
+	printf("In tron gnorm %g, eps gnorm0 %g search %d\n", gnorm, eps*gnorm0, search);
 
 	iter = 1;
 

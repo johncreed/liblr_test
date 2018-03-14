@@ -17,10 +17,13 @@ lib: linear.o tron.o blas/blas.a
 	$(CXX) $${SHARED_LIB_FLAG} linear.o tron.o blas/blas.a -o liblinear.so.$(SHVER)
 
 train: exp_code.o tron.o linear.o train.c blas/blas.a
-	$(CXX) $(CFLAGS) -o train train.c exp_code.o tron.o linear.o $(LIBS)
+	$(CXX) $(CFLAGS) -o train train.c tron.o exp_code.o linear.o $(LIBS)
 
-predict: exp_code.o tron.o linear.o predict.c blas/blas.a
-	$(CXX) $(CFLAGS) -o predict predict.c exp_code.o tron.o linear.o $(LIBS)
+predict: exp_code.o linear.o predict.c blas/blas.a
+	$(CXX) $(CFLAGS) -o predict predict.c tron.o exp_code.o linear.o $(LIBS)
+
+exp_code.o: exp_code.h exp_code.cpp
+	$(CXX) $(CFLAGS) -c -o exp_code.o exp_code.cpp
 
 tron.o: tron.cpp tron.h
 	$(CXX) $(CFLAGS) -c -o tron.o tron.cpp
@@ -28,8 +31,6 @@ tron.o: tron.cpp tron.h
 linear.o: linear.cpp linear.h
 	$(CXX) $(CFLAGS) -c -o linear.o linear.cpp
 
-exp_code.o: exp_code.h exp_code.cpp
-	$(CXX) $(CFLAGS) -c -o exp_code.o exp_code.cpp
 
 blas/blas.a: blas/*.c blas/*.h
 	make -C blas OPTFLAGS='$(CFLAGS)' CC='$(CC)';

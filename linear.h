@@ -120,6 +120,27 @@ private:
 	double p;
 };
 
+class l2r_lr_fun: public function
+{
+public:
+	l2r_lr_fun(const problem *prob, double *C);
+	~l2r_lr_fun();
+
+	double fun(double *w);
+	void grad(double *w, double *g);
+	void Hv(double *s, double *Hs);
+
+	int get_nr_variable(void);
+
+private:
+	void Xv(double *v, double *Xv);
+	void XTv(double *v, double *XTv);
+
+	double *C;
+	double *z;
+	double *D;
+	const problem *prob;
+};
 
 
 
