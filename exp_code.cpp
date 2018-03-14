@@ -530,6 +530,7 @@ void find_parameter_classification(const problem *prob, const parameter *param, 
 	if(start_C <= 0)
 		start_C = calc_start_C(prob,param);
 	param1.C = start_C;
+	printf("after calc_start_C %g\n", start_C);
 
 	bool first_old_break = true;
 	bool first_new_break = true;

@@ -149,11 +149,10 @@ void do_find_parameter_C()
 	if (flag_C_specified)
 		start_C = param.C;
 	else
-		start_C = -1.0;
+		start_C = -1;
 	printf("Doing parameter search with %d-fold cross validation.\n", nr_fold);
 	if( param.solver_type == L2R_LR || param.solver_type == L2R_L2LOSS_SVC){
-		printf("Do classification\n");
-    start_C = calc_start_C(&prob, &param);
+		printf("Do classification with param.C %g\n", log2(param.C));
 		find_parameter_classification(&prob, &param, nr_fold, start_C, max_C, &best_C, &best_rate);
 	}
 	else if( param.solver_type == L2R_L2LOSS_SVR){
