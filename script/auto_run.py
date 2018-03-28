@@ -12,7 +12,7 @@ program_path = join(home, "liblr_test/train")
 
 # reg data
 data_path =  join(home, "reg")
-command_param = " -s 11 -C -e 0.01"
+command_param = " -s 11 -C -e 0.001"
 big_data_list = ['log1p.E2006.train', 'YearPredictionMSD', 'E2006.train'] 
 small_data_list = [ f for f in os.listdir(data_path) if f not in big_data_list ]
 
