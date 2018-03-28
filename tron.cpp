@@ -84,11 +84,20 @@ void TRON::tron(double *w)
 	f = fun_obj->fun(w);
 	fun_obj->grad(w, g);
 	delta = dnrm2_(&n, g, &inc);
+	double *gl = new double[n];
+	for (int i = 0; i < n; i++)
+		gl[i] = g[i] - w[i];
+	double Clnorm_w = dnrm2_(&n, gl, &inc);
+	delete [] gl;
+	double norm_w = dnrm2_(&n, g, &inc);
 	double gnorm = delta;
 
 	if (gnorm <= eps*gnorm0)
 		search = 0;
-	printf("In tron gnorm %g, eps gnorm0 %g search %d\n", gnorm, eps*gnorm0, search);
+	fprintf(stderr,"In tron gnorm %g, eps gnorm0 %g search %d\n", gnorm, eps*gnorm0, search);
+	fprintf(stderr,"In tron Clnorm_w %g eps Clnorm0 %g search norm_w %g\n", Clnorm_w, eps * gnorm0, norm_w);
+	if( Clnorm_w <= eps * gnorm0 )
+		add_new_break();
 
 	iter = 1;
 

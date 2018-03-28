@@ -547,10 +547,12 @@ void find_parameter_classification(const problem *prob, const parameter *param, 
 	
 	while(param1.C <= max_C)
 	{
-		printf("============================================\n");
+		fprintf( stderr ,"====================C %g========================\n", log2(param1.C));
 		//Output disabled for running CV at a particular C
-		set_print_string_function(&print_null);
-
+		//set_print_string_function(&print_null);
+		
+		reset_new_break();
+		fprintf( stderr ,"before train new_break cnt %d\n", get_new_break());	
 		for(i=0; i<nr_fold; i++)
 		{
 			int j;
@@ -558,7 +560,6 @@ void find_parameter_classification(const problem *prob, const parameter *param, 
 			int end = fold_start[i+1];
 
 			param1.init_sol = prev_w[i];
-			printf("C %g\n", log2(param1.C));
 			struct model *submodel = train(&subprob[i],&param1);
 
 			int total_w_size;
@@ -615,28 +616,13 @@ void find_parameter_classification(const problem *prob, const parameter *param, 
 		
 		//Check break condition
 		if(num_unchanged_w == 3 && first_old_break == true){
-			printf("Old Break p: %g C: %g MSE= %g \n", log2(param1.p), log2(param1.C), current_rate ) ;
+			fprintf(stderr,"Old Break p: %g C: %g MSE= %g \n", log2(param1.p), log2(param1.C), current_rate ) ;
 			first_old_break = false;
 		}
 		
-		int new_break_check = 0;
-		double lnorm_0, lnorm_w;
-		for(int i = 0; i < nr_fold; i++){
-			if(param1.solver_type == L2R_LR){
-				lnorm_0 = get_l2r_lr_loss_norm(NULL, &subprob[i]);
-				lnorm_w = get_l2r_lr_loss_norm(prev_w[i], &subprob[i]);
-			}
-			else{
-				lnorm_0 = get_l2r_l2l_svc_loss_norm(NULL, &subprob[i]);
-				lnorm_w = get_l2r_l2l_svc_loss_norm(prev_w[i], &subprob[i]);
-			}
-			printf("lnorm_w %g eps lnorm_0 %g\n", lnorm_w,param1.eps * ratio_eps[i] * lnorm_0);
-			if( lnorm_w <= param1.eps * ratio_eps[i] * lnorm_0 )
-				new_break_check++;
-		}
-		
-		if( new_break_check == nr_fold && first_new_break == true){
-			printf("New Break p: %g C: %g MSE= %g \n", log2(param1.p), log2(param1.C), current_rate );
+		fprintf( stderr ,"after train new_break cnt %d\n", get_new_break());	
+		if( get_new_break() == nr_fold && first_new_break == true){
+			fprintf( stderr ,"New Break p: %g C: %g MSE= %g \n", log2(param1.p), log2(param1.C), current_rate );
 			first_new_break = false;
 		}
 		if( first_old_break == false && first_new_break == false){
@@ -661,70 +647,18 @@ void find_parameter_classification(const problem *prob, const parameter *param, 
 }
 
 
-double get_l2r_lr_loss_norm(double *w, const problem *prob){
-	//printf("Warning does not use weighted label\n");
-	int n = prob->n, l = prob->l;
-	double norm_grad;
-	int inc = 1;
-	double *g = new double[n];
-	double *C = new double[l];
-	double *w0;
-	for(int j=0; j < l; j++)
-		C[j] = 1;
-	function * fun_obj=new l2r_lr_fun(prob, C);
-	if( w != NULL ){
-		fun_obj->fun(w);
-		fun_obj->grad(w, g);
-		for(int j = 0; j < n; j++){
-			g[j] -= w[j];
-		}
-	}
-	else{
-		double *w0 = new double[n];
-		for(int j = 0; j < n; j++)
-			w0[j] = 0;
-		fun_obj->fun(w0);
-		fun_obj->grad(w0, g);
-		free(w0);
-	}
-	norm_grad = dnrm2_(&n, g, &inc);
-	free(C);
-	free(fun_obj);
-	free(g);
-	return norm_grad;
+int new_break_check = 0;
+
+void reset_new_break(){
+	new_break_check = 0;
 }
 
-double get_l2r_l2l_svc_loss_norm(double *w, const problem *prob){
-	//printf("Warning does not use weighted label\n");
-	int n = prob->n, l = prob->l;
-	double norm_grad;
-	int inc = 1;
-	double *g = new double[n];
-	double *C = new double[l];
-	double *w0;
-	for(int j=0; j < l; j++)
-		C[j] = 1;
-	function * fun_obj=new l2r_l2_svc_fun(prob, C);
-	if( w != NULL ){
-		fun_obj->fun(w);
-		fun_obj->grad(w, g);
-		for(int j = 0; j < n; j++){
-			g[j] -= w[j];
-		}
-	}
-	else{
-		double *w0 = new double[n];
-		for(int j = 0; j < n; j++)
-			w0[j] = 0;
-		fun_obj->fun(w0);
-		fun_obj->grad(w0, g);
-		free(w0);
-	}
-	norm_grad = dnrm2_(&n, g, &inc);
-	free(C);
-	free(fun_obj);
-	free(g);
-	return norm_grad;
+void add_new_break(){
+	new_break_check++;
+}
+
+int get_new_break(){
+	return new_break_check;
 }
 
 
@@ -879,6 +813,72 @@ void find_parameter_fix_c(const problem *prob, const problem_folds *prob_folds, 
 
 */
 
+
+double get_l2r_lr_loss_norm(double *w, const problem *prob){
+	//printf("Warning does not use weighted label\n");
+	int n = prob->n, l = prob->l;
+	double norm_grad;
+	int inc = 1;
+	double *g = new double[n];
+	double *C = new double[l];
+	double *w0;
+	for(int j=0; j < l; j++)
+		C[j] = 1;
+	function * fun_obj=new l2r_lr_fun(prob, C);
+	if( w != NULL ){
+		fun_obj->fun(w);
+		fun_obj->grad(w, g);
+		for(int j = 0; j < n; j++){
+			g[j] -= w[j];
+		}
+	}
+	else{
+		double *w0 = new double[n];
+		for(int j = 0; j < n; j++)
+			w0[j] = 0;
+		fun_obj->fun(w0);
+		fun_obj->grad(w0, g);
+		free(w0);
+	}
+	norm_grad = dnrm2_(&n, g, &inc);
+	free(C);
+	free(fun_obj);
+	free(g);
+	return norm_grad;
+}
+
+double get_l2r_l2l_svc_loss_norm(double *w, const problem *prob){
+	//printf("Warning does not use weighted label\n");
+	int n = prob->n, l = prob->l;
+	double norm_grad;
+	int inc = 1;
+	double *g = new double[n];
+	double *C = new double[l];
+	double *w0;
+	for(int j=0; j < l; j++)
+		C[j] = 1;
+	function * fun_obj=new l2r_l2_svc_fun(prob, C);
+	if( w != NULL ){
+		fun_obj->fun(w);
+		fun_obj->grad(w, g);
+		for(int j = 0; j < n; j++){
+			g[j] -= w[j];
+		}
+	}
+	else{
+		double *w0 = new double[n];
+		for(int j = 0; j < n; j++)
+			w0[j] = 0;
+		fun_obj->fun(w0);
+		fun_obj->grad(w0, g);
+		free(w0);
+	}
+	norm_grad = dnrm2_(&n, g, &inc);
+	free(C);
+	free(fun_obj);
+	free(g);
+	return norm_grad;
+}
 #ifdef __cplusplus
 }
 #endif

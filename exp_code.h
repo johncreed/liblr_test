@@ -48,6 +48,11 @@ void find_parameter_classification(const problem *prob, const parameter *param, 
 
 double get_l2r_lr_loss_norm(double *w, const problem *prob);
 double get_l2r_l2l_svc_loss_norm(double *w, const problem *prob);
+
+void reset_new_break();
+void add_new_break();
+int get_new_break();
+
 #ifdef __cplusplus
 }
 #endif
