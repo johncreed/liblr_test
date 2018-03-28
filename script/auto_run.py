@@ -2,6 +2,7 @@
 import os
 import sys
 from os.path import join
+from os import makedirs
 import math
 import multiprocessing as mp
 home = "/home/johncreed/"
@@ -38,47 +39,47 @@ small_data_list = [
 
 # Functions 
 def go( file ):
-		cmd = program_path + command_param + " " + join(data_path, file) + " > "+ join(out_path, file)
-		print (cmd)
-		os.system(cmd)
+    cmd = program_path + command_param + " " + join(data_path, file) + " > "+ join(out_path, file)
+    print (cmd)
+    os.system(cmd)
 
 train_list = []
 def choose_list():
-		global train_list
-		train_list = input("train big or small (B/S): ")
-		if train_list == 'B':
-				train_list = big_data_list
-		else:
-				train_list = small_data_list
+    global train_list
+    train_list = input("train big or small (B/S): ")
+    if train_list == 'B':
+        train_list = big_data_list
+    else:
+        train_list = small_data_list
 
 def choose_output_folder():
-		global out_dir, out_path
-		out_dir = input("Which folder to store output: ")
-		if out_dir in os.listdir(tmp):
-				cmf = input("Replace the elements(y/n) ? ")
-				if cmf == 'n':
-						sys.exit("Retry Again")
-		else:
-      makedirs(join(tmp, out_dir))
+    global out_dir, out_path
+    out_dir = input("Which folder to store output: ")
+    if out_dir in os.listdir(tmp):
+        cmf = input("Replace the elements(y/n) ? ")
+        if cmf == 'n':
+            sys.exit("Retry Again")
+    else:
+        makedirs(join(tmp, out_dir))
     out_path = join(tmp, out_dir)
-		return
+    return
 
 def __main__():
-		choose_output_folder()
-		choose_list()
-		if train_list == big_data_list :
-				my_str = ""
-				count = 0
-				for file in train_list:
-						print (file)
-						my_str = my_str + str(count) + ":" + file + " "
-						count += 1
-				print (my_str)
-				file = train_list[int(input(my_str))]
-				go(file)
-		else:
-				for file in train_list:
-						go(file)
+    choose_output_folder()
+    choose_list()
+    if train_list == big_data_list :
+        my_str = ""
+        count = 0
+        for file in train_list:
+            print (file)
+            my_str = my_str + str(count) + ":" + file + " "
+            count += 1
+        print (my_str)
+        file = train_list[int(input(my_str))]
+        go(file)
+    else:
+        for file in train_list:
+            go(file)
 
 
 __main__()
