@@ -94,8 +94,8 @@ void TRON::tron(double *w)
 
 	if (gnorm <= eps*gnorm0)
 		search = 0;
-	fprintf(stderr,"In tron gnorm %g, eps gnorm0 %g search %d\n", gnorm, eps*gnorm0, search);
-	fprintf(stderr,"In tron Clnorm_w %g eps Clnorm0 %g search norm_w %g\n", Clnorm_w, eps * gnorm0, norm_w);
+	//fprintf(stderr,"In tron gnorm %g, eps gnorm0 %g search %d\n", gnorm, eps*gnorm0, search);
+	//fprintf(stderr,"In tron Clnorm_w %g eps Clnorm0 %g search norm_w %g\n", Clnorm_w, eps * gnorm0, norm_w);
 	if( Clnorm_w <= eps * gnorm0 )
 		add_new_break();
 
