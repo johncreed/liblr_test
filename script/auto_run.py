@@ -5,16 +5,15 @@ import math
 import multiprocessing as mp
 home = "/home/johncreed/"
 tmp = home + "tmp/"
-data_path = "{}clv/".format(home) 
-# data_path = "/tmp3/b02701216/reg/"
-#out_path = home + out_dir + "/"
+#data_path = "{}clv/".format(home) 
+data_path = home +  "reg/"
 out_path = ""
 program_path = "~/liblr_test/"
-#command_param = "train -s 11 -C -e 0.001"
-command_param = "train -s 0 -C"
+command_param = "train -s 11 -C -e 0.01"
+#command_param = "train -s 0 -C"
 big_data_list = ['log1p.E2006.train', 'YearPredictionMSD', 'E2006.train']
-# small_data_list = [ f for f in os.listdir(data_path) if f not in big_data_list ]
-small_data_list = [
+small_data_list = [ f for f in os.listdir(data_path) if f not in big_data_list ]
+'''small_data_list = [
   "news20.binary",
   "rcv1_train.binary",
   "w8a",
@@ -26,7 +25,7 @@ small_data_list = [
   "kdda",
   "kddb",
   # "webspam_wc_normalized_trigram.svm",
-]
+]'''
 def go( file ):
 		cmd = program_path+command_param + " " + data_path + file + " > "+out_path+file
 		print (cmd)
