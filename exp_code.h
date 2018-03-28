@@ -25,6 +25,7 @@ struct problem_folds{
 
 struct problem_folds* split_data(const problem *prob, int nr_fold);
 void find_parameter(const problem *prob, const parameter *param, int nr_fold);
+void find_parameter_linear_step(const problem *prob,const parameter *param, int nr_fold);
 void find_parameter_v2(const problem *prob, const parameter *param, int nr_fold);
 void find_parameter_fix_c(const problem *prob, const problem_folds *prob_folds, const parameter *param, int nr_fold, double min_P, double max_P, double *best_P, double *best_rate);
 void find_parameter_fix_p(const problem *prob, const problem_folds *prob_folds, const parameter *param, int nr_fold, double min_C, double max_C, double *best_C, double *best_rate);

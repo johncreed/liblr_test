@@ -115,6 +115,48 @@ problem_folds* split_data(const problem *prob, int nr_fold){
 	return prob_folds;
 }
 
+void find_parameter_linear_step(const problem *prob,const parameter *param, int nr_fold)
+{
+	//Set range of parameter
+	double ratio = 2.0;
+	double min_P = calc_min_P(prob, param);
+	double  max_P = calc_max_P(prob, param) / ratio;
+	double max_C = pow(2.0, 50);
+	double min_C = INF;
+	struct parameter param1 = *param;
+	param1.p = min_P;
+	while( param1.p <= max_P ){
+		min_C = min( calc_min_C( prob, &param1), min_C);
+		param1.p *= ratio;
+	}
+	printf("min_P %g max_P %g min_C %g max_C %g\n", log(min_P)/log(2.0), log(max_P)/log(2.0), log(min_C)/log(2.0), log(max_C)/log(2.0));
+	// split data
+	if (nr_fold > prob->l)
+	{
+		nr_fold = prob->l;
+		fprintf(stderr,"WARNING: # folds > # data. Will use # folds = # data instead (i.e., leave-one-out cross validation)\n");
+	}
+	struct problem_folds *prob_folds = split_data(prob, nr_fold);
+
+	//fix p run C
+	double steps  = max_P / (log2(max_P) - log2(min_P) );
+	double current_rate = INF, best_rate = INF;
+	double best_P, best_C;
+	param1.p = max_P;
+	while(param1.p >= min_P){
+		reset_iter_sum();
+		find_parameter_fix_p(prob, prob_folds, &param1, nr_fold, min_C, max_C, &best_C, &current_rate);
+		print_iter_sum('P', param1.p);
+		if(best_rate > current_rate){
+			best_P = param1.p;
+			best_rate = current_rate;
+		}
+		param1.p -= steps;
+	}
+
+	printf("Best logC = %g Best logP = %g Best MSE = %g \n", log(best_C)/log(2.0), log(best_P)/log(2.0), best_rate );
+}
+
 void find_parameter(const problem *prob,const parameter *param, int nr_fold)
 {
 	//Set range of parameter
