@@ -1,19 +1,26 @@
 #!/usr/bin/python3
 import os
 import sys
+from os.path import join
 import math
 import multiprocessing as mp
 home = "/home/johncreed/"
-tmp = home + "tmp/"
-#data_path = "{}clv/".format(home) 
-data_path = home +  "reg/"
+tmp = join(home, "tmp")
 out_path = ""
-program_path = "~/liblr_test/"
-command_param = "train -s 11 -C -e 0.01"
-#command_param = "train -s 0 -C"
-big_data_list = ['log1p.E2006.train', 'YearPredictionMSD', 'E2006.train']
+program_path = join(home, "liblr_test/train")
+
+# reg data
+data_path =  join(home, "reg")
+command_param = " -s 11 -C -e 0.01"
+big_data_list = ['log1p.E2006.train', 'YearPredictionMSD', 'E2006.train'] 
 small_data_list = [ f for f in os.listdir(data_path) if f not in big_data_list ]
-'''small_data_list = [
+
+'''
+# clv data
+data_path = join(home, clv)
+command_param = " -s 0 -C"
+data_list = [ f for f in os.listdir(data_path) if f not in big_data_list ]
+small_data_list = [
   "news20.binary",
   "rcv1_train.binary",
   "w8a",
@@ -25,9 +32,13 @@ small_data_list = [ f for f in os.listdir(data_path) if f not in big_data_list ]
   "kdda",
   "kddb",
   # "webspam_wc_normalized_trigram.svm",
-]'''
+]
+'''
+
+
+# Functions 
 def go( file ):
-		cmd = program_path+command_param + " " + data_path + file + " > "+out_path+file
+		cmd = program_path + command_param + " " + join(data_path, file) + " > "+ join(out_path, file)
 		print (cmd)
 		os.system(cmd)
 
@@ -48,9 +59,8 @@ def choose_output_folder():
 				if cmf == 'n':
 						sys.exit("Retry Again")
 		else:
-				cmd = "mkdir " + tmp + out_dir
-				os.system(cmd)
-		out_path = tmp + out_dir + "/"
+      makedirs(join(tmp, out_dir))
+    out_path = join(tmp, out_dir)
 		return
 
 def __main__():
