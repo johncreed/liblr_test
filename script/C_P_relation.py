@@ -92,7 +92,7 @@ def draw_3D(file_name):
           ax = p3.Axes3D(fig)
           pylab.title(tle)
           ax.scatter3D(dictL["cvs"][0],dictL["cvs"][1],dictL["cvs"][2], s=[1] ,c = "b",marker = '.')
-          ax.scatter3D(dictE["cvs"][0],dictE["cvs"][1],dictE["cvs"][2], s=[1] ,c = "b",marker = 'v')
+          ax.scatter3D(dictE["cvs"][0],dictE["cvs"][1],dictE["cvs"][2], s=[1] ,c = "b",marker = 'blue')
           ax.scatter3D(old[0],old[1],old[2], s = [80],c = "red", marker = 'o')
           ax.scatter3D(new[0],new[1],new[2], s =  [40],c = "green", marker = 'o')
           ax.set_xlabel('P')
@@ -107,7 +107,7 @@ def draw_3D(file_name):
 def __main__():
   choose_exp_folder()
   choose_linear_folder()
-  file_names = [f for f in os.listdir(out_path)]
+  file_names = [f for f in os.listdir(out_exp_path)]
   for file in file_names:
       print ("Do " + file)
       draw_3D(file)
