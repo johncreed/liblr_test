@@ -54,19 +54,31 @@ def result_dict(out_path,file_name):
           for line in f:
               tmp = line.split();
               if(tmp[0] == "log2p="):
-                cvs[0].append(float(tmp[1]))
+                if tmp[1] == "INF":
+                  cvs[0].append(0)
+                else:
+                  cvs[0].append(2**float(tmp[1]))
                 cvs[1].append(float(tmp[3]))
                 cvs[2].append(math.log10(float(tmp[5])))
               if(tmp[0] == "Old"):
-                old[0].append(float(tmp[3]))
+                if tmp[3] == "INF":
+                  old[0].append(0)
+                else:
+                  old[0].append(2**float(tmp[3]))
                 old[1].append(float(tmp[5]))
                 old[2].append(math.log10(float(tmp[-1])))
               if(tmp[0] == "New"):
-                new[0].append(float(tmp[3]))
+                if tmp[3] == "INF":
+                  new[0].append(0)
+                else:
+                  new[0].append(2**float(tmp[3]))
                 new[1].append(float(tmp[5]))
                 new[2].append(math.log10(float(tmp[-1])))
               if(tmp[0] == "Best"):
-                best[0].append(float(tmp[7]))
+                if tmp[7] == "-inf":
+                  best[0].append(0.0)
+                else:
+                  best[0].append(2**float(tmp[7]))
                 best[1].append(float(tmp[3]))
                 best[2].append(math.log10(float(tmp[-1])))
       
@@ -92,7 +104,7 @@ def draw_3D(file_name):
       for angle in angle_list:
           fig=pylab.figure()
           ax = p3.Axes3D(fig)
-          tle = "Compare linear vs exp step"
+          tle = file_name
           pylab.title(tle)
           ax.scatter3D(dictResult["best"][0],dictResult["best"][1],dictResult["best"][2], s =  [300],c = "yellow", marker = 'o')
           ax.scatter3D(dictResult["cvs"][0],dictResult["cvs"][1],dictResult["cvs"][2], s=[10] ,c = "black",marker = 'o')
@@ -101,7 +113,7 @@ def draw_3D(file_name):
           ax.set_xlabel('P')
           ax.set_ylabel('C')
           ax.set_zlabel('Error')
-          ax.view_init(20, angle)
+          ax.view_init(30, angle)
           fig.add_axes(ax)
           #plt.savefig(join(pic_path,file_name+"-"+str(angle)+".eps"), format="eps", dpi=1000)
           plt.savefig(join(pic_path,file_name+"-"+cnt+".eps"), format="eps", dpi=1000)
