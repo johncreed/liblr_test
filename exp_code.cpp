@@ -516,15 +516,15 @@ double calc_min_P(const problem *prob, const parameter *param)
 
 
 //
-void find_parameter_classification(const problem *prob, const parameter *param, int nr_fold, double start_C, double max_C, double *best_C, double *best_rate)
+void find_parameter_classification(const problem *prob, const problem_folds *prob_folds, const parameter *param, int nr_fold, double start_C, double max_C, double *best_C, double *best_rate)
 {
 	// variables for CV
 	int i;
-	int *fold_start;
+	int *fold_start = prob_folds->fold_start;
 	int l = prob->l;
-	int *perm = Malloc(int, l);
-	double *target = Malloc(double, prob->l);
-	struct problem *subprob = Malloc(problem,nr_fold);
+	int *perm = prob_folds->perm;
+	double *target = Malloc(double, l);
+	struct problem *subprob = prob_folds->subprobs;
 
 	// variables for warm start
 	double ratio = 2;
@@ -535,48 +535,6 @@ void find_parameter_classification(const problem *prob, const parameter *param, 
 	struct parameter param1 = *param;
 	void (*default_print_string) (const char *) = liblinear_print_string;
 
-	if (nr_fold > l)
-	{
-		nr_fold = l;
-		fprintf(stderr,"WARNING: # folds > # data. Will use # folds = # data instead (i.e., leave-one-out cross validation)\n");
-	}
-	fold_start = Malloc(int,nr_fold+1);
-	for(i=0;i<l;i++) perm[i]=i;
-	for(i=0;i<l;i++)
-	{
-		int j = i+rand()%(l-i);
-		swap(perm[i],perm[j]);
-	}
-	for(i=0;i<=nr_fold;i++)
-		fold_start[i]=i*l/nr_fold;
-
-	for(i=0;i<nr_fold;i++)
-	{
-		int begin = fold_start[i];
-		int end = fold_start[i+1];
-		int j,k;
-
-		subprob[i].bias = prob->bias;
-		subprob[i].n = prob->n;
-		subprob[i].l = l-(end-begin);
-		subprob[i].x = Malloc(struct feature_node*,subprob[i].l);
-		subprob[i].y = Malloc(double,subprob[i].l);
-
-		k=0;
-		for(j=0;j<begin;j++)
-		{
-			subprob[i].x[k] = prob->x[perm[j]];
-			subprob[i].y[k] = prob->y[perm[j]];
-			++k;
-		}
-		for(j=end;j<l;j++)
-		{
-			subprob[i].x[k] = prob->x[perm[j]];
-			subprob[i].y[k] = prob->y[perm[j]];
-			++k;
-		}
-
-	}
 
 	*best_rate = 0;
 	if(start_C <= 0)
@@ -599,12 +557,11 @@ void find_parameter_classification(const problem *prob, const parameter *param, 
 	
 	while(param1.C <= max_C)
 	{
-		fprintf( stderr ,"====================C %g========================\n", log2(param1.C));
+		printf("====================C %g========================\n", log2(param1.C));
 		//Output disabled for running CV at a particular C
-		//set_print_string_function(&print_null);
+		set_print_string_function(&print_null);
 		
 		reset_new_break();
-		fprintf( stderr ,"before train new_break cnt %d\n", get_new_break());	
 		for(i=0; i<nr_fold; i++)
 		{
 			int j;
@@ -663,21 +620,20 @@ void find_parameter_classification(const problem *prob, const parameter *param, 
 			*best_rate = current_rate;
 		}
 
-		info("log2c=%7.2f\trate=%g\n",log2(param1.C),100.0*current_rate);
+		printf("log2c=%7.2f\trate=%g\n",log2(param1.C),100.0*current_rate);
 		num_unchanged_w++;
 		
 		//Check break condition
 		if(num_unchanged_w == 3 && first_old_break == true){
-			fprintf(stderr,"Old Break p: %g C: %g MSE= %g \n", log2(param1.p), log2(param1.C), current_rate ) ;
+			fprintf( stdout ,"Old Break C: %g rate= %g \n", log2(param1.C), 100 * *best_rate ) ;
 			first_old_break = false;
 		}
 		
-		fprintf( stderr ,"after train new_break cnt %d\n", get_new_break());	
 		if( get_new_break() == nr_fold && first_new_break == true){
-			fprintf( stderr ,"New Break p: %g C: %g MSE= %g \n", log2(param1.p), log2(param1.C), current_rate );
+			fprintf( stdout ,"New Break C: %g rate= %g \n", log2(param1.C), 100 * *best_rate );
 			first_new_break = false;
 		}
-		if( first_old_break == false && first_new_break == false){
+		if(first_old_break == false && first_new_break == false){
 			break;
 		}	
 		param1.C = param1.C*ratio;
@@ -775,38 +731,6 @@ double get_l2r_lr_loss_norm(double *w, const problem *prob){
 	return norm_grad;
 }
 
-double get_l2r_l2l_svc_loss_norm(double *w, const problem *prob){
-	//printf("Warning does not use weighted label\n");
-	int n = prob->n, l = prob->l;
-	double norm_grad;
-	int inc = 1;
-	double *g = new double[n];
-	double *C = new double[l];
-	double *w0;
-	for(int j=0; j < l; j++)
-		C[j] = 1;
-	function * fun_obj=new l2r_l2_svc_fun(prob, C);
-	if( w != NULL ){
-		fun_obj->fun(w);
-		fun_obj->grad(w, g);
-		for(int j = 0; j < n; j++){
-			g[j] -= w[j];
-		}
-	}
-	else{
-		double *w0 = new double[n];
-		for(int j = 0; j < n; j++)
-			w0[j] = 0;
-		fun_obj->fun(w0);
-		fun_obj->grad(w0, g);
-		free(w0);
-	}
-	norm_grad = dnrm2_(&n, g, &inc);
-	free(C);
-	free(fun_obj);
-	free(g);
-	return norm_grad;
-}
 #ifdef __cplusplus
 }
 #endif

@@ -45,7 +45,7 @@ void print_iter_sum_v2(double p, double C);
 double get_l2r_l2_svr_fun_grad_norm(double *w, const problem *prob, const parameter *param);
 double get_l2r_l2_svr_loss_norm(double *w, const problem *prob, const double p);
 
-void find_parameter_classification(const problem *prob, const parameter *param, int nr_fold, double start_C, double max_C, double *best_C, double *best_rate);
+void find_parameter_classification(const problem *prob, const problem_folds * prob_folds, const parameter *param, int nr_fold, double start_C, double max_C, double *best_C, double *best_rate);
 
 double get_l2r_lr_loss_norm(double *w, const problem *prob);
 double get_l2r_l2l_svc_loss_norm(double *w, const problem *prob);

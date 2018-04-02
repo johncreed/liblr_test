@@ -152,8 +152,9 @@ void do_find_parameter_C()
 		start_C = -1;
 	fprintf(stderr,"Doing parameter search with %d-fold cross validation.\n", nr_fold);
 	if( param.solver_type == L2R_LR || param.solver_type == L2R_L2LOSS_SVC){
-		fprintf(stderr,"Do classification with param.C %g\n", log2(param.C));
-		find_parameter_classification(&prob, &param, nr_fold, start_C, max_C, &best_C, &best_rate);
+		fprintf(stdout,"Do classification with param.C %g\n", log2(param.C));
+		struct problem_folds *prob_folds = split_data(&prob, nr_fold);
+		find_parameter_classification(&prob, prob_folds,&param, nr_fold, start_C, max_C, &best_C, &best_rate);
 	}
 	else if( param.solver_type == L2R_L2LOSS_SVR){
 		printf("Fix p go C\n");
