@@ -12,7 +12,7 @@ program_path = join(home, "liblr_test/train")
 
 # reg data
 data_path =  join(home, "reg")
-command_param = " -s 11 -C -e 0.001"
+command_param = ""
 big_data_list = ['log1p.E2006.train', 'YearPredictionMSD', 'E2006.train'] 
 small_data_list = [ f for f in os.listdir(data_path) if f not in big_data_list ]
 
@@ -64,7 +64,14 @@ def choose_output_folder():
     out_path = join(tmp, out_dir)
     return
 
+def set_command_param():
+  global command_param
+  solver = input("solver = -s (1,2,11)")
+  e = input("-e = ")
+  command_param = " -s {} -C -e {} ".format(solver, e)
+
 def __main__():
+    set_command_param()
     choose_output_folder()
     choose_list()
     if train_list == big_data_list :
