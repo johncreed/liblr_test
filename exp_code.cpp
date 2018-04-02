@@ -153,7 +153,14 @@ void find_parameter_linear_step(const problem *prob,const parameter *param, int 
 		}
 		param1.p -= steps;
 	}
-
+	param1.p = 0;
+	reset_iter_sum();
+	find_parameter_fix_p(prob, prob_folds, &param1, nr_fold, min_C, max_C, &best_C, &current_rate);
+	print_iter_sum('P', param1.p);
+	if(best_rate > current_rate){
+		best_P = param1.p;
+		best_rate = current_rate;
+	}
 	printf("Best logC = %g Best logP = %g Best MSE = %g \n", log(best_C)/log(2.0), log(best_P)/log(2.0), best_rate );
 }
 
@@ -284,7 +291,10 @@ void find_parameter_fix_p(const problem *prob, const problem_folds *prob_folds, 
 			*best_C = param1.C;
 			*best_rate = current_rate;
 		}
-		info("log2p= %7.2f log2c= %7.2f\tMSE= %g\n", log2(param1.p), log(param1.C)/log(2.0), current_rate);
+		if(param1.p == 0.0)
+			info("log2p= INF log2c= %7.2f\tMSE= %g\n",log(param1.C)/log(2.0), current_rate);
+		else
+			info("log2p= %7.2f log2c= %7.2f\tMSE= %g\n", log2(param1.p), log(param1.C)/log(2.0), current_rate);
 		num_unchanged_w++;
 
 		//Check break condition
