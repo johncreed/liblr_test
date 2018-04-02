@@ -54,11 +54,13 @@ def choose_list():
 
 def choose_output_folder():
     global out_dir, out_path
+    os.system("ls {}".format(tmp))
     out_dir = input("Which folder to store output: ")
     if out_dir in os.listdir(tmp):
-        cmf = input("Replace the elements(y/n) ? ")
-        if cmf == 'n':
-            sys.exit("Retry Again")
+        print ("Folder exist !!!")
+        cmf = input("rm all the elements(y/n) ? ")
+        if cmf == 'y':
+            os.system("rm {}".format(join(tmp, out_dir)))
     else:
         makedirs(join(tmp, out_dir))
     out_path = join(tmp, out_dir)
