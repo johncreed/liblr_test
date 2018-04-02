@@ -157,7 +157,7 @@ void do_find_parameter_C()
 	}
 	else if( param.solver_type == L2R_L2LOSS_SVR){
 		printf("Fix p go C\n");
-		find_parameter(&prob, &param, nr_fold);
+		find_parameter_linear_step(&prob, &param, nr_fold);
 		//printf("Fix C go p\n");
 		//find_parameter_v2(&prob, &param, nr_fold);
 	}
