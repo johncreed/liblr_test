@@ -67,7 +67,7 @@ def choose_output_folder():
 
 def set_command_param():
   global command_param
-  solver = input("solver = -s (1,2,11)")
+  solver = input("solver = -s (0,2,11)")
   e = input("-e = ")
   command_param = " -s {} -C -e {} ".format(solver, e)
 
