@@ -139,7 +139,7 @@ void find_parameter_linear_step(const problem *prob,const parameter *param, int 
 	struct problem_folds *prob_folds = split_data(prob, nr_fold);
 
 	//fix p run C
-	double steps  = max_P / (log2(max_P) - log2(min_P) );
+	double steps  = max_P / ( 20.0 );
 	double current_rate = INF, best_rate = INF;
 	double best_P, best_C;
 	param1.p = max_P;
@@ -161,9 +161,12 @@ void find_parameter_linear_step(const problem *prob,const parameter *param, int 
 		best_P = param1.p;
 		best_rate = current_rate;
 	}
-	printf("Best logC = %g Best logP = %g Best MSE = %g \n", log(best_C)/log(2.0), log(best_P)/log(2.0), best_rate );
+	if( best_P == 0.0 )
+		printf("Best logC = %g Best logP = INF Best MSE = %g \n", log(best_C)/log(2.0) , best_rate );
+	else
+		printf("Best logC = %g Best logP = %g Best MSE = %g \n", log(best_C)/log(2.0), log(best_P)/log(2.0), best_rate );
 }
-
+/**
 void find_parameter(const problem *prob,const parameter *param, int nr_fold)
 {
 	//Set range of parameter
@@ -212,6 +215,7 @@ void find_parameter(const problem *prob,const parameter *param, int nr_fold)
 
 	printf("Best logC = %g Best logP = %g Best MSE = %g \n", log(best_C)/log(2.0), log(best_P)/log(2.0), best_rate );
 }
+**/
 
 void find_parameter_fix_p(const problem *prob, const problem_folds *prob_folds, const parameter *param, int nr_fold, double min_C, double max_C, double *best_C, double *best_rate)
 {
@@ -299,7 +303,10 @@ void find_parameter_fix_p(const problem *prob, const problem_folds *prob_folds, 
 
 		//Check break condition
 		if(num_unchanged_w == 3 && first_old_break == true){
-			printf("Old Break p: %g C: %g MSE= %g \n", log2(param1.p), log2(param1.C), current_rate ) ;
+			if( param1.p == 0.0 )
+				printf("Old Break p: INF C: %g MSE= %g \n",  log2(param1.C), current_rate ) ;
+			else
+				printf("Old Break p: %g C: %g MSE= %g \n", log2(param1.p), log2(param1.C), current_rate ) ;
 			first_old_break = false;
 		}
 		
@@ -313,7 +320,10 @@ void find_parameter_fix_p(const problem *prob, const problem_folds *prob_folds, 
 		}
 		
 		if( new_break_check == nr_fold && first_new_break == true){
-			printf("New Break p: %g C: %g MSE- %g \n", log2(param1.p), log2(param1.C), current_rate );
+			if( param1.p == 0.0 )
+				printf("New Break p: INF C: %g MSE- %g \n", log2(param1.C), current_rate );
+			else
+				printf("New Break p: %g C: %g MSE- %g \n", log2(param1.p), log2(param1.C), current_rate );
 			first_new_break = false;
 		}
 		if( first_old_break == false && first_new_break == false){
@@ -690,11 +700,17 @@ void reset_iter_sum_v2(){
 
 void print_iter_sum(char c, double val)
 {
-	printf("cur_log%c: %g iter_sum: %d\n", c, log(val)/log(2.0), total_iter_sum);
+	if( val == 0.0)
+		printf("cur_log%c: INF iter_sum: %d\n", c, total_iter_sum);
+	else
+		printf("cur_log%c: %g iter_sum: %d\n", c, log(val)/log(2.0), total_iter_sum);
 }
 
 void print_iter_sum_v2(double p, double C){
-	printf("iter_sum: %d p: %g c: %g\n", total_iter_sum_v2, log(p)/log(2.0), log(C)/log(2.0));
+	if( p == 0.0 )
+		printf("iter_sum: %d p: INF c: %g\n", total_iter_sum_v2,  log(C)/log(2.0));
+	else
+		printf("iter_sum: %d p: %g c: %g\n", total_iter_sum_v2, log(p)/log(2.0), log(C)/log(2.0));
 }
 
 
