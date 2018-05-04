@@ -36,11 +36,13 @@ double calc_min_C(const problem *prob, const parameter *param);
 double calc_max_P(const problem *prob, const parameter *param);
 double calc_min_P(const problem *prob, const parameter *param);
 
+void add_iter_sum_fix_one_param(int num);
+void reset_iter_sum_fix_one_param();
+void print_iter_sum_fix_one_param(char c, double val);
+
 void add_iter(int num);
 void reset_iter_sum();
-void reset_iter_sum_v2();
-void print_iter_sum(char c, double val);
-void print_iter_sum_v2(double p, double C);
+void print_iter_sum(double p, double C);
 
 double get_l2r_l2_svr_fun_grad_norm(double *w, const problem *prob, const parameter *param);
 double get_l2r_l2_svr_loss_norm(double *w, const problem *prob, const double p);

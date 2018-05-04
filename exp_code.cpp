@@ -130,6 +130,7 @@ void find_parameter_linear_step(const problem *prob,const parameter *param, int 
 		param1.p *= ratio;
 	}
 	printf("min_P %g max_P %g min_C %g max_C %g\n", log(min_P)/log(2.0), log(max_P)/log(2.0), log(min_C)/log(2.0), log(max_C)/log(2.0));
+
 	// split data
 	if (nr_fold > prob->l)
 	{
@@ -139,28 +140,29 @@ void find_parameter_linear_step(const problem *prob,const parameter *param, int 
 	struct problem_folds *prob_folds = split_data(prob, nr_fold);
 
 	//fix p run C
-	double steps  = max_P / ( 20.0 );
+	double stepSz  = max_P / ( 20.0 );
 	double current_rate = INF, best_rate = INF;
 	double best_P, best_C;
 	param1.p = max_P;
-	while(param1.p >= min_P){
-		reset_iter_sum();
+	while( true ){
+		reset_iter_sum_fix_one_param();
 		find_parameter_fix_p(prob, prob_folds, &param1, nr_fold, min_C, max_C, &best_C, &current_rate);
-		print_iter_sum('P', param1.p);
+		print_iter_sum_fix_one_param('P', param1.p);
 		if(best_rate > current_rate){
 			best_P = param1.p;
 			best_rate = current_rate;
 		}
-		param1.p -= steps;
+
+		// param1.p is zero. It is the last iteration
+		if( param1.p == 0.0 )
+			break;
+		param1.p -= stepSz;
+		//If next step is too close to zero, set it to zero.
+		if( param1.p < stepSz / 10.0)
+			param1.p = 0.0;
 	}
-	param1.p = 0;
-	reset_iter_sum();
-	find_parameter_fix_p(prob, prob_folds, &param1, nr_fold, min_C, max_C, &best_C, &current_rate);
-	print_iter_sum('P', param1.p);
-	if(best_rate > current_rate){
-		best_P = param1.p;
-		best_rate = current_rate;
-	}
+	
+	// Print the best result
 	if( best_P == 0.0 )
 		printf("Best logC = %g Best logP = INF Best MSE = %g \n", log(best_C)/log(2.0) , best_rate );
 	else
@@ -195,9 +197,9 @@ void find_parameter(const problem *prob,const parameter *param, int nr_fold)
 	double best_P, best_C;
 	param1.p = max_P;
 	while(param1.p > min_P){
-		reset_iter_sum();
+		reset_iter_sum_fix_one_param();
 		find_parameter_fix_p(prob, prob_folds, &param1, nr_fold, min_C, max_C, &best_C, &current_rate);
-		print_iter_sum('P', param1.p);
+		print_iter_sum_fix_one_param('P', param1.p);
 		if(best_rate > current_rate){
 			best_P = param1.p;
 			best_rate = current_rate;
@@ -248,7 +250,7 @@ void find_parameter_fix_p(const problem *prob, const problem_folds *prob_folds, 
 		//Output disabled for running CV at a particular C
 		set_print_string_function(&print_null);
 
-		reset_iter_sum_v2();
+		reset_iter_sum();
 		for(int i=0; i<nr_fold; i++)
 		{
 			int begin = fold_start[i];
@@ -286,7 +288,7 @@ void find_parameter_fix_p(const problem *prob, const problem_folds *prob_folds, 
 
 			free_and_destroy_model(&submodel);
 		}
-		print_iter_sum_v2( param1.p, param1.C);
+		print_iter_sum( param1.p, param1.C);
 		set_print_string_function(default_print_string);
 
 		double current_rate = calc_error(prob, param, target);
@@ -679,40 +681,45 @@ int get_new_break(){
 	return new_break_check;
 }
 
+// add_iter_sum_fix_one_param count all cg_iter when fix one parameter and search the other param in the defined range.
+int total_iter_sum_fix_one_param;
 
+void add_iter_sum_fix_one_param(int num){
+	total_iter_sum_fix_one_param += num;
+}
+
+void reset_iter_sum_fix_one_param()
+{
+	total_iter_sum_fix_one_param = 0;
+}
+
+void print_iter_sum_fix_one_param(char c, double val)
+{
+	printf("Param %c is fixed and total count iteration: \n", c);
+	if( val == 0.0)
+		printf("cur_log%c: INF iter_sum: %d\n", c, total_iter_sum_fix_one_param);
+	else
+		printf("cur_log%c: %g iter_sum: %d\n", c, log(val)/log(2.0), total_iter_sum_fix_one_param);
+}
+
+// add_iter count the cg_iter for parameter (P,C) search total cg_iter
 int total_iter_sum;
-int total_iter_sum_v2;
 
 void add_iter(int num)
 {
 	total_iter_sum += num;
-	total_iter_sum_v2 += num;
 }
 
-void reset_iter_sum()
-{
+void reset_iter_sum(){
 	total_iter_sum = 0;
 }
 
-void reset_iter_sum_v2(){
-	total_iter_sum_v2 = 0;
-}
-
-void print_iter_sum(char c, double val)
-{
-	if( val == 0.0)
-		printf("cur_log%c: INF iter_sum: %d\n", c, total_iter_sum);
-	else
-		printf("cur_log%c: %g iter_sum: %d\n", c, log(val)/log(2.0), total_iter_sum);
-}
-
-void print_iter_sum_v2(double p, double C){
+void print_iter_sum(double p, double C){
 	if( p == 0.0 )
-		printf("iter_sum: %d p: INF c: %g\n", total_iter_sum_v2,  log(C)/log(2.0));
+		printf("iter_sum: %d p: INF c: %g\n", total_iter_sum,  log(C)/log(2.0));
 	else
-		printf("iter_sum: %d p: %g c: %g\n", total_iter_sum_v2, log(p)/log(2.0), log(C)/log(2.0));
+		printf("iter_sum: %d p: %g c: %g\n", total_iter_sum, log(p)/log(2.0), log(C)/log(2.0));
 }
-
 
 double get_l2r_lr_loss_norm(double *w, const problem *prob){
 	//printf("Warning does not use weighted label\n");
