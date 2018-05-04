@@ -310,6 +310,8 @@ void find_parameter_fix_p(const problem *prob, const problem_folds *prob_folds, 
 			else
 				printf("Old Break p: %g C: %g MSE= %g \n", log2(param1.p), log2(param1.C), current_rate ) ;
 			first_old_break = false;
+			printf("Old Break Iteration: ");
+			print_iter_sum_fix_one_param('P', param1.p);
 		}
 		
 		int new_break_check = 0;
@@ -327,6 +329,8 @@ void find_parameter_fix_p(const problem *prob, const problem_folds *prob_folds, 
 			else
 				printf("New Break p: %g C: %g MSE- %g \n", log2(param1.p), log2(param1.C), current_rate );
 			first_new_break = false;
+			printf("New Break Iteration: ");
+			print_iter_sum_fix_one_param('P', param1.p);
 		}
 		if( first_old_break == false && first_new_break == false){
 			break;
@@ -695,7 +699,6 @@ void reset_iter_sum_fix_one_param()
 
 void print_iter_sum_fix_one_param(char c, double val)
 {
-	printf("Param %c is fixed and total count iteration: \n", c);
 	if( val == 0.0)
 		printf("cur_log%c: INF iter_sum: %d\n", c, total_iter_sum_fix_one_param);
 	else
