@@ -147,7 +147,6 @@ void find_parameter_linear_step(const problem *prob,const parameter *param, int 
 	while( true ){
 		reset_iter_sum_fix_one_param();
 		find_parameter_fix_p(prob, prob_folds, &param1, nr_fold, min_C, max_C, &best_C, &current_rate);
-		print_iter_sum_fix_one_param('P', param1.p);
 		if(best_rate > current_rate){
 			best_P = param1.p;
 			best_rate = current_rate;
@@ -164,9 +163,9 @@ void find_parameter_linear_step(const problem *prob,const parameter *param, int 
 	
 	// Print the best result
 	if( best_P == 0.0 )
-		printf("Best logC = %g Best logP = INF Best MSE = %g \n", log(best_C)/log(2.0) , best_rate );
+		printf("Best logP = INF Best logC = %g Best MSE = %g \n", log2(best_C), best_rate );
 	else
-		printf("Best logC = %g Best logP = %g Best MSE = %g \n", log(best_C)/log(2.0), log(best_P)/log(2.0), best_rate );
+		printf("Best logP = %g Best logC = %g Best MSE = %g \n", log2(best_P), log2(best_C), best_rate );
 }
 /**
 void find_parameter(const problem *prob,const parameter *param, int nr_fold)
@@ -298,17 +297,17 @@ void find_parameter_fix_p(const problem *prob, const problem_folds *prob_folds, 
 			*best_rate = current_rate;
 		}
 		if(param1.p == 0.0)
-			info("log2p= INF log2c= %7.2f\tMSE= %g\n",log(param1.C)/log(2.0), current_rate);
+			info("log2P= INF log2C= %7.2f\tMSE= %g\n",log2(param1.C), current_rate);
 		else
-			info("log2p= %7.2f log2c= %7.2f\tMSE= %g\n", log2(param1.p), log(param1.C)/log(2.0), current_rate);
+			info("log2P= %7.2f log2C= %7.2f\tMSE= %g\n", log2(param1.p), log2(param1.C), current_rate);
 		num_unchanged_w++;
 
 		//Check break condition
 		if(num_unchanged_w == 3 && first_old_break == true){
 			if( param1.p == 0.0 )
-				printf("Old Break p: INF C: %g MSE= %g \n",  log2(param1.C), current_rate ) ;
+				printf("Old Break P: INF C: %g MSE= %g \n",  log2(param1.C), current_rate ) ;
 			else
-				printf("Old Break p: %g C: %g MSE= %g \n", log2(param1.p), log2(param1.C), current_rate ) ;
+				printf("Old Break P: %g C: %g MSE= %g \n", log2(param1.p), log2(param1.C), current_rate ) ;
 			first_old_break = false;
 			printf("Old Break Iteration: ");
 			print_iter_sum_fix_one_param('P', param1.p);
@@ -325,9 +324,9 @@ void find_parameter_fix_p(const problem *prob, const problem_folds *prob_folds, 
 		
 		if( new_break_check == nr_fold && first_new_break == true){
 			if( param1.p == 0.0 )
-				printf("New Break p: INF C: %g MSE- %g \n", log2(param1.C), current_rate );
+				printf("New Break P: INF C: %g MSE= %g \n", log2(param1.C), current_rate );
 			else
-				printf("New Break p: %g C: %g MSE- %g \n", log2(param1.p), log2(param1.C), current_rate );
+				printf("New Break P: %g C: %g MSE= %g \n", log2(param1.p), log2(param1.C), current_rate );
 			first_new_break = false;
 			printf("New Break Iteration: ");
 			print_iter_sum_fix_one_param('P', param1.p);
@@ -702,7 +701,7 @@ void print_iter_sum_fix_one_param(char c, double val)
 	if( val == 0.0)
 		printf("cur_log%c: INF iter_sum: %d\n", c, total_iter_sum_fix_one_param);
 	else
-		printf("cur_log%c: %g iter_sum: %d\n", c, log(val)/log(2.0), total_iter_sum_fix_one_param);
+		printf("cur_log%c: %g iter_sum: %d\n", c, log2(val), total_iter_sum_fix_one_param);
 }
 
 // add_iter count the cg_iter for parameter (P,C) search total cg_iter
@@ -719,9 +718,9 @@ void reset_iter_sum(){
 
 void print_iter_sum(double p, double C){
 	if( p == 0.0 )
-		printf("iter_sum: %d p: INF c: %g\n", total_iter_sum,  log(C)/log(2.0));
+		printf("iter_sum: %d P: INF C: %g\n", total_iter_sum,  log2(C));
 	else
-		printf("iter_sum: %d p: %g c: %g\n", total_iter_sum, log(p)/log(2.0), log(C)/log(2.0));
+		printf("iter_sum: %d P: %g C: %g\n", total_iter_sum, log2(p), log2(C));
 }
 
 double get_l2r_lr_loss_norm(double *w, const problem *prob){
