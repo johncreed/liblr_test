@@ -46,6 +46,10 @@ extern "C" {
 // define in blas/dnrm2_ file
 extern double dnrm2_(int *, double *, int *);
 
+const double numSteps = 20.0;
+double stepSz;
+const double max_PReduce = 5.0;
+
 problem_folds::~problem_folds()
 {
 	free(perm);
@@ -120,14 +124,16 @@ void find_parameter_linear_step(const problem *prob,const parameter *param, int 
 	//Set range of parameter
 	double ratio = 2.0;
 	double min_P = calc_min_P(prob, param);
-	double  max_P = calc_max_P(prob, param) / ratio;
+	double  max_P = calc_max_P(prob, param);
+	stepSz = (max_P - min_P) / numSteps;
+	max_P -= stepSz * max_PReduce;
 	double max_C = pow(2.0, 50);
 	double min_C = INF;
 	struct parameter param1 = *param;
 	param1.p = min_P;
 	while( param1.p <= max_P ){
 		min_C = min( calc_min_C( prob, &param1), min_C);
-		param1.p *= ratio;
+		param1.p += stepSz;
 	}
 	printf("min_P %g max_P %g min_C %g max_C %g\n", log(min_P)/log(2.0), log(max_P)/log(2.0), log(min_C)/log(2.0), log(max_C)/log(2.0));
 
@@ -140,12 +146,15 @@ void find_parameter_linear_step(const problem *prob,const parameter *param, int 
 	struct problem_folds *prob_folds = split_data(prob, nr_fold);
 
 	//fix p run C
-	double stepSz  = max_P / ( 20.0 );
 	double current_rate = INF, best_rate = INF;
 	double best_P, best_C;
 	param1.p = max_P;
 	reset_iter_sum_whole_process();
 	while( true ){
+		//If next step is too close to zero, set it to zero.
+		if( param1.p < stepSz / 2.0)
+			param1.p = 0.0;
+
 		reset_iter_sum_fix_one_param();
 		find_parameter_fix_p(prob, prob_folds, &param1, nr_fold, min_C, max_C, &best_C, &current_rate);
 		if(best_rate > current_rate){
@@ -156,10 +165,8 @@ void find_parameter_linear_step(const problem *prob,const parameter *param, int 
 		// param1.p is zero. It is the last iteration
 		if( param1.p == 0.0 )
 			break;
-		param1.p -= stepSz;
-		//If next step is too close to zero, set it to zero.
-		if( param1.p < stepSz / 10.0)
-			param1.p = 0.0;
+		else
+			param1.p -= stepSz;
 	}
 	print_iter_sum_whole_process();
 
@@ -788,14 +795,16 @@ void find_parameter_linear_step_fixC_goP(const problem *prob, const parameter *p
 	//Set range of parameter
 	double ratio = 2.0;
 	double min_P = calc_min_P(prob, param);
-	double  max_P = calc_max_P(prob, param) / ratio;
+	double  max_P = calc_max_P(prob, param);
+	stepSz = (max_P - min_P) / numSteps;
+	max_P -= stepSz * max_PReduce;
 	double max_C = pow(2.0, 50);
 	double min_C = INF;
 	struct parameter param1 = *param;
 	param1.p = min_P;
 	while( param1.p <= max_P ){
 		min_C = min( calc_min_C( prob, &param1), min_C);
-		param1.p *= ratio;
+		param1.p += stepSz;
 	}
 	printf("min_P %g max_P %g min_C %g max_C %g\n", log(min_P)/log(2.0), log(max_P)/log(2.0), log(min_C)/log(2.0), log(max_C)/log(2.0));
 	
@@ -853,12 +862,10 @@ void find_parameter_fix_c(const problem *prob, const problem_folds *prob_folds, 
 	*best_rate = INF;
 
 	param1.p = max_P;
-	const double numSteps = 20.0;
-	const double stepSize = max_P / 20.0;
 	while(true)
 	{
 		// If step is too small, run the last step with param1.p = 0.0 and then break the while loop.
-		if( param1.p <= stepSize / 2.0 )
+		if( param1.p <= stepSz / 2.0 )
 			param1.p = 0.0;
 
 		//Output disabled for running CV at a particular C
@@ -907,7 +914,7 @@ void find_parameter_fix_c(const problem *prob, const problem_folds *prob_folds, 
 		if( param1.p == 0.0 )
 			break;
 		else
-			param1.p = param1.p - stepSize;
+			param1.p = param1.p - stepSz;
 	}
 
 	free(target);
