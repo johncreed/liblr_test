@@ -144,6 +144,7 @@ void find_parameter_linear_step(const problem *prob,const parameter *param, int 
 	double current_rate = INF, best_rate = INF;
 	double best_P, best_C;
 	param1.p = max_P;
+	reset_iter_sum_whole_process();
 	while( true ){
 		reset_iter_sum_fix_one_param();
 		find_parameter_fix_p(prob, prob_folds, &param1, nr_fold, min_C, max_C, &best_C, &current_rate);
@@ -160,6 +161,8 @@ void find_parameter_linear_step(const problem *prob,const parameter *param, int 
 		if( param1.p < stepSz / 10.0)
 			param1.p = 0.0;
 	}
+	print_iter_sum_whole_process();
+
 	
 	// Print the best result
 	if( best_P == 0.0 )
@@ -321,7 +324,7 @@ void find_parameter_fix_p(const problem *prob, const problem_folds *prob_folds, 
 			if( gnorm_w <= param1.eps * gnorm_0 )
 				new_break_check++;
 		}
-		
+	
 		if( new_break_check == nr_fold && first_new_break == true){
 			if( param1.p == 0.0 )
 				printf("New Break P: INF C: %g MSE= %g \n", log2(param1.C), current_rate );
@@ -330,6 +333,7 @@ void find_parameter_fix_p(const problem *prob, const problem_folds *prob_folds, 
 			first_new_break = false;
 			printf("New Break Iteration: ");
 			print_iter_sum_fix_one_param('P', param1.p);
+			update_iter_sum_whole_process();
 		}
 		if( first_old_break == false && first_new_break == false){
 			break;
@@ -684,6 +688,7 @@ int get_new_break(){
 	return new_break_check;
 }
 
+
 // add_iter_sum_fix_one_param count all cg_iter when fix one parameter and search the other param in the defined range.
 int total_iter_sum_fix_one_param;
 
@@ -723,6 +728,23 @@ void print_iter_sum(double p, double C){
 		printf("iter_sum: %d P: %g C: %g\n", total_iter_sum, log2(p), log2(C));
 }
 
+// Iteration sum for whole process.
+
+int iter_sum_whole_process;
+
+void reset_iter_sum_whole_process(){
+	iter_sum_whole_process = 0;
+}
+
+void update_iter_sum_whole_process(){
+	// Update for each fix one parameter process.
+	iter_sum_whole_process += total_iter_sum_fix_one_param;
+}
+
+void print_iter_sum_whole_process(){
+	printf("Iteration sum of whole process : %d\n", iter_sum_whole_process);
+}
+
 double get_l2r_lr_loss_norm(double *w, const problem *prob){
 	//printf("Warning does not use weighted label\n");
 	int n = prob->n, l = prob->l;
@@ -755,6 +777,145 @@ double get_l2r_lr_loss_norm(double *w, const problem *prob){
 	free(g);
 	return norm_grad;
 }
+
+
+// Show go P for each parameter C. Note that we have to search from big P to small P.
+
+
+
+void find_parameter_linear_step_fixC_goP(const problem *prob, const parameter *param, int nr_fold)
+{
+	//Set range of parameter
+	double ratio = 2.0;
+	double min_P = calc_min_P(prob, param);
+	double  max_P = calc_max_P(prob, param) / ratio;
+	double max_C = pow(2.0, 50);
+	double min_C = INF;
+	struct parameter param1 = *param;
+	param1.p = min_P;
+	while( param1.p <= max_P ){
+		min_C = min( calc_min_C( prob, &param1), min_C);
+		param1.p *= ratio;
+	}
+	printf("min_P %g max_P %g min_C %g max_C %g\n", log(min_P)/log(2.0), log(max_P)/log(2.0), log(min_C)/log(2.0), log(max_C)/log(2.0));
+	
+	// split data
+	if (nr_fold > prob->l)
+	{
+		nr_fold = prob->l;
+		fprintf(stderr,"WARNING: # folds > # data. Will use # folds = # data instead (i.e., leave-one-out cross validation)\n");
+	}
+	struct problem_folds *prob_folds = split_data(prob, nr_fold);
+
+	// Go P fix C.
+	double current_rate = INF, best_rate = INF;
+	double best_P, best_C;
+	param1.C = min_C;
+	while(param1.C < max_C){
+		reset_new_break();
+		reset_iter_sum_fix_one_param();
+		find_parameter_fix_c(prob, prob_folds, &param1, nr_fold, min_P, max_P, &best_P, &current_rate);
+		print_iter_sum_fix_one_param('C', param1.C);
+		if(best_rate > current_rate){
+			best_C = param1.C;
+			best_rate = current_rate;
+		}
+		if(get_new_break() == nr_fold)
+			break;
+		else
+			param1.C *= ratio;
+	}
+	
+	printf("Best logP = %g Best logC = %g Best MSE = %g \n", log(best_P)/log(2.0), log(best_C)/log(2.0), best_rate );
+}
+
+
+void find_parameter_fix_c(const problem *prob, const problem_folds *prob_folds, const parameter *param, int nr_fold, double min_P, double max_P, double *best_P, double *best_rate)
+{
+	printf("======================================\n");
+	int *fold_start = prob_folds->fold_start;
+	int l = prob->l;
+	int *perm = prob_folds->perm;
+	double *target = Malloc(double, l);
+	struct problem *subprob = prob_folds->subprobs;
+
+	// variables for warm start
+	double **prev_w = Malloc(double*, nr_fold);
+	for(int i = 0; i < nr_fold; i++)
+		prev_w[i] = NULL;
+	struct parameter param1 = *param;
+	void (*default_print_string) (const char *) = liblinear_print_string;
+
+	//smaller best rate is better for regression
+	*best_rate = INF;
+
+	param1.p = max_P;
+	const double numSteps = 20.0;
+	const double stepSize = max_P / 20.0;
+	while(true)
+	{
+		// If step is too small, run the last step with param1.p = 0.0 and then break the while loop.
+		if( param1.p <= stepSize / 2.0 )
+			param1.p = 0.0;
+
+		//Output disabled for running CV at a particular C
+		set_print_string_function(&print_null);
+
+		reset_iter_sum();
+		for(int i=0; i<nr_fold; i++){
+			int begin = fold_start[i];
+			int end = fold_start[i+1];
+
+			param1.init_sol = prev_w[i];
+			struct model *submodel = train(&subprob[i],&param1);
+			int total_w_size;
+			if(submodel->nr_class == 2)
+				total_w_size = subprob[i].n;
+			else
+				total_w_size = subprob[i].n * submodel->nr_class;
+
+			if(prev_w[i] == NULL)
+			{
+				prev_w[i] = Malloc(double, total_w_size);
+			}
+
+			for(int j=0; j<total_w_size; j++)
+				prev_w[i][j] = submodel->w[j];
+
+			for(int j=begin; j<end; j++)
+				target[perm[j]] = predict(submodel,prob->x[perm[j]]);
+
+			free_and_destroy_model(&submodel);
+		}
+		print_iter_sum( param1.p, param1.C);
+		set_print_string_function(default_print_string);
+
+		double current_rate = calc_error(prob, param, target);
+		if( current_rate < *best_rate){
+			*best_P = param1.p;
+			*best_rate = current_rate;
+		}
+		if(param1.p == 0.0)
+			info("log2P= INF log2C= %7.2f\tMSE= %g\n",log2(param1.C), current_rate);
+		else
+			info("log2P= %7.2f log2C= %7.2f\tMSE= %g\n", log2(param1.p), log2(param1.C), current_rate);
+	
+		// Check if the it is the last step with param1.p = 0.0
+		if( param1.p == 0.0 )
+			break;
+		else
+			param1.p = param1.p - stepSize;
+	}
+
+	free(target);
+	for(int i=0; i<nr_fold; i++)
+		free(prev_w[i]);
+	free(prev_w);
+	param1.init_sol = NULL;
+}
+
+
+
 
 #ifdef __cplusplus
 }

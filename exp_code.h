@@ -26,8 +26,6 @@ struct problem_folds{
 struct problem_folds* split_data(const problem *prob, int nr_fold);
 void find_parameter(const problem *prob, const parameter *param, int nr_fold);
 void find_parameter_linear_step(const problem *prob,const parameter *param, int nr_fold);
-void find_parameter_v2(const problem *prob, const parameter *param, int nr_fold);
-void find_parameter_fix_c(const problem *prob, const problem_folds *prob_folds, const parameter *param, int nr_fold, double min_P, double max_P, double *best_P, double *best_rate);
 void find_parameter_fix_p(const problem *prob, const problem_folds *prob_folds, const parameter *param, int nr_fold, double min_C, double max_C, double *best_C, double *best_rate);
 void find_parameter_fix_p_v2(const problem *prob, const problem_folds *prob_folds, const parameter *param, int nr_fold, double min_C, double max_C, double *best_C, double *best_rate);
 double calc_error(const problem *prob ,const parameter *param, double *target);
@@ -44,6 +42,11 @@ void add_iter(int num);
 void reset_iter_sum();
 void print_iter_sum(double p, double C);
 
+
+void reset_iter_sum_whole_process();
+void update_iter_sum_whole_process();
+void print_iter_sum_whole_process();
+
 double get_l2r_l2_svr_fun_grad_norm(double *w, const problem *prob, const parameter *param);
 double get_l2r_l2_svr_loss_norm(double *w, const problem *prob, const double p);
 
@@ -55,6 +58,10 @@ double get_l2r_l2l_svc_loss_norm(double *w, const problem *prob);
 void reset_new_break();
 void add_new_break();
 int get_new_break();
+
+// Show the go P for each fix parameter C.
+void find_parameter_linear_step_fixC_goP(const problem *prob, const parameter *param, int nr_fold);
+void find_parameter_fix_c(const problem *prob, const problem_folds *prob_folds, const parameter *param, int nr_fold, double min_P, double max_P, double *best_P, double *best_rate);
 
 #ifdef __cplusplus
 }
