@@ -811,10 +811,12 @@ void find_parameter_linear_step_fixC_goP(const problem *prob, const parameter *p
 	double current_rate = INF, best_rate = INF;
 	double best_P, best_C;
 	param1.C = min_C;
+	reset_iter_sum_whole_process();
 	while(param1.C < max_C){
 		reset_new_break();
 		reset_iter_sum_fix_one_param();
 		find_parameter_fix_c(prob, prob_folds, &param1, nr_fold, min_P, max_P, &best_P, &current_rate);
+		update_iter_sum_whole_process();
 		print_iter_sum_fix_one_param('C', param1.C);
 		if(best_rate > current_rate){
 			best_C = param1.C;
@@ -825,6 +827,7 @@ void find_parameter_linear_step_fixC_goP(const problem *prob, const parameter *p
 		else
 			param1.C *= ratio;
 	}
+	print_iter_sum_whole_process();
 	
 	printf("Best logP = %g Best logC = %g Best MSE = %g \n", log(best_P)/log(2.0), log(best_C)/log(2.0), best_rate );
 }
