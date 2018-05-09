@@ -786,6 +786,9 @@ double get_l2r_lr_loss_norm(double *w, const problem *prob){
 
 void find_parameter_linear_step_fixC_goP(const problem *prob, const parameter *param, int nr_fold)
 {
+	// Informatino about this method
+
+	printf("This search direction cannot adopt the C stop method.\n");
 	//Set range of parameter
 	double ratio = 2.0;
 	double min_P = calc_min_P(prob, param);
@@ -816,24 +819,20 @@ void find_parameter_linear_step_fixC_goP(const problem *prob, const parameter *p
 	param1.C = min_C;
 	reset_iter_sum_whole_process();
 	while(param1.C < max_C){
-		reset_new_break();
 		reset_iter_sum_fix_one_param();
 		find_parameter_fix_c(prob, prob_folds, &param1, nr_fold, min_P, max_P, &best_P, &current_rate);
 		update_iter_sum_whole_process();
 		print_iter_sum_fix_one_param('C', param1.C);
+		print_iter_sum_whole_process();
 		if(best_rate > current_rate){
 			best_C = param1.C;
 			best_rate = current_rate;
 		}
-		if(get_new_break() == nr_fold)
-			break;
-		else
-			param1.C *= ratio;
+		param1.C *= ratio;
 	}
 
 	// Print Final Result
 	printf("======================================\n");
-	print_iter_sum_whole_process();
 	printf("Best logP = %g Best logC = %g Best MSE = %g \n", log(best_P)/log(2.0), log(best_C)/log(2.0), best_rate );
 }
 
