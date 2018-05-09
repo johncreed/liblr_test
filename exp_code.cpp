@@ -260,6 +260,7 @@ void find_parameter_fix_p(const problem *prob, const problem_folds *prob_folds, 
 		set_print_string_function(&print_null);
 
 		reset_iter_sum();
+		reset_new_break();
 		for(int i=0; i<nr_fold; i++)
 		{
 			int begin = fold_start[i];
@@ -312,7 +313,7 @@ void find_parameter_fix_p(const problem *prob, const problem_folds *prob_folds, 
 			info("log2P= %7.2f log2C= %7.2f\tMSE= %g\n", log2(param1.p), log2(param1.C), current_rate);
 		num_unchanged_w++;
 
-		//Check break condition
+		//Check old break condition
 		if(num_unchanged_w == 3 && first_old_break == true){
 			if( param1.p == 0.0 )
 				printf("Old Break P: INF C: %g MSE= %g \n",  log2(param1.C), current_rate ) ;
@@ -323,16 +324,7 @@ void find_parameter_fix_p(const problem *prob, const problem_folds *prob_folds, 
 			print_iter_sum_fix_one_param('P', param1.p);
 		}
 		
-		int new_break_check = 0;
-		for(int i = 0; i < nr_fold; i++){
-			double gnorm_0 = get_l2r_l2_svr_loss_norm(NULL, &subprob[i], param1.p);
-			double gnorm_w = get_l2r_l2_svr_loss_norm(prev_w[i], &subprob[i], param1.p);
-			//printf("fold %d gnorm_w %5.3e tau*gnorm_0 %5.3e\n", i, gnorm_w, param1.eps *  gnorm_0);
-			if( gnorm_w <= param1.eps * gnorm_0 )
-				new_break_check++;
-		}
-	
-		if( new_break_check == nr_fold && first_new_break == true){
+		if( get_new_break() == nr_fold && first_new_break == true){
 			if( param1.p == 0.0 )
 				printf("New Break P: INF C: %g MSE= %g \n", log2(param1.C), current_rate );
 			else
@@ -342,6 +334,8 @@ void find_parameter_fix_p(const problem *prob, const problem_folds *prob_folds, 
 			print_iter_sum_fix_one_param('P', param1.p);
 			update_iter_sum_whole_process();
 		}
+
+		// If both old break and new break satisfy, then we terminate the search process for parameter C.
 		if( first_old_break == false && first_new_break == false){
 			break;
 		}
