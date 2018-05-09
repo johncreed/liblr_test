@@ -168,10 +168,10 @@ void find_parameter_linear_step(const problem *prob,const parameter *param, int 
 		else
 			param1.p -= stepSz;
 	}
-	print_iter_sum_whole_process();
-
 	
 	// Print the best result
+	printf("======================================\n");
+	print_iter_sum_whole_process();
 	if( best_P == 0.0 )
 		printf("Best logP = INF Best logC = %g Best MSE = %g \n", log2(best_C), best_rate );
 	else
@@ -743,7 +743,7 @@ void update_iter_sum_whole_process(){
 }
 
 void print_iter_sum_whole_process(){
-	printf("Iteration sum of whole process : %d\n", iter_sum_whole_process);
+	printf("Iteration sum of whole process (new break) : %d\n", iter_sum_whole_process);
 }
 
 double get_l2r_lr_loss_norm(double *w, const problem *prob){
@@ -830,8 +830,10 @@ void find_parameter_linear_step_fixC_goP(const problem *prob, const parameter *p
 		else
 			param1.C *= ratio;
 	}
+
+	// Print Final Result
+	printf("======================================\n");
 	print_iter_sum_whole_process();
-	
 	printf("Best logP = %g Best logC = %g Best MSE = %g \n", log(best_P)/log(2.0), log(best_C)/log(2.0), best_rate );
 }
 
