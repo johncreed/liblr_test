@@ -161,6 +161,9 @@ void find_parameter_linear_step(const problem *prob,const parameter *param, int 
 			best_P = param1.p;
 			best_rate = current_rate;
 		}
+		
+		printf("Cumulative logP : %g ", log2(param1.p) );
+		print_iter_sum_whole_process();
 
 		// param1.p is zero. It is the last iteration
 		if( param1.p == 0.0 )
@@ -823,6 +826,7 @@ void find_parameter_linear_step_fixC_goP(const problem *prob, const parameter *p
 		find_parameter_fix_c(prob, prob_folds, &param1, nr_fold, min_P, max_P, &best_P, &current_rate);
 		update_iter_sum_whole_process();
 		print_iter_sum_fix_one_param('C', param1.C);
+		printf("Cumulative logC : %g ", log2(param1.C));
 		print_iter_sum_whole_process();
 		if(best_rate > current_rate){
 			best_C = param1.C;
