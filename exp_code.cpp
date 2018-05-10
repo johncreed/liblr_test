@@ -123,10 +123,8 @@ void find_parameter_linear_step(const problem *prob,const parameter *param, int 
 {
 	//Set range of parameter
 	double ratio = 2.0;
-	double min_P = calc_min_P(prob, param);
+	double min_P = 0.0;
 	double  max_P = calc_max_P(prob, param);
-	stepSz = (max_P - min_P) / numSteps;
-	max_P -= stepSz * max_PReduce;
 	double max_C = pow(2.0, 50);
 	double min_C = INF;
 	struct parameter param1 = *param;
@@ -162,7 +160,10 @@ void find_parameter_linear_step(const problem *prob,const parameter *param, int 
 			best_rate = current_rate;
 		}
 		
-		printf("Cumulative logP : %g ", log2(param1.p) );
+		if(param1.p == 0.0)
+			printf("Cumulative logP : INF ");
+		else
+			printf("Cumulative logP : %g ", log2(param1.p) );
 		print_iter_sum_whole_process();
 
 		// param1.p is zero. It is the last iteration
@@ -434,23 +435,25 @@ double calc_min_C(const problem *prob, const parameter *param)
 	else if(param->solver_type == L2R_L2LOSS_SVR)
 		min_C = delta * delta * loss / (8.0 * phi * phi * max_xTx);
 
-	return pow( 2, floor(log(min_C) / log(2.0)) );
+	//return pow( 2, floor(log(min_C) / log(2.0)) );
+	return min_C;
 }
 
 double calc_max_P(const problem *prob, const parameter *param)
 {
-	double yi_abs, max_yi_abs;
+	double yi_abs, max_yi_abs = 0.0;
 	double l = prob->l;
-	max_yi_abs = 0;
 	for(int i = 0; i < l; i++)
 	{
 		yi_abs = (prob->y[i] >= 0)? prob->y[i] : -1.0 * prob->y[i];
 		max_yi_abs = max( max_yi_abs, yi_abs);
 	}
-
+	
 	double max_P = max_yi_abs;
-
-	return pow( 2, ceil(log(max_P) / log(2.0)));
+	stepSz = max_P / numSteps;
+	max_P -= stepSz * max_PReduce;
+	
+	return max_P;
 }
 
 double get_l2r_l2_svr_fun_grad_norm(double *w, const problem *prob, const parameter *param){
@@ -514,6 +517,7 @@ double get_l2r_l2_svr_loss_norm(double *w, const problem *prob, const double p){
 	return norm_grad;
 }
 
+/**
 double calc_min_P(const problem *prob, const parameter *param)
 {
 	int n = prob->n, l = prob->l;
@@ -534,9 +538,11 @@ double calc_min_P(const problem *prob, const parameter *param)
 	double delta = param->eps / (param->eps + 2);
 	printf("eps %lf norm_2Xy %lf max_x %lf n %d l %d\n", param->eps, norm_2Xy, max_x, n, l);
 	double min_P = delta * norm_2Xy / ( 2.0 * max_x* (double) sqrt(n) * (double) l );
-	return pow( 2, floor( log(min_P) / log(2.0) ));
-}
 
+	return min_P;
+	//return pow( 2, floor( log(min_P) / log(2.0) ));
+}
+**/
 
 //
 void find_parameter_classification(const problem *prob, const problem_folds *prob_folds, const parameter *param, int nr_fold, double start_C, double max_C, double *best_C, double *best_rate)
@@ -794,10 +800,9 @@ void find_parameter_linear_step_fixC_goP(const problem *prob, const parameter *p
 	printf("This search direction cannot adopt the C stop method.\n");
 	//Set range of parameter
 	double ratio = 2.0;
-	double min_P = calc_min_P(prob, param);
+	//double min_P = calc_min_P(prob, param);
+	double min_P = 0.0;
 	double  max_P = calc_max_P(prob, param);
-	stepSz = (max_P - min_P) / numSteps;
-	max_P -= stepSz * max_PReduce;
 	double max_C = pow(2.0, 50);
 	double min_C = INF;
 	struct parameter param1 = *param;
@@ -837,7 +842,10 @@ void find_parameter_linear_step_fixC_goP(const problem *prob, const parameter *p
 
 	// Print Final Result
 	printf("======================================\n");
-	printf("Best logP = %g Best logC = %g Best MSE = %g \n", log(best_P)/log(2.0), log(best_C)/log(2.0), best_rate );
+	if(best_P == 0.0)
+		printf("Best logP = INF Best logC = %g Best MSE = %g \n", log2(best_C), best_rate );
+	else
+		printf("Best logP = %g Best logC = %g Best MSE = %g \n", log2(best_P), log2(best_C), best_rate );
 }
 
 
