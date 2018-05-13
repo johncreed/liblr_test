@@ -157,10 +157,14 @@ void do_find_parameter_C()
 		find_parameter_classification(&prob, prob_folds,&param, nr_fold, start_C, max_C, &best_C, &best_rate);
 	}
 	else if( param.solver_type == L2R_L2LOSS_SVR){
-		printf("Fix p go C\n");
-		find_parameter_linear_step(&prob, &param, nr_fold);
-		//printf("Fix C go p\n");
-		//find_parameter_linear_step_fixC_goP(&prob, &param, nr_fold);
+		if( 0 ){
+			printf("Fix P go C\n");
+			find_parameter_linear_step(&prob, &param, nr_fold);
+		}
+		else{
+			printf("Fix C go P\n");
+			find_parameter_linear_step_fixC_goP(&prob, &param, nr_fold);
+		}
 	}
 	//printf("Best C = %g  CV accuracy = %g%%\n", best_C, 100.0*best_rate);
 }
