@@ -830,6 +830,7 @@ void find_parameter_linear_step_fixC_goP(const problem *prob, const parameter *p
 		reset_iter_sum_fix_one_param();
 		find_parameter_fix_c(prob, prob_folds, &param1, nr_fold, min_P, max_P, &best_P, &current_rate);
 		update_iter_sum_whole_process();
+		printf("New Break Iteration: ");
 		print_iter_sum_fix_one_param('C', param1.C);
 		printf("Cumulative logC : %g ", log2(param1.C));
 		print_iter_sum_whole_process();
