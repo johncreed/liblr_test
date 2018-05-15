@@ -435,8 +435,8 @@ double calc_min_C(const problem *prob, const parameter *param)
 	else if(param->solver_type == L2R_L2LOSS_SVR)
 		min_C = delta * delta * loss / (8.0 * phi * phi * max_xTx);
 
-	//return pow( 2, floor(log(min_C) / log(2.0)) );
-	return min_C;
+	return pow( 2, floor(log(min_C) / log(2.0)) );
+	//return min_C;
 }
 
 double calc_max_P(const problem *prob, const parameter *param)
