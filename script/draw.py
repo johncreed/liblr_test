@@ -44,7 +44,7 @@ def choose_pic_folder(log_path, output_label):
     global pic_path
     pic_dir = "{}-{}".format(output_label,basename(log_path))
     if pic_dir in os.listdir(tmp):
-        cmf = input("rm all the elements(y/n) ? ")
+        cmf = input("Will remove all the elements(y/n) ? ")
         if cmf == 'n':
             sys.exit("Retry Again")
         else:
@@ -146,7 +146,7 @@ def read_log_file(file_path):
               "newIter" : newIter
               }
 
-def logList( origList ):
+def log2List( origList ):
   return [log(x)/log(2.0) for x in origList]
 
 def draw_3D():
@@ -165,13 +165,13 @@ def draw_3D():
         ax = p3.Axes3D(fig)
         tle = file_name
         pylab.title(tle)
-        ax.scatter3D(dictResult["best"][0],logList(dictResult["best"][1]),dictResult["best"][2], s =  [300],c = "yellow", marker = 'o')
-        ax.scatter3D(dictResult["cvs"][0],logList(dictResult["cvs"][1]),dictResult["cvs"][2], s=[10] ,c = "black",marker = 'o')
-        ax.scatter3D(dictResult["new"][0],logList(dictResult["new"][1]),dictResult["new"][2], s =  [80],c = "green", marker = 'o')
-        ax.scatter3D(dictResult["old"][0],logList(dictResult["old"][1]),dictResult["old"][2], s =  [80],c = "Red", marker = 'o')
+        ax.scatter3D(dictResult["best"][0],log2List(dictResult["best"][1]),log2List(dictResult["best"][2]), s =  [300],c = "yellow", marker = 'o')
+        ax.scatter3D(dictResult["cvs"][0],log2List(dictResult["cvs"][1]), log2List(dictResult["cvs"][2]), s=[10] ,c = "black",marker = 'o')
+        ax.scatter3D(dictResult["new"][0],log2List(dictResult["new"][1]), log2List(dictResult["new"][2]), s =  [80],c = "green", marker = 'o')
+        ax.scatter3D(dictResult["old"][0],log2List(dictResult["old"][1]), log2List(dictResult["old"][2]), s =  [80],c = "Red", marker = 'o')
         ax.set_xlabel('P')
-        ax.set_ylabel('C')
-        ax.set_zlabel('Error')
+        ax.set_ylabel('log2(C)')
+        ax.set_zlabel('log2(MSE)')
         ax.view_init(30, angle)
         fig.add_axes(ax)
         #plt.savefig(join(pic_path,file_name+"-"+str(angle)+".eps"), format="eps", dpi=1000)
@@ -201,20 +201,20 @@ def draw_2D():
     cvs = transposeList(dictResult["cvs"])
     x = [ point[1] for point in cvs if point[0] == 0.0]
     y = [ point[2] for point in cvs if point[0] == 0.0]
-    line1 = ax.plot(logList(x), logList(y), 'b--o',linewidth=2, label='Warm Start')
+    line1 = ax.plot(log2List(x), log2List(y), 'b--o',linewidth=2, label='Warm Start')
     # Point1 is old Break
     old_break = transposeList(dictResult["old"])
     x = [ point[1] for point in old_break if point[0] == 0.0]
     y = [ point[2] for point in old_break if point[0] == 0.0]
-    line2 = ax.scatter(logList(x), logList(y), color = "r", marker = 'o', s = 200, label='Old Break')
+    line2 = ax.scatter(log2List(x), log2List(y), color = "r", marker = 'o', s = 200, label='Old Break')
     # Point2 is new Break
     new_break = transposeList(dictResult["new"])
     x = [ point[1] for point in new_break if point[0] == 0.0]
     y = [ point[2] for point in new_break if point[0] == 0.0]
-    line3 = ax.scatter(logList(x), logList(y), color = "g", marker = 'o',s = 200, label='New Break')
+    line3 = ax.scatter(log2List(x), log2List(y), color = "g", marker = 'o',s = 200, label='New Break')
     
     ax.set_xlabel("Log2( C )")
-    ax.set_ylabel("Log10(MSE)")
+    ax.set_ylabel("Log2(MSE)")
     plt.legend(scatterpoints=1)
     plt.savefig(join(pic_path,file_name+".eps"), format="eps", dpi=1000)
     plt.close()
