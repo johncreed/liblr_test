@@ -52,18 +52,43 @@ def choose_list():
     else:
         train_list = small_data_list
 
+def print_list_with_idx( myList ):
+  idx = 0
+  myList.sort()
+  for item in myList:
+    print("{} : {}".format(idx,item))
+    idx = idx + 1
+
+def set_log_path():
+    log_path = ""
+    print("=== set_log_path ===")
+    all_log_folders = [ x for x in os.listdir(tmp) ]
+    all_log_folders.sort()
+    print_list_with_idx( all_log_folders )
+    choose_idx = int(input("Which folder to read log file: "))
+    log_path = join(tmp, all_log_folders[choose_idx] )
+    print("log_path is {}".format(log_path) )
+    return log_path
+
 def choose_output_folder():
     global out_dir, out_path
-    os.system("ls {}".format(tmp))
-    out_dir = input("Which folder to store output: ")
-    if out_dir in os.listdir(tmp):
-        print ("Folder exist !!!")
-        cmf = input("rm all the elements(y/n) ? ")
-        if cmf == 'y':
-            os.system("rm {}".format(join(tmp, out_dir)))
+    all_log_folders = [x for x in os.listdir(tmp)]
+    all_log_folders.sort()
+    print_list_with_idx( all_log_folders )
+    choose_idx = int(input("Which folder to read log file or -1 to create new one: "))
+    if choose_idx == -1:
+      out_dir = input("Which folder to store output: ")
+      if out_dir in os.listdir(tmp):
+          print ("Folder exist !!!")
+          cmf = input("rm all the elements(y/n) ? ")
+          if cmf == 'y':
+              os.system("rm {}".format(join(tmp, out_dir)))
+      else:
+          makedirs(join(tmp, out_dir))
     else:
-        makedirs(join(tmp, out_dir))
+      out_dir = all_log_folders[choose_idx]
     out_path = join(tmp, out_dir)
+    print ("The log path : {}".format(out_path))
     return
 
 def set_command_param():
