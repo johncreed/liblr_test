@@ -29,6 +29,8 @@ void find_parameter_linear_step(const problem *prob,const parameter *param, int 
 void find_parameter_fix_p(const problem *prob, const problem_folds *prob_folds, const parameter *param, int nr_fold, double min_C, double max_C, double *best_C, double *best_rate);
 void find_parameter_fix_p_v2(const problem *prob, const problem_folds *prob_folds, const parameter *param, int nr_fold, double min_C, double max_C, double *best_C, double *best_rate);
 double calc_error(const problem *prob ,const parameter *param, double *target);
+void find_parameter_linear_step_noWarm(const problem *prob,const parameter *param, int nr_fold);
+void find_parameter_fix_p_noWarm(const problem *prob, const problem_folds *prob_folds, const parameter *param, int nr_fold, double min_C, double max_C, double *best_C, double *best_rate);
 
 double calc_min_C(const problem *prob, const parameter *param);
 double calc_max_P(const problem *prob, const parameter *param);
