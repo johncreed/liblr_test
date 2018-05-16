@@ -1,0 +1,5 @@
+*.o
+*.swp
+train
+predict
+blas/blas.a
