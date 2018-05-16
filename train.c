@@ -157,13 +157,18 @@ void do_find_parameter_C()
 		find_parameter_classification(&prob, prob_folds,&param, nr_fold, start_C, max_C, &best_C, &best_rate);
 	}
 	else if( param.solver_type == L2R_L2LOSS_SVR){
-		if( 0 ){
+		int whichOne = 2;
+		if( whichOne == 0 ){
 			printf("Fix P go C\n");
 			find_parameter_linear_step(&prob, &param, nr_fold);
 		}
-		else{
+		else if( whichOne == 1){
 			printf("Fix C go P\n");
 			find_parameter_linear_step_fixC_goP(&prob, &param, nr_fold);
+		}
+		else if( whichOne == 2){
+			printf("Fix P go C with no warm start\n");
+			find_parameter_linear_step_noWarm(&prob, &param, nr_fold);
 		}
 	}
 	//printf("Best C = %g  CV accuracy = %g%%\n", best_C, 100.0*best_rate);
