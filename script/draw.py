@@ -17,6 +17,7 @@ import pylab
 import mpl_toolkits.mplot3d.axes3d as p3
 from os import makedirs
 from os.path import join, basename
+import collections 
 
 home = "/home/johncreed"
 tmp = join(home, "tmp")
@@ -26,19 +27,20 @@ pic_path = ""
 def transposeList( myL ):
   return list(map(list, zip(*myL)))
 
-def matchGetNext( keyword, order , myL):
+def matchVal( keyword, order , myL):
   idx = 0
   while( order >= 1 ):
     try:
       idx = myL.index(keyword, int(idx))
     except ValueError:
       print( myL )
-      sys.exit( "matchGetNext Fail: keyword \"{}\" not found".format(keyword) )
+      sys.exit( "matchVal Fail: keyword \"{}\" not found".format(keyword) )
     order = order - 1
-  if idx < len(myL) - 1:
-    return myL[idx+1]
+    idx = idx + 1
+  if idx < len(myL):
+    return myL[idx]
   else:
-    sys.exit( "matchGetNext Fail: Invalid index range!" )
+    sys.exit( "matchVal Fail: Invalid index range!" )
 
 def choose_pic_folder(log_path, output_label):
     global pic_path
@@ -62,6 +64,17 @@ def print_list_with_idx( myList ):
     print("{} : {}".format(idx,item))
     idx = idx + 1
 
+def logToNoLog( val ):
+  infList = ["INF", "-INF", "inf", "-inf"]
+  if not isinstance( val, str ):
+    sys.exit( "Warning (logToNolog) : Value is not string. Possible \"inf\" \"INF\" string not detect.")
+  else:
+    if val not in infList:
+      return float(pow( 2.0, float(val)))
+    else:
+      return 0.0
+    
+
 def set_log_path():
     log_path = ""
     print("=== set_log_path ===")
@@ -82,72 +95,143 @@ def read_log_file(file_path):
       #(Fix param, iteration, cumulative iteration)
       oldIter = [[],[],[]]
       newIter = [[],[],[]]
+      #(iter_sum, culmulative iter_sum, P, C)
+      iterSum = [[],[],[],[]]
       with open(file_path) as f:
           for line in f:
               tmp = line.split();
+              if(tmp[0] == "iter_sum:"):
+                iterSum[0].append( int(matchVal("iter_sum:", 1, tmp)))
+                iterSum[1].append(sum(iterSum[0]))
+                iterSum[2].append( logToNoLog( matchVal("P:", 1, tmp)))
+                iterSum[3].append( logToNoLog( matchVal("C:", 1, tmp)))
               if(tmp[0] == "log2P="):
-                if tmp[1] == "INF":
-                  cvs[0].append(0)
-                else:
-                  cvs[0].append(2**float(tmp[1]))
-                cvs[1].append(2**float(tmp[3]))
-                cvs[2].append(float(tmp[5]))
+                cvs[0].append( logToNoLog( matchVal("log2P=", 1, tmp)))
+                cvs[1].append( logToNoLog( matchVal("log2C=", 1, tmp)))
+                cvs[2].append( float(matchVal("MSE=", 1, tmp)))
               if(tmp[0] == "Old" and tmp[-2] == "MSE="):
-                if tmp[3] == "INF":
-                  old[0].append(0)
-                else:
-                  old[0].append(2**float(tmp[3]))
-                old[1].append(2**float(tmp[5]))
-                old[2].append(float(tmp[-1]))
+                old[0].append( logToNoLog( matchVal("P:", 1, tmp)))
+                old[1].append( logToNoLog( matchVal("C:", 1, tmp)))
+                old[2].append(float( matchVal("MSE=", 1, tmp)))
               if(tmp[0] == "New" and tmp[-2] == "MSE="):
-                if tmp[3] == "INF":
-                  new[0].append(0)
-                else:
-                  new[0].append(2**float(tmp[3]))
-                new[1].append(2**float(tmp[5]))
-                new[2].append(float(tmp[-1]))
+                new[0].append( logToNoLog( matchVal("P:", 1, tmp)))
+                new[1].append( logToNoLog( matchVal("C:", 1, tmp)))
+                new[2].append(float( matchVal("MSE=", 1, tmp)))
               if(tmp[0] == "Best"):
-                if tmp[3] == "INF":
-                  best[0].append(0.0)
-                else:
-                  best[0].append(2**float(tmp[3]))
-                best[1].append(2**float(tmp[7]))
-                best[2].append(float(tmp[-1]))
+                # logP
+                best[0].append( logToNoLog( matchVal("=", 1, tmp)))
+                # logC
+                best[1].append( logToNoLog( matchVal("=", 2, tmp)))
+                # MSE
+                best[2].append( float( matchVal("=", 3, tmp)))
               if(tmp[0] == "Old" and tmp[2] == "Iteration:"):
-                P = matchGetNext("cur_logP:", 1, tmp)
-                P = 0.0 if P == "INF" else 2 ** float(P)
-                iter_sum = matchGetNext("iter_sum:", 1, tmp)
-                iter_sum = float(iter_sum)
-                oldIter[0].append(P)
-                oldIter[1].append(iter_sum)
+                oldIter[0].append( logToNoLog( matchVal("cur_logP:", 1, tmp)))
+                oldIter[1].append( float( matchVal("iter_sum:", 1, tmp)))
                 oldIter[2].append(sum(oldIter[1]))
               if(tmp[0] == "New" and tmp[2] == "Iteration:"):
                 if( tmp[3] == "cur_logP:" ):
-                  P = matchGetNext("cur_logP:", 1, tmp)
-                  P = 0.0 if P == "INF" else 2 ** float(P)
-                  iter_sum = matchGetNext("iter_sum:", 1, tmp)
-                  iter_sum = float(iter_sum)
-                  newIter[0].append(P)
-                  newIter[1].append(iter_sum)
+                  newIter[0].append( logToNoLog( matchVal("cur_logP:", 1, tmp)))
+                  newIter[1].append( float( matchVal("iter_sum:", 1, tmp)))
                   newIter[2].append(sum(newIter[1]))
                 else:
-                  C = matchGetNext("cur_logC:", 1, tmp)
-                  C = 0.0 if C == "INF" else 2 ** float(C)
-                  iter_sum = matchGetNext("iter_sum:", 1, tmp)
-                  iter_sum = float(iter_sum)
-                  newIter[0].append(C)
-                  newIter[1].append(iter_sum)
+                  newIter[0].append( logToNoLog( matchVal("cur_logC:", 1, tmp)))
+                  newIter[1].append( float( matchVal("iter_sum:", 1, tmp)))
                   newIter[2].append(sum(newIter[1]))
       return { "cvs" : cvs,
               "old" : old,
               "new" : new,
               "best" : best,
               "oldIter" : oldIter,
-              "newIter" : newIter
+              "newIter" : newIter,
+              "iterSum" : iterSum
               }
 
 def log2List( origList ):
   return [log(x)/log(2.0) for x in origList]
+
+def draw_warm_vs_noWarm():
+  print ("=== warm file ===")
+  warm_log_path = set_log_path()
+  print ("=== noWarm file ===")
+  noWarm_log_path = set_log_path()
+  choose_pic_folder(warm_log_path, "[Graph-warm-vs-noWarm]")
+  all_file_names = [f for f in os.listdir(noWarm_log_path)]
+  for file_name in all_file_names:
+    print ("Do {}".format(file_name))
+    warmDict = read_log_file( join(warm_log_path, file_name))
+    noWarmDict = read_log_file( join(noWarm_log_path, file_name) )
+    warmIterSum = warmDict["iterSum"]
+    noWarmIterSum = noWarmDict["iterSum"]
+    warmIterSum_T = transposeList(warmIterSum)
+    noWarmIterSum_T = transposeList(noWarmIterSum)
+
+
+    # Get break C list for each fix P
+    breakCDict = {}
+    for i, inst in enumerate(warmIterSum_T):
+      P = inst[2]
+      C = inst[3]
+      if P not in breakCDict.keys():
+        breakCDict[P] = C
+      else:
+        breakCDict[P] = max( breakCDict[P], C )
+
+    #print (breakCDict.keys())
+    
+
+    # Get iteration culmulative for each fix P
+    warmCulIterDict = {}
+    noWarmCulIterDict = {}
+
+    
+    curP = -1
+    for inst in warmIterSum_T :
+      iter = inst[0]
+      P = inst[2]
+      C = inst[3]
+      if curP != P :
+        curP = P
+        culIter = 0
+        warmCulIterDict[curP] = {}
+      culIter = culIter + iter
+      warmCulIterDict[curP][C] = culIter
+   
+    curP = -1
+    for inst in noWarmIterSum_T :
+      iter = inst[0]
+      P = inst[2]
+      C = inst[3]
+      if curP != P :
+        curP = P
+        culIter = 0
+        noWarmCulIterDict[curP] = {}
+      culIter = culIter + iter
+      noWarmCulIterDict[curP][C] = culIter
+
+    warmCulList = sorted( warmCulIterDict[0.0].items() )
+    noWarmCulList = sorted( noWarmCulIterDict[0.0].items())[:len(warmCulList)]
+    
+    warmCList = [ x[0] for x in warmCulList]
+    warmList = [ x[1] for x in warmCulList]
+    noWarmCList = [ x[0] for x in noWarmCulList]
+    noWarmList = [ x[1] for x in noWarmCulList]
+    
+    # Check C list are equal
+    compare = lambda x, y: collections.Counter(x) == collections.Counter(y)
+    if not compare( warmCList, noWarmCList ):
+      print (warmCList)
+      print (noWarmCList)
+      sys.exit( "C list are not equal.")
+
+    fig, ax = plt.subplots(1,1)
+    ax.plot( log2List(warmCList), warmList, "bo-", label="warm" )
+    ax.plot( log2List(noWarmCList), noWarmList, "ro-", label="noWarm" )
+    ax.set_xlabel("Log2(C)")
+    ax.set_ylabel("Iteration")
+    ax.legend(loc="upper left")
+    fig.savefig(join(pic_path,file_name+".eps"), format="eps", dpi=1000)
+    plt.close()
+
 
 def draw_3D():
   log_path = set_log_path()
@@ -165,6 +249,9 @@ def draw_3D():
         ax = p3.Axes3D(fig)
         tle = file_name
         pylab.title(tle)
+        log2List(dictResult["best"][1])
+        print("lala")
+        log2List(dictResult["best"][2])
         ax.scatter3D(dictResult["best"][0],log2List(dictResult["best"][1]),log2List(dictResult["best"][2]), s =  [300],c = "yellow", marker = 'o')
         ax.scatter3D(dictResult["cvs"][0],log2List(dictResult["cvs"][1]), log2List(dictResult["cvs"][2]), s=[10] ,c = "black",marker = 'o')
         ax.scatter3D(dictResult["new"][0],log2List(dictResult["new"][1]), log2List(dictResult["new"][2]), s =  [80],c = "green", marker = 'o')
@@ -336,7 +423,8 @@ def draw_fixP_vs_fixC():
 # Define which draw picture name and corresponded function
 gDict = {"[Graph-3D]" : draw_3D ,
          "[Graph-2D]" : draw_2D ,
-         "[Graph-FixP-vs-FixC-Cmp]" : draw_fixP_vs_fixC
+         "[Graph-FixP-vs-FixC-Cmp]" : draw_fixP_vs_fixC,
+         "[Graph-warm-vs-noWarm]" : draw_warm_vs_noWarm
          }
 
 def choose_graph_type():
