@@ -156,6 +156,9 @@ def draw_warm_vs_noWarm():
   noWarm_log_path = set_log_path()
   choose_pic_folder(warm_log_path, "[Graph-warm-vs-noWarm]")
   all_file_names = [f for f in os.listdir(noWarm_log_path)]
+  all_file_names2 = [f for f in os.listdir(warm_log_path)]
+  if len(all_file_names) > len(all_file_names2):
+    all_file_names = all_file_names2
   for file_name in all_file_names:
     print ("Do {}".format(file_name))
     warmDict = read_log_file( join(warm_log_path, file_name))
