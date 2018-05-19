@@ -271,7 +271,10 @@ void find_parameter_fix_p(const problem *prob, const problem_folds *prob_folds, 
 			int end = fold_start[i+1];
 
 			param1.init_sol = prev_w[i];
+			double eps = param1.eps;
+			param1.eps = (1.0 - 0.1) * param1.eps;
 			struct model *submodel = train(&subprob[i],&param1);
+			param1.eps = eps;
 
 			int total_w_size;
 			if(submodel->nr_class == 2)
@@ -576,6 +579,7 @@ double calc_max_P(const problem *prob, const parameter *param)
 	
 	double max_P = max_yi_abs;
 	stepSz = max_P / numSteps;
+	printf("numSteps: %d stepSz: %g\n", int(numSteps), stepSz);
 	max_P -= stepSz * max_PReduce;
 	
 	return max_P;
@@ -1010,7 +1014,11 @@ void find_parameter_fix_c(const problem *prob, const problem_folds *prob_folds, 
 			int end = fold_start[i+1];
 
 			param1.init_sol = prev_w[i];
+			double eps = param1.eps;
+			param1.eps = (1.0 - 0.1) * param1.eps;
 			struct model *submodel = train(&subprob[i],&param1);
+			param1.eps = eps;
+
 			int total_w_size;
 			if(submodel->nr_class == 2)
 				total_w_size = subprob[i].n;
