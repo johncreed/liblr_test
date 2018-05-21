@@ -159,15 +159,15 @@ void do_find_parameter_C()
 	else if( param.solver_type == L2R_L2LOSS_SVR){
 		int whichOne = 2;
 		if( whichOne == 0 ){
-			printf("Fix P go C\n");
+			fprintf( stderr, "Fix P go C\n");
 			find_parameter_linear_step(&prob, &param, nr_fold);
 		}
 		else if( whichOne == 1){
-			printf("Fix C go P\n");
+			fprintf( stderr, "Fix C go P\n");
 			find_parameter_linear_step_fixC_goP(&prob, &param, nr_fold);
 		}
 		else if( whichOne == 2){
-			printf("Fix P go C with no warm start\n");
+			fprintf( stderr, "Fix P go C with no warm start\n");
 			find_parameter_linear_step_noWarm(&prob, &param, nr_fold);
 		}
 	}
