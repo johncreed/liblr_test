@@ -23,6 +23,11 @@ home = "/home/johncreed"
 tmp = join(home, "tmp")
 pic_path = ""
 
+def escape_keyword( myS ):
+  escapeWordList = ["_", "."]
+  for escapeWord in escapeWordList:
+    myS = myS.replace( escapeWord, "-")
+  return myS
 
 def transposeList( myL ):
   return list(map(list, zip(*myL)))
@@ -178,6 +183,7 @@ def draw_warm_vs_noWarm():
   all_file_names2 = [f for f in os.listdir(warm_log_path)]
   if len(all_file_names) > len(all_file_names2):
     all_file_names = all_file_names2
+  f = open(join(pic_path, "table"), 'w')
   for file_name in all_file_names:
     print ("Do {}".format(file_name))
     warmDict = read_log_file( join(warm_log_path, file_name))
@@ -228,6 +234,9 @@ def draw_warm_vs_noWarm():
     
     tmp = join(pic_path, file_name)
     os.mkdir(tmp)
+    
+    warmTotalIter = 0
+    noWarmTotalIter = 0
     for P in warmCulIterDict:
       warmCulList = sorted( warmCulIterDict[P].items() )
       noWarmCulList = sorted( noWarmCulIterDict[P].items())[:len(warmCulList)]
@@ -268,17 +277,22 @@ def draw_warm_vs_noWarm():
       ax.set_title("Iteration : {} (Warm), {} (noWarm)".format(warmList[-1], noWarmList[-1]), fontsize=12)
       fig.savefig(join(tmp,file_name+"-P-{}.eps".format(str(round(P,3)).replace(".","-"))), format="eps", dpi=1000)
       plt.close()
+      warmTotalIter = warmTotalIter + warmList[-1]
+      noWarmTotalIter = noWarmTotalIter + noWarmList[-1]
+    f.write("{} & {} & {} \\\\ \n".format(escape_keyword(file_name), str(warmTotalIter), str(noWarmTotalIter)))
 
 
 def draw_3D():
   log_path = set_log_path()
   all_file_names = [f for f in os.listdir(log_path)]
   choose_pic_folder(log_path, "[Graph-3D]")
+  f = open(join(pic_path, "best-eps-table"), 'w')
   for file_name in all_file_names:
     print ("Do " + file_name)
     file_path = join(log_path, file_name)
     dictResult = read_log_file(file_path)
     #angle_list = [0,10,20,40,50,60,70,80,90,100,110,120,130,140,140,160,170,180] # 0 ~ 90
+    f.write("{} & ${}$ \\\\ \n".format(escape_keyword(file_name), str(round(dictResult["best"][0][0], 3))))
     angle_list = [20,80]
     cnt = "a"
     for angle in angle_list:
