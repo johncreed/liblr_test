@@ -42,18 +42,37 @@ def matchVal( keyword, order , myL):
   else:
     sys.exit( "matchVal Fail: Invalid index range!" )
 
+def remove_dir( path ):
+  names = os.listdir(path)
+  for name  in names:
+    if os.path.isdir(join(path, name)):
+      remove_dir( path )
+    else:
+      os.remove(join( path, name))
+  os.rmdir( path )
+
+def clear_dir( path ):
+  names = os.listdir(path)
+  for name in names:
+    pth = join(path, name)
+    if os.path.isdir(pth):
+      remove_dir(pth)
+    else:
+      os.remove(pth)
+
+
 def choose_pic_folder(log_path, output_label):
     global pic_path
     pic_dir = "{}-{}".format(output_label,basename(log_path))
+    pic_path = join(tmp, pic_dir)
     if pic_dir in os.listdir(tmp):
         cmf = input("Will remove all the elements(y/n) ? ")
         if cmf == 'n':
             sys.exit("Retry Again")
         else:
-            os.system("rm "+join(tmp, pic_dir)+"/*")
+            clear_dir(pic_path)
     else:
         makedirs(join(tmp, pic_dir))
-    pic_path = join(tmp, pic_dir)
     print("pic_path is {}".format(pic_path))
     return
 
@@ -171,13 +190,10 @@ def draw_warm_vs_noWarm():
 
     # Get break C list for each fix P
     breakCDict = {}
-    for i, inst in enumerate(warmIterSum_T):
-      P = inst[2]
-      C = inst[3]
-      if P not in breakCDict.keys():
-        breakCDict[P] = C
-      else:
-        breakCDict[P] = max( breakCDict[P], C )
+    old = warmDict["old"] # [ [P], [C], [MSE] ]
+    new = warmDict["new"]
+    for i, P in enumerate(old[0]):
+      breakCDict[P] = new[1][i]
 
     #print (breakCDict.keys())
     
@@ -185,7 +201,6 @@ def draw_warm_vs_noWarm():
     # Get iteration culmulative for each fix P
     warmCulIterDict = {}
     noWarmCulIterDict = {}
-
     
     curP = -1
     for inst in warmIterSum_T :
@@ -210,30 +225,48 @@ def draw_warm_vs_noWarm():
         noWarmCulIterDict[curP] = {}
       culIter = culIter + iter
       noWarmCulIterDict[curP][C] = culIter
-
-    warmCulList = sorted( warmCulIterDict[0.0].items() )
-    noWarmCulList = sorted( noWarmCulIterDict[0.0].items())[:len(warmCulList)]
     
-    warmCList = [ x[0] for x in warmCulList]
-    warmList = [ x[1] for x in warmCulList]
-    noWarmCList = [ x[0] for x in noWarmCulList]
-    noWarmList = [ x[1] for x in noWarmCulList]
-    
-    # Check C list are equal
-    compare = lambda x, y: collections.Counter(x) == collections.Counter(y)
-    if not compare( warmCList, noWarmCList ):
-      print (warmCList)
-      print (noWarmCList)
-      sys.exit( "C list are not equal.")
+    tmp = join(pic_path, file_name)
+    os.mkdir(tmp)
+    for P in warmCulIterDict:
+      warmCulList = sorted( warmCulIterDict[P].items() )
+      noWarmCulList = sorted( noWarmCulIterDict[P].items())[:len(warmCulList)]
+     
+      # Data to draw
+      warmCList = [ x[0] for x in warmCulList]
+      warmList = [ x[1] for x in warmCulList]
+      noWarmCList = [ x[0] for x in noWarmCulList]
+      noWarmList = [ x[1] for x in noWarmCulList]
 
-    fig, ax = plt.subplots(1,1)
-    ax.plot( log2List(warmCList), warmList, "bo-", label="warm" )
-    ax.plot( log2List(noWarmCList), noWarmList, "ro-", label="noWarm" )
-    ax.set_xlabel("Log2(C)")
-    ax.set_ylabel("Iteration")
-    ax.legend(loc="upper left")
-    fig.savefig(join(pic_path,file_name+".eps"), format="eps", dpi=1000)
-    plt.close()
+      # Trim data untill break C occur:
+      breakC = breakCDict[P]
+      idx = len(warmCList)
+      for i, C in enumerate(warmCList):
+        if C >= breakC:
+          idx = i + 1
+          break
+
+      warmCList = warmCList[:idx]
+      warmList = warmList[:idx]
+      noWarmCList = noWarmCList[:idx]
+      noWarmList = noWarmList[:idx]
+      
+      # Check C list are equal
+      compare = lambda x, y: collections.Counter(x) == collections.Counter(y)
+      if not compare( warmCList, noWarmCList ):
+        print (warmCList)
+        print (noWarmCList)
+        sys.exit( "C list are not equal.")
+
+      fig, ax = plt.subplots(1,1)
+      ax.plot( log2List(warmCList), warmList, "bo-", label="warm" )
+      ax.plot( log2List(noWarmCList), noWarmList, "ro-", label="noWarm" )
+      ax.set_xlabel("Log2(C)")
+      ax.set_ylabel("Iteration")
+      ax.legend(loc="upper left")
+      plt.title("Warm : {} noWarm {}".format(warmList[-1], noWarmList[-1]))
+      fig.savefig(join(tmp,file_name+"-P-{}.eps".format(str(round(P,3)))), format="eps", dpi=1000)
+      plt.close()
 
 
 def draw_3D():
