@@ -264,8 +264,9 @@ def draw_warm_vs_noWarm():
       ax.set_xlabel("Log2(C)")
       ax.set_ylabel("Iteration")
       ax.legend(loc="upper left")
-      plt.title("Warm : {} noWarm {}".format(warmList[-1], noWarmList[-1]))
-      fig.savefig(join(tmp,file_name+"-P-{}.eps".format(str(round(P,3)))), format="eps", dpi=1000)
+      fig.suptitle("{} with p = {}".format(file_name,str(round(P,3))), fontsize=18)
+      ax.set_title("Iteration : {} (Warm), {} (noWarm)".format(warmList[-1], noWarmList[-1]), fontsize=12)
+      fig.savefig(join(tmp,file_name+"-P-{}.eps".format(str(round(P,3)).replace(".","-"))), format="eps", dpi=1000)
       plt.close()
 
 
