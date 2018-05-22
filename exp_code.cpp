@@ -455,6 +455,8 @@ void find_parameter_fix_p_noWarm(const problem *prob, const problem_folds *prob_
 			int end = fold_start[i+1];
 
 			param1.init_sol = NULL;
+			double eps = param1.eps;
+			param1.eps = (1.0 - 0.1) * param1.eps;
 			struct model *submodel = train(&subprob[i],&param1);
 
 			for(int j=begin; j<end; j++)
