@@ -97,6 +97,7 @@ int flag_find_C;
 int flag_C_specified;
 int flag_solver_specified;
 int nr_fold;
+int which_type;
 double bias;
 
 int main(int argc, char **argv)
@@ -157,16 +158,15 @@ void do_find_parameter_C()
 		find_parameter_classification(&prob, prob_folds,&param, nr_fold, start_C, max_C, &best_C, &best_rate);
 	}
 	else if( param.solver_type == L2R_L2LOSS_SVR){
-		int whichOne = 0;
-		if( whichOne == 0 ){
+		if( which_type == 0 ){
 			fprintf( stderr, "Fix P go C\n");
 			find_parameter_linear_step(&prob, &param, nr_fold);
 		}
-		else if( whichOne == 1){
+		else if( which_type == 1){
 			fprintf( stderr, "Fix C go P\n");
 			find_parameter_linear_step_fixC_goP(&prob, &param, nr_fold);
 		}
-		else if( whichOne == 2){
+		else if( which_type == 2){
 			fprintf( stderr, "Fix P go C with no warm start\n");
 			find_parameter_linear_step_noWarm(&prob, &param, nr_fold);
 		}
@@ -255,6 +255,10 @@ void parse_command_line(int argc, char **argv, char *input_file_name, char *mode
 
 			case 'p':
 				param.p = atof(argv[i]);
+				break;
+
+			case 't':
+				which_type = atoi(argv[i]);
 				break;
 
 			case 'e':
