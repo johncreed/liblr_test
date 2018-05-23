@@ -157,7 +157,7 @@ void do_find_parameter_C()
 		find_parameter_classification(&prob, prob_folds,&param, nr_fold, start_C, max_C, &best_C, &best_rate);
 	}
 	else if( param.solver_type == L2R_L2LOSS_SVR){
-		int whichOne = 2;
+		int whichOne = 0;
 		if( whichOne == 0 ){
 			fprintf( stderr, "Fix P go C\n");
 			find_parameter_linear_step(&prob, &param, nr_fold);
