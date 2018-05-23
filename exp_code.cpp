@@ -124,12 +124,12 @@ void find_parameter_linear_step(const problem *prob,const parameter *param, int 
 	//Set range of parameter
 	double ratio = 2.0;
 	double min_P = 0.0;
-	double  max_P = calc_max_P(prob, param);
+	double max_P = calc_max_P(prob, param);
 	double max_C = pow(2.0, 50);
 	double min_C = INF;
 	struct parameter param1 = *param;
 	param1.p = min_P;
-	while( param1.p <= max_P ){
+	while( param1.p < max_P ){
 		min_C = min( calc_min_C( prob, &param1), min_C);
 		param1.p += stepSz;
 	}
@@ -368,12 +368,12 @@ void find_parameter_linear_step_noWarm(const problem *prob,const parameter *para
 	//Set range of parameter
 	double ratio = 2.0;
 	double min_P = 0.0;
-	double  max_P = calc_max_P(prob, param);
+	double max_P = calc_max_P(prob, param);
 	double max_C = pow(2.0, 50);
 	double min_C = INF;
 	struct parameter param1 = *param;
 	param1.p = min_P;
-	while( param1.p <= max_P ){
+	while( param1.p < max_P ){
 		min_C = min( calc_min_C( prob, &param1), min_C);
 		param1.p += stepSz;
 	}
@@ -554,6 +554,8 @@ double calc_min_C(const problem *prob, const parameter *param)
 
 	if(loss == 0.0){
 		fprintf( stderr, "param->p is too large!!! Please try param->p / 2.0!!!\n");
+		int lala;
+		scanf("%d", &lala);
 		exit(1);
 	}
 
@@ -578,11 +580,11 @@ double calc_max_P(const problem *prob, const parameter *param)
 		yi_abs = (prob->y[i] >= 0)? prob->y[i] : -1.0 * prob->y[i];
 		max_yi_abs = max( max_yi_abs, yi_abs);
 	}
-	
+
 	double max_P = max_yi_abs;
 	stepSz = max_P / numSteps;
-	printf("numSteps: %d stepSz: %g\n", int(numSteps), stepSz);
-	max_P -= stepSz * max_PReduce;
+	printf("Initialize numSteps: %d stepSz: %g\n", int(numSteps), stepSz);
+	//max_P -= stepSz * max_PReduce;
 	
 	return max_P;
 }
@@ -931,14 +933,13 @@ void find_parameter_linear_step_fixC_goP(const problem *prob, const parameter *p
 	printf("This search direction cannot adopt the C stop method.\n");
 	//Set range of parameter
 	double ratio = 2.0;
-	//double min_P = calc_min_P(prob, param);
 	double min_P = 0.0;
-	double  max_P = calc_max_P(prob, param);
+	double max_P = calc_max_P(prob, param);
 	double max_C = pow(2.0, 50);
 	double min_C = INF;
 	struct parameter param1 = *param;
 	param1.p = min_P;
-	while( param1.p <= max_P ){
+	while( param1.p < max_P ){
 		min_C = min( calc_min_C( prob, &param1), min_C);
 		param1.p += stepSz;
 	}
