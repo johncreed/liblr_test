@@ -183,7 +183,8 @@ def draw_warm_vs_noWarm():
   all_file_names2 = [f for f in os.listdir(warm_log_path)]
   if len(all_file_names) > len(all_file_names2):
     all_file_names = all_file_names2
-  f = open(join(pic_path, "table"), 'w')
+  f = open(join(pic_path, "warm-vs-noWarm-table"), 'w')
+  tbl_cnt = 1
   for file_name in all_file_names:
     print ("Do {}".format(file_name))
     warmDict = read_log_file( join(warm_log_path, file_name))
@@ -275,11 +276,16 @@ def draw_warm_vs_noWarm():
       ax.legend(loc="upper left")
       fig.suptitle("{} with p = {}".format(file_name,str(round(P,3))), fontsize=18)
       ax.set_title("Iteration : {} (Warm), {} (noWarm)".format(warmList[-1], noWarmList[-1]), fontsize=12)
-      fig.savefig(join(tmp,file_name+"-P-{}.eps".format(str(round(P,3)).replace(".","-"))), format="eps", dpi=1000)
+      fig.savefig(join(tmp,escape_keyword(file_name)+"-P-{}.eps".format(str(round(P,3)).replace(".","-"))), format="eps", dpi=1000)
       plt.close()
       warmTotalIter = warmTotalIter + warmList[-1]
       noWarmTotalIter = noWarmTotalIter + noWarmList[-1]
-    f.write("{} & {} & {} \\\\ \n".format(escape_keyword(file_name), str(warmTotalIter), str(noWarmTotalIter)))
+
+    if tbl_cnt % 2 :
+      f.write("{} & {} & {} & \n".format(escape_keyword(file_name), str(warmTotalIter), str(noWarmTotalIter)))
+    else:
+      f.write("{} & {} & {} \\\\ \n".format(escape_keyword(file_name), str(warmTotalIter), str(noWarmTotalIter)))
+    tbl_cnt = tbl_cnt + 1
 
 
 def draw_3D():
@@ -287,12 +293,18 @@ def draw_3D():
   all_file_names = [f for f in os.listdir(log_path)]
   choose_pic_folder(log_path, "[Graph-3D]")
   f = open(join(pic_path, "best-eps-table"), 'w')
+  tbl_cnt = 1
   for file_name in all_file_names:
     print ("Do " + file_name)
     file_path = join(log_path, file_name)
     dictResult = read_log_file(file_path)
     #angle_list = [0,10,20,40,50,60,70,80,90,100,110,120,130,140,140,160,170,180] # 0 ~ 90
-    f.write("{} & ${}$ \\\\ \n".format(escape_keyword(file_name), str(round(dictResult["best"][0][0], 3))))
+    if tbl_cnt % 2 :
+      f.write("{} & ${}$ & ".format(escape_keyword(file_name), str(round(dictResult["best"][0][0], 3))))
+    else :
+      f.write("{} & ${}$ \\\\ \n".format(escape_keyword(file_name), str(round(dictResult["best"][0][0], 3))))
+    tbl_cnt = tbl_cnt + 1
+
     angle_list = [20,80]
     cnt = "a"
     for angle in angle_list:
@@ -301,7 +313,6 @@ def draw_3D():
         tle = file_name
         pylab.title(tle)
         log2List(dictResult["best"][1])
-        print("lala")
         log2List(dictResult["best"][2])
         ax.scatter3D(dictResult["best"][0],log2List(dictResult["best"][1]),log2List(dictResult["best"][2]), s =  [300],c = "yellow", marker = 'o')
         ax.scatter3D(dictResult["cvs"][0],log2List(dictResult["cvs"][1]), log2List(dictResult["cvs"][2]), s=[10] ,c = "black",marker = 'o')
@@ -313,7 +324,7 @@ def draw_3D():
         ax.view_init(30, angle)
         fig.add_axes(ax)
         #plt.savefig(join(pic_path,file_name+"-"+str(angle)+".eps"), format="eps", dpi=1000)
-        plt.savefig(join(pic_path,file_name+"-"+cnt+".eps"), format="eps", dpi=1000)
+        plt.savefig(join(pic_path,escape_keyword(file_name)+"-"+cnt+".eps"), format="eps", dpi=1000)
         cnt += "a"
         plt.close()
 
@@ -354,7 +365,7 @@ def draw_2D():
     ax.set_xlabel("Log2( C )")
     ax.set_ylabel("Log2(MSE)")
     plt.legend(scatterpoints=1)
-    plt.savefig(join(pic_path,file_name+".eps"), format="eps", dpi=1000)
+    plt.savefig(join(pic_path,escape_keyword(file_name)+".eps"), format="eps", dpi=1000)
     plt.close()
 
 
@@ -366,6 +377,8 @@ def draw_fixP_vs_fixC():
   choose_pic_folder(FixC_log_path, "[Graph-FixP-vs-FixC-Cmp]")
   print (pic_path)
   all_file_names = [f for f in os.listdir(FixC_log_path)]
+  f = open(join(pic_path, 'fixP-vs-fixC-table') ,'w')
+  tbl_cnt = 1
   for file_name in all_file_names:
     print ("Do " + file_name)
     FixC_file_path = join(FixC_log_path, file_name)
@@ -374,7 +387,7 @@ def draw_fixP_vs_fixC():
     fixPDict = read_log_file( FixP_file_path)
 
     maxCUsed = max( fixPDict["cvs"][1] )
-    print( "Max C used is {}".format(maxCUsed) )
+    #print ( "Max C used is {}".format(maxCUsed) )
 
     # Create subplots with 1 rows/2 cols and share the same y-axis.
     fig, (ax1,ax2) = plt.subplots(1,2,sharey = True)
@@ -398,7 +411,7 @@ def draw_fixP_vs_fixC():
     ax1.set_xticklabels(Pxticklabels,rotation=90)
     ax1.set_xticks(PBarLoc)
     # Set title
-    ax1.set_title("Fix Parameter P : {}".format(fixPCulIter))
+    ax1.set_title("Fix P Total Iteration : {}".format(int(fixPCulIter)))
     # Set x label and y label
     ax1.set_xlabel("P")
     ax1.set_ylabel("Iteration")
@@ -417,7 +430,7 @@ def draw_fixP_vs_fixC():
         color[i] = 'r'
         idx = i
         break
-    print ( "len {} idx {}".format(len(CValue), idx))
+    # print ( "len {} idx {}".format(len(CValue), idx))
     #
     idxDraw = idx + 1
     fixCCulIter = fixCDict["newIter"][2][idx]
@@ -432,21 +445,25 @@ def draw_fixP_vs_fixC():
           Cxticklabels.append(str( round(log(x)/log(2.0),2) ))
       else:
         Cxticklabels.append('')
-    print (Cxticklabels)
+    #print (Cxticklabels)
     ax2.set_xticklabels(Cxticklabels,rotation=90)
     ax2.set_xticks(CBarLoc[:idxDraw])
     # Set title
-    ax2.set_title("Fix Parameter C : {}".format(fixCCulIter))
+    ax2.set_title("Fix C Total Iteration: {}".format(int(fixCCulIter)))
     # Set x label and y label
     ax2.set_xlabel("log2(C)")
     ax2.set_ylabel("Iteration")
     
     fig.suptitle(file_name, fontsize=16)
     fig.tight_layout(rect=[0, 0.03, 1, 0.95])
-    
-    fig.savefig(join(pic_path,file_name)+".eps", format="eps", dpi=1000)
+    fig.savefig(join(pic_path,escape_keyword(file_name))+".eps", format="eps", dpi=1000)
     plt.close()
-   
+    
+    if tbl_cnt % 2:
+      f.write("{} & {} & {} & ".format( escape_keyword(file_name), int(fixPCulIter), int(fixCCulIter)))
+    else:
+      f.write("{} & {} & {} \\\\ \n".format( escape_keyword(file_name), int(fixPCulIter), int(fixCCulIter)))
+    tbl_cnt = tbl_cnt + 1 
     """
     objects = tuple(P_labels + C_labels)
     len1 = len(P_labels)
