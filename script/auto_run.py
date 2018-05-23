@@ -86,22 +86,27 @@ def choose_output_folder():
     all_log_folders = [x for x in os.listdir(log)]
     all_log_folders.sort()
     print_list_with_idx( all_log_folders )
-    choose_idx = int(input("Which folder to read log file or -1 to create new one: "))
+    #choose_idx = int(input("Which folder to read log file or -1 to create new one: "))
+    choose_idx = -1
     if choose_idx == -1:
       #out_dir = input("Which folder to store output: ")
       command_param_list = command_param.split()
       log_type_str = type[int(command_param_list[command_param_list.index('-t') + 1])]
       solver_type = str(command_param_list[command_param_list.index('-s') + 1])
       eps = str(command_param_list[command_param_list.index('-e') + 1])
-      out_dir = "testlog-s{}-{}-{}".format(solver_type,eps,log_type_str)
+      out_dir = "paper-s{}-{}-{}".format(solver_type,eps,log_type_str)
       out_path = join(log, out_dir)
       if out_dir in os.listdir(log):
           print ("Folder exist !!!")
-          cmf = input("rm all the elements(y/n) in {} ? ".format(out_path))
-          if cmf == 'y':
-              clear_dir(out_plog)
-          elif cmf == 'n':
-              sys.exit("Try again")
+          print ("command param: {}".format(command_param))
+          #cmf = input("Clear all the elements(y/n) in {} ? ".format(out_path))
+          #if cmf == 'y':
+          #    clear_dir(out_path)
+          os.system("ls {}".format(out_path))
+          print ("May replace some file in {} ".format(out_path))
+          cmf = input("Continue (y/n)?")
+          if cmf == 'n':
+            sys.exit("Terminate process!!")
       else:
           makedirs(out_path)
     else:
@@ -122,15 +127,15 @@ def __main__():
     choose_output_folder()
     choose_list()
     if train_list == big_data_list :
-        my_str = ""
-        count = 0
-        for file in train_list:
-            print (file)
-            my_str = my_str + str(count) + ":" + file + " "
-            count += 1
-        print (my_str)
-        file = train_list[int(input(my_str))]
-        go(file)
+        for i, file in enumerate(train_list):
+          print ( "{}: {}".format(i, file) )
+        idx = int(input("-1 for train all: "))
+        if idx == -1:
+          print ("Train all big data !")
+          for file in train_list:
+            go(file)
+        else:
+          go(train_list[idx])
     else:
         for file in train_list:
             go(file)

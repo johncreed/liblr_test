@@ -21,6 +21,8 @@ import collections
 
 home = "/home/johncreed"
 tmp = join(home, "tmp")
+all_logs = join(tmp, "all_logs")
+all_graphs = join(tmp, "all_graphs")
 pic_path = ""
 
 def escape_keyword( myS ):
@@ -69,15 +71,18 @@ def clear_dir( path ):
 def choose_pic_folder(log_path, output_label):
     global pic_path
     pic_dir = "{}-{}".format(output_label,basename(log_path))
-    pic_path = join(tmp, pic_dir)
-    if pic_dir in os.listdir(tmp):
+    pic_path = join(all_graphs, pic_dir)
+    if pic_dir in os.listdir(all_graphs):
         cmf = input("Will remove all the elements(y/n) ? ")
+        if cmf == 'y':
+            pwd = input("Input password: ")
+            if pwd == "shit1024":
+              clear_dir(pic_path)
+        cmf = input("May replace some files. Continue (y/n) ?")
         if cmf == 'n':
-            sys.exit("Retry Again")
-        else:
-            clear_dir(pic_path)
+          sys.exit("Try Again!")
     else:
-        makedirs(join(tmp, pic_dir))
+        makedirs(pic_path)
     print("pic_path is {}".format(pic_path))
     return
 
@@ -102,11 +107,11 @@ def logToNoLog( val ):
 def set_log_path():
     log_path = ""
     print("=== set_log_path ===")
-    all_log_folders = [ x for x in os.listdir(tmp) ]
+    all_log_folders = [ x for x in os.listdir(all_logs) ]
     all_log_folders.sort()
     print_list_with_idx( all_log_folders )
     choose_idx = int(input("Which folder to read log file: "))
-    log_path = join(tmp, all_log_folders[choose_idx] )
+    log_path = join(all_logs, all_log_folders[choose_idx] )
     print("log_path is {}".format(log_path) )
     return log_path
 
