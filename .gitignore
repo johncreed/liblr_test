@@ -10,3 +10,5 @@ blas/blas.a
 # Ctags file
 */tags
 tags
+# Data path
+reg
