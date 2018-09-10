@@ -2466,7 +2466,7 @@ void cross_validation(const problem *prob, const parameter *param, int nr_fold, 
 	free(perm);
 }
 
-void find_parameter_C(const problem *prob, const parameter *param, int nr_fold, double start_C, double max_C, double *best_C, double *best_rate)
+/*void find_parameter_C(const problem *prob, const parameter *param, int nr_fold, double start_C, double max_C, double *best_C, double *best_rate)
 {
 	// variables for CV
 	int i;
@@ -2616,7 +2616,7 @@ void find_parameter_C(const problem *prob, const parameter *param, int nr_fold, 
 	}
 	free(prev_w);
 	free(subprob);
-}
+} */
 
 double predict_values(const struct model *model_, const struct feature_node *x, double *dec_values)
 {

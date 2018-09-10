@@ -25,12 +25,12 @@ struct problem_folds{
 
 struct problem_folds* split_data(const problem *prob, int nr_fold);
 void find_parameter(const problem *prob, const parameter *param, int nr_fold);
-void find_parameter_linear_step(const problem *prob,const parameter *param, int nr_fold);
-void find_parameter_fix_p(const problem *prob, const problem_folds *prob_folds, const parameter *param, int nr_fold, double min_C, double max_C, double *best_C, double *best_rate);
+void find_parameter_linear_step_P_C(const problem *prob,const parameter *param, int nr_fold);
+void find_parameter_C(const problem *prob, const problem_folds *prob_folds, const parameter *param, int nr_fold, double min_C, double max_C, double *best_C, double *best_rate);
 void find_parameter_fix_p_v2(const problem *prob, const problem_folds *prob_folds, const parameter *param, int nr_fold, double min_C, double max_C, double *best_C, double *best_rate);
 double calc_error(const problem *prob ,const parameter *param, double *target);
-void find_parameter_linear_step_noWarm(const problem *prob,const parameter *param, int nr_fold);
-void find_parameter_fix_p_noWarm(const problem *prob, const problem_folds *prob_folds, const parameter *param, int nr_fold, double min_C, double max_C, double *best_C, double *best_rate);
+void find_parameter_linear_step_P_C_noWarm(const problem *prob,const parameter *param, int nr_fold);
+void find_parameter_C_noWarm(const problem *prob, const problem_folds *prob_folds, const parameter *param, int nr_fold, double min_C, double max_C, double *best_C, double *best_rate);
 
 double calc_min_C(const problem *prob, const parameter *param);
 double calc_max_P(const problem *prob, const parameter *param);
@@ -62,8 +62,8 @@ void add_new_break();
 int get_new_break();
 
 // Show the go P for each fix parameter C.
-void find_parameter_linear_step_fixC_goP(const problem *prob, const parameter *param, int nr_fold);
-void find_parameter_fix_c(const problem *prob, const problem_folds *prob_folds, const parameter *param, int nr_fold, double min_P, double max_P, double *best_P, double *best_rate);
+void find_parameter_linear_step_C_P(const problem *prob, const parameter *param, int nr_fold);
+void find_parameter_P(const problem *prob, const problem_folds *prob_folds, const parameter *param, int nr_fold, double min_P, double max_P, double *best_P, double *best_rate);
 
 #ifdef __cplusplus
 }

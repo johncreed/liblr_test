@@ -153,22 +153,22 @@ void do_find_parameter_C()
 		start_C = -1;
 	fprintf(stderr,"Doing parameter search with %d-fold cross validation.\n", nr_fold);
 	if( param.solver_type == L2R_LR || param.solver_type == L2R_L2LOSS_SVC){
-		fprintf(stdout,"Do classification with param.C %g\n", log2(param.C));
+		printf( "Do classification with param.C %g\n", log2(param.C));
 		struct problem_folds *prob_folds = split_data(&prob, nr_fold);
 		find_parameter_classification(&prob, prob_folds,&param, nr_fold, start_C, max_C, &best_C, &best_rate);
 	}
 	else if( param.solver_type == L2R_L2LOSS_SVR){
 		if( which_type == 0 ){
-			fprintf( stderr, "Fix P go C\n");
-			find_parameter_linear_step(&prob, &param, nr_fold);
+			printf( "Fix P go C\n");
+			find_parameter_linear_step_P_C(&prob, &param, nr_fold);
 		}
 		else if( which_type == 1){
-			fprintf( stderr, "Fix C go P\n");
-			find_parameter_linear_step_fixC_goP(&prob, &param, nr_fold);
+			printf( "Fix C go P\n");
+			find_parameter_linear_step_C_P(&prob, &param, nr_fold);
 		}
 		else if( which_type == 2){
-			fprintf( stderr, "Fix P go C with no warm start\n");
-			find_parameter_linear_step_noWarm(&prob, &param, nr_fold);
+			printf( "Fix P go C with no warm start\n");
+			find_parameter_linear_step_P_C_noWarm(&prob, &param, nr_fold);
 		}
 	}
 	//printf("Best C = %g  CV accuracy = %g%%\n", best_C, 100.0*best_rate);

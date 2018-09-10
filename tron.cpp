@@ -72,7 +72,7 @@ void TRON::tron(double *w)
 	double *r = new double[n];
 	double *g = new double[n];
 
-	// calculate gradient norm at w=0 for stopping condition.
+	//Calculate gradient norm at w=0 for stopping condition.
 	double *w0 = new double[n];
 	for (i=0; i<n; i++)
 		w0[i] = 0;
