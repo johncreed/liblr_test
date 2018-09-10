@@ -1,0 +1,1223 @@
+Initialize numSteps: 20 stepSz: 0.0658371
+min_P -inf max_P 0.396973 min_C -23 max_C 50
+======================================
+iter_sum: 0 P: 0.396973 C: -23
+log2P=    0.40 log2C=  -23.00	MSE= 0.916399
+New Break P: 0.396973 C: -23 MSE= 0.916399 
+New Break Iteration: cur_logP: 0.396973 iter_sum: 0
+iter_sum: 0 P: 0.396973 C: -22
+log2P=    0.40 log2C=  -22.00	MSE= 0.916399
+iter_sum: 0 P: 0.396973 C: -21
+log2P=    0.40 log2C=  -21.00	MSE= 0.916399
+Old Break P: 0.396973 C: -21 MSE= 0.916399 
+Old Break Iteration: cur_logP: 0.396973 iter_sum: 0
+Cumulative logP : 0.396973 Iteration sum of whole process (new break) : 0
+======================================
+iter_sum: 5 P: 0.322972 C: -23
+log2P=    0.32 log2C=  -23.00	MSE= 0.916395
+iter_sum: 5 P: 0.322972 C: -22
+log2P=    0.32 log2C=  -22.00	MSE= 0.916392
+iter_sum: 5 P: 0.322972 C: -21
+log2P=    0.32 log2C=  -21.00	MSE= 0.916385
+iter_sum: 5 P: 0.322972 C: -20
+log2P=    0.32 log2C=  -20.00	MSE= 0.916372
+iter_sum: 5 P: 0.322972 C: -19
+log2P=    0.32 log2C=  -19.00	MSE= 0.916345
+iter_sum: 5 P: 0.322972 C: -18
+log2P=    0.32 log2C=  -18.00	MSE= 0.916292
+iter_sum: 5 P: 0.322972 C: -17
+log2P=    0.32 log2C=  -17.00	MSE= 0.916186
+iter_sum: 5 P: 0.322972 C: -16
+log2P=    0.32 log2C=  -16.00	MSE= 0.915974
+iter_sum: 5 P: 0.322972 C: -15
+log2P=    0.32 log2C=  -15.00	MSE= 0.915557
+iter_sum: 5 P: 0.322972 C: -14
+log2P=    0.32 log2C=  -14.00	MSE= 0.914745
+iter_sum: 5 P: 0.322972 C: -13
+log2P=    0.32 log2C=  -13.00	MSE= 0.913202
+iter_sum: 9 P: 0.322972 C: -12
+log2P=    0.32 log2C=  -12.00	MSE= 0.910389
+iter_sum: 10 P: 0.322972 C: -11
+log2P=    0.32 log2C=  -11.00	MSE= 0.90559
+iter_sum: 11 P: 0.322972 C: -10
+log2P=    0.32 log2C=  -10.00	MSE= 0.898241
+iter_sum: 10 P: 0.322972 C: -9
+log2P=    0.32 log2C=   -9.00	MSE= 0.888207
+iter_sum: 13 P: 0.322972 C: -8
+log2P=    0.32 log2C=   -8.00	MSE= 0.876284
+iter_sum: 11 P: 0.322972 C: -7
+log2P=    0.32 log2C=   -7.00	MSE= 0.863037
+iter_sum: 12 P: 0.322972 C: -6
+log2P=    0.32 log2C=   -6.00	MSE= 0.85129
+iter_sum: 11 P: 0.322972 C: -5
+log2P=    0.32 log2C=   -5.00	MSE= 0.841447
+iter_sum: 10 P: 0.322972 C: -4
+log2P=    0.32 log2C=   -4.00	MSE= 0.833029
+iter_sum: 11 P: 0.322972 C: -3
+log2P=    0.32 log2C=   -3.00	MSE= 0.826041
+iter_sum: 7 P: 0.322972 C: -2
+log2P=    0.32 log2C=   -2.00	MSE= 0.821432
+iter_sum: 7 P: 0.322972 C: -1
+log2P=    0.32 log2C=   -1.00	MSE= 0.81785
+iter_sum: 7 P: 0.322972 C: 0
+log2P=    0.32 log2C=    0.00	MSE= 0.816038
+iter_sum: 9 P: 0.322972 C: 1
+log2P=    0.32 log2C=    1.00	MSE= 0.81417
+iter_sum: 5 P: 0.322972 C: 2
+log2P=    0.32 log2C=    2.00	MSE= 0.811254
+iter_sum: 0 P: 0.322972 C: 3
+log2P=    0.32 log2C=    3.00	MSE= 0.811254
+iter_sum: 0 P: 0.322972 C: 4
+log2P=    0.32 log2C=    4.00	MSE= 0.811254
+iter_sum: 1 P: 0.322972 C: 5
+log2P=    0.32 log2C=    5.00	MSE= 0.810868
+iter_sum: 2 P: 0.322972 C: 6
+log2P=    0.32 log2C=    6.00	MSE= 0.810266
+iter_sum: 1 P: 0.322972 C: 7
+log2P=    0.32 log2C=    7.00	MSE= 0.809832
+iter_sum: 1 P: 0.322972 C: 8
+log2P=    0.32 log2C=    8.00	MSE= 0.809407
+iter_sum: 0 P: 0.322972 C: 9
+log2P=    0.32 log2C=    9.00	MSE= 0.809407
+New Break P: 0.322972 C: 9 MSE= 0.809407 
+New Break Iteration: cur_logP: 0.322972 iter_sum: 203
+iter_sum: 0 P: 0.322972 C: 10
+log2P=    0.32 log2C=   10.00	MSE= 0.809407
+iter_sum: 0 P: 0.322972 C: 11
+log2P=    0.32 log2C=   11.00	MSE= 0.809407
+Old Break P: 0.322972 C: 11 MSE= 0.809407 
+Old Break Iteration: cur_logP: 0.322972 iter_sum: 203
+Cumulative logP : 0.322972 Iteration sum of whole process (new break) : 203
+======================================
+iter_sum: 5 P: 0.24497 C: -23
+log2P=    0.24 log2C=  -23.00	MSE= 0.916382
+iter_sum: 5 P: 0.24497 C: -22
+log2P=    0.24 log2C=  -22.00	MSE= 0.916365
+iter_sum: 5 P: 0.24497 C: -21
+log2P=    0.24 log2C=  -21.00	MSE= 0.916331
+iter_sum: 5 P: 0.24497 C: -20
+log2P=    0.24 log2C=  -20.00	MSE= 0.916264
+iter_sum: 5 P: 0.24497 C: -19
+log2P=    0.24 log2C=  -19.00	MSE= 0.916131
+iter_sum: 5 P: 0.24497 C: -18
+log2P=    0.24 log2C=  -18.00	MSE= 0.915864
+iter_sum: 5 P: 0.24497 C: -17
+log2P=    0.24 log2C=  -17.00	MSE= 0.915335
+iter_sum: 5 P: 0.24497 C: -16
+log2P=    0.24 log2C=  -16.00	MSE= 0.914293
+iter_sum: 5 P: 0.24497 C: -15
+log2P=    0.24 log2C=  -15.00	MSE= 0.912273
+iter_sum: 8 P: 0.24497 C: -14
+log2P=    0.24 log2C=  -14.00	MSE= 0.908458
+iter_sum: 10 P: 0.24497 C: -13
+log2P=    0.24 log2C=  -13.00	MSE= 0.901596
+iter_sum: 10 P: 0.24497 C: -12
+log2P=    0.24 log2C=  -12.00	MSE= 0.890162
+iter_sum: 11 P: 0.24497 C: -11
+log2P=    0.24 log2C=  -11.00	MSE= 0.873315
+iter_sum: 10 P: 0.24497 C: -10
+log2P=    0.24 log2C=  -10.00	MSE= 0.851704
+iter_sum: 15 P: 0.24497 C: -9
+log2P=    0.24 log2C=   -9.00	MSE= 0.827837
+iter_sum: 15 P: 0.24497 C: -8
+log2P=    0.24 log2C=   -8.00	MSE= 0.804952
+iter_sum: 12 P: 0.24497 C: -7
+log2P=    0.24 log2C=   -7.00	MSE= 0.7834
+iter_sum: 10 P: 0.24497 C: -6
+log2P=    0.24 log2C=   -6.00	MSE= 0.76428
+iter_sum: 12 P: 0.24497 C: -5
+log2P=    0.24 log2C=   -5.00	MSE= 0.747944
+iter_sum: 11 P: 0.24497 C: -4
+log2P=    0.24 log2C=   -4.00	MSE= 0.735876
+iter_sum: 7 P: 0.24497 C: -3
+log2P=    0.24 log2C=   -3.00	MSE= 0.72733
+iter_sum: 6 P: 0.24497 C: -2
+log2P=    0.24 log2C=   -2.00	MSE= 0.72065
+iter_sum: 5 P: 0.24497 C: -1
+log2P=    0.24 log2C=   -1.00	MSE= 0.71569
+iter_sum: 5 P: 0.24497 C: 0
+log2P=    0.24 log2C=    0.00	MSE= 0.711418
+iter_sum: 2 P: 0.24497 C: 1
+log2P=    0.24 log2C=    1.00	MSE= 0.71032
+iter_sum: 3 P: 0.24497 C: 2
+log2P=    0.24 log2C=    2.00	MSE= 0.708361
+iter_sum: 0 P: 0.24497 C: 3
+log2P=    0.24 log2C=    3.00	MSE= 0.708361
+New Break P: 0.24497 C: 3 MSE= 0.708361 
+New Break Iteration: cur_logP: 0.24497 iter_sum: 197
+iter_sum: 0 P: 0.24497 C: 4
+log2P=    0.24 log2C=    4.00	MSE= 0.708361
+iter_sum: 0 P: 0.24497 C: 5
+log2P=    0.24 log2C=    5.00	MSE= 0.708361
+Old Break P: 0.24497 C: 5 MSE= 0.708361 
+Old Break Iteration: cur_logP: 0.24497 iter_sum: 197
+Cumulative logP : 0.24497 Iteration sum of whole process (new break) : 400
+======================================
+iter_sum: 5 P: 0.162508 C: -23
+log2P=    0.16 log2C=  -23.00	MSE= 0.916352
+iter_sum: 5 P: 0.162508 C: -22
+log2P=    0.16 log2C=  -22.00	MSE= 0.916306
+iter_sum: 5 P: 0.162508 C: -21
+log2P=    0.16 log2C=  -21.00	MSE= 0.916213
+iter_sum: 5 P: 0.162508 C: -20
+log2P=    0.16 log2C=  -20.00	MSE= 0.916028
+iter_sum: 5 P: 0.162508 C: -19
+log2P=    0.16 log2C=  -19.00	MSE= 0.915659
+iter_sum: 5 P: 0.162508 C: -18
+log2P=    0.16 log2C=  -18.00	MSE= 0.914928
+iter_sum: 5 P: 0.162508 C: -17
+log2P=    0.16 log2C=  -17.00	MSE= 0.913494
+iter_sum: 5 P: 0.162508 C: -16
+log2P=    0.16 log2C=  -16.00	MSE= 0.910724
+iter_sum: 10 P: 0.162508 C: -15
+log2P=    0.16 log2C=  -15.00	MSE= 0.90554
+iter_sum: 10 P: 0.162508 C: -14
+log2P=    0.16 log2C=  -14.00	MSE= 0.896353
+iter_sum: 15 P: 0.162508 C: -13
+log2P=    0.16 log2C=  -13.00	MSE= 0.881401
+iter_sum: 16 P: 0.162508 C: -12
+log2P=    0.16 log2C=  -12.00	MSE= 0.859049
+iter_sum: 18 P: 0.162508 C: -11
+log2P=    0.16 log2C=  -11.00	MSE= 0.829312
+iter_sum: 17 P: 0.162508 C: -10
+log2P=    0.16 log2C=  -10.00	MSE= 0.794417
+iter_sum: 11 P: 0.162508 C: -9
+log2P=    0.16 log2C=   -9.00	MSE= 0.758366
+iter_sum: 10 P: 0.162508 C: -8
+log2P=    0.16 log2C=   -8.00	MSE= 0.725891
+iter_sum: 14 P: 0.162508 C: -7
+log2P=    0.16 log2C=   -7.00	MSE= 0.699126
+iter_sum: 10 P: 0.162508 C: -6
+log2P=    0.16 log2C=   -6.00	MSE= 0.676234
+iter_sum: 10 P: 0.162508 C: -5
+log2P=    0.16 log2C=   -5.00	MSE= 0.657226
+iter_sum: 12 P: 0.162508 C: -4
+log2P=    0.16 log2C=   -4.00	MSE= 0.641994
+iter_sum: 5 P: 0.162508 C: -3
+log2P=    0.16 log2C=   -3.00	MSE= 0.63222
+iter_sum: 5 P: 0.162508 C: -2
+log2P=    0.16 log2C=   -2.00	MSE= 0.624838
+iter_sum: 5 P: 0.162508 C: -1
+log2P=    0.16 log2C=   -1.00	MSE= 0.6196
+iter_sum: 5 P: 0.162508 C: 0
+log2P=    0.16 log2C=    0.00	MSE= 0.615163
+iter_sum: 0 P: 0.162508 C: 1
+log2P=    0.16 log2C=    1.00	MSE= 0.615163
+iter_sum: 3 P: 0.162508 C: 2
+log2P=    0.16 log2C=    2.00	MSE= 0.611647
+iter_sum: 2 P: 0.162508 C: 3
+log2P=    0.16 log2C=    3.00	MSE= 0.608911
+iter_sum: 0 P: 0.162508 C: 4
+log2P=    0.16 log2C=    4.00	MSE= 0.608911
+New Break P: 0.162508 C: 4 MSE= 0.608911 
+New Break Iteration: cur_logP: 0.162508 iter_sum: 218
+iter_sum: 0 P: 0.162508 C: 5
+log2P=    0.16 log2C=    5.00	MSE= 0.608911
+iter_sum: 0 P: 0.162508 C: 6
+log2P=    0.16 log2C=    6.00	MSE= 0.608911
+Old Break P: 0.162508 C: 6 MSE= 0.608911 
+Old Break Iteration: cur_logP: 0.162508 iter_sum: 218
+Cumulative logP : 0.162508 Iteration sum of whole process (new break) : 618
+======================================
+iter_sum: 5 P: 0.0750448 C: -23
+log2P=    0.08 log2C=  -23.00	MSE= 0.916298
+iter_sum: 5 P: 0.0750448 C: -22
+log2P=    0.08 log2C=  -22.00	MSE= 0.916197
+iter_sum: 5 P: 0.0750448 C: -21
+log2P=    0.08 log2C=  -21.00	MSE= 0.915995
+iter_sum: 5 P: 0.0750448 C: -20
+log2P=    0.08 log2C=  -20.00	MSE= 0.915593
+iter_sum: 5 P: 0.0750448 C: -19
+log2P=    0.08 log2C=  -19.00	MSE= 0.914794
+iter_sum: 5 P: 0.0750448 C: -18
+log2P=    0.08 log2C=  -18.00	MSE= 0.913218
+iter_sum: 5 P: 0.0750448 C: -17
+log2P=    0.08 log2C=  -17.00	MSE= 0.910147
+iter_sum: 6 P: 0.0750448 C: -16
+log2P=    0.08 log2C=  -16.00	MSE= 0.904308
+iter_sum: 10 P: 0.0750448 C: -15
+log2P=    0.08 log2C=  -15.00	MSE= 0.893699
+iter_sum: 15 P: 0.0750448 C: -14
+log2P=    0.08 log2C=  -14.00	MSE= 0.875849
+iter_sum: 15 P: 0.0750448 C: -13
+log2P=    0.08 log2C=  -13.00	MSE= 0.849107
+iter_sum: 15 P: 0.0750448 C: -12
+log2P=    0.08 log2C=  -12.00	MSE= 0.814409
+iter_sum: 15 P: 0.0750448 C: -11
+log2P=    0.08 log2C=  -11.00	MSE= 0.774633
+iter_sum: 18 P: 0.0750448 C: -10
+log2P=    0.08 log2C=  -10.00	MSE= 0.730743
+iter_sum: 15 P: 0.0750448 C: -9
+log2P=    0.08 log2C=   -9.00	MSE= 0.686618
+iter_sum: 10 P: 0.0750448 C: -8
+log2P=    0.08 log2C=   -8.00	MSE= 0.647314
+iter_sum: 13 P: 0.0750448 C: -7
+log2P=    0.08 log2C=   -7.00	MSE= 0.615981
+iter_sum: 10 P: 0.0750448 C: -6
+log2P=    0.08 log2C=   -6.00	MSE= 0.590866
+iter_sum: 12 P: 0.0750448 C: -5
+log2P=    0.08 log2C=   -5.00	MSE= 0.570441
+iter_sum: 10 P: 0.0750448 C: -4
+log2P=    0.08 log2C=   -4.00	MSE= 0.554423
+iter_sum: 5 P: 0.0750448 C: -3
+log2P=    0.08 log2C=   -3.00	MSE= 0.543394
+iter_sum: 5 P: 0.0750448 C: -2
+log2P=    0.08 log2C=   -2.00	MSE= 0.534626
+iter_sum: 5 P: 0.0750448 C: -1
+log2P=    0.08 log2C=   -1.00	MSE= 0.529022
+iter_sum: 0 P: 0.0750448 C: 0
+log2P=    0.08 log2C=    0.00	MSE= 0.529022
+iter_sum: 5 P: 0.0750448 C: 1
+log2P=    0.08 log2C=    1.00	MSE= 0.52271
+iter_sum: 0 P: 0.0750448 C: 2
+log2P=    0.08 log2C=    2.00	MSE= 0.52271
+New Break P: 0.0750448 C: 2 MSE= 0.52271 
+New Break Iteration: cur_logP: 0.0750448 iter_sum: 219
+iter_sum: 0 P: 0.0750448 C: 3
+log2P=    0.08 log2C=    3.00	MSE= 0.52271
+iter_sum: 0 P: 0.0750448 C: 4
+log2P=    0.08 log2C=    4.00	MSE= 0.52271
+Old Break P: 0.0750448 C: 4 MSE= 0.52271 
+Old Break Iteration: cur_logP: 0.0750448 iter_sum: 219
+Cumulative logP : 0.0750448 Iteration sum of whole process (new break) : 837
+======================================
+iter_sum: 5 P: -0.0180646 C: -23
+log2P=   -0.02 log2C=  -23.00	MSE= 0.916225
+iter_sum: 5 P: -0.0180646 C: -22
+log2P=   -0.02 log2C=  -22.00	MSE= 0.916052
+iter_sum: 5 P: -0.0180646 C: -21
+log2P=   -0.02 log2C=  -21.00	MSE= 0.915706
+iter_sum: 5 P: -0.0180646 C: -20
+log2P=   -0.02 log2C=  -20.00	MSE= 0.915018
+iter_sum: 5 P: -0.0180646 C: -19
+log2P=   -0.02 log2C=  -19.00	MSE= 0.913653
+iter_sum: 5 P: -0.0180646 C: -18
+log2P=   -0.02 log2C=  -18.00	MSE= 0.91097
+iter_sum: 5 P: -0.0180646 C: -17
+log2P=   -0.02 log2C=  -17.00	MSE= 0.905787
+iter_sum: 10 P: -0.0180646 C: -16
+log2P=   -0.02 log2C=  -16.00	MSE= 0.896075
+iter_sum: 10 P: -0.0180646 C: -15
+log2P=   -0.02 log2C=  -15.00	MSE= 0.87887
+iter_sum: 15 P: -0.0180646 C: -14
+log2P=   -0.02 log2C=  -14.00	MSE= 0.851002
+iter_sum: 15 P: -0.0180646 C: -13
+log2P=   -0.02 log2C=  -13.00	MSE= 0.811139
+iter_sum: 15 P: -0.0180646 C: -12
+log2P=   -0.02 log2C=  -12.00	MSE= 0.762461
+iter_sum: 15 P: -0.0180646 C: -11
+log2P=   -0.02 log2C=  -11.00	MSE= 0.711829
+iter_sum: 15 P: -0.0180646 C: -10
+log2P=   -0.02 log2C=  -10.00	MSE= 0.662796
+iter_sum: 19 P: -0.0180646 C: -9
+log2P=   -0.02 log2C=   -9.00	MSE= 0.614349
+iter_sum: 10 P: -0.0180646 C: -8
+log2P=   -0.02 log2C=   -8.00	MSE= 0.570896
+iter_sum: 12 P: -0.0180646 C: -7
+log2P=   -0.02 log2C=   -7.00	MSE= 0.536482
+iter_sum: 13 P: -0.0180646 C: -6
+log2P=   -0.02 log2C=   -6.00	MSE= 0.510313
+iter_sum: 10 P: -0.0180646 C: -5
+log2P=   -0.02 log2C=   -5.00	MSE= 0.488959
+iter_sum: 9 P: -0.0180646 C: -4
+log2P=   -0.02 log2C=   -4.00	MSE= 0.472706
+iter_sum: 5 P: -0.0180646 C: -3
+log2P=   -0.02 log2C=   -3.00	MSE= 0.461416
+iter_sum: 5 P: -0.0180646 C: -2
+log2P=   -0.02 log2C=   -2.00	MSE= 0.451044
+iter_sum: 3 P: -0.0180646 C: -1
+log2P=   -0.02 log2C=   -1.00	MSE= 0.447416
+iter_sum: 2 P: -0.0180646 C: 0
+log2P=   -0.02 log2C=    0.00	MSE= 0.444593
+iter_sum: 0 P: -0.0180646 C: 1
+log2P=   -0.02 log2C=    1.00	MSE= 0.444593
+New Break P: -0.0180646 C: 1 MSE= 0.444593 
+New Break Iteration: cur_logP: -0.0180646 iter_sum: 218
+iter_sum: 0 P: -0.0180646 C: 2
+log2P=   -0.02 log2C=    2.00	MSE= 0.444593
+iter_sum: 0 P: -0.0180646 C: 3
+log2P=   -0.02 log2C=    3.00	MSE= 0.444593
+Old Break P: -0.0180646 C: 3 MSE= 0.444593 
+Old Break Iteration: cur_logP: -0.0180646 iter_sum: 218
+Cumulative logP : -0.0180646 Iteration sum of whole process (new break) : 1055
+======================================
+iter_sum: 5 P: -0.1176 C: -23
+log2P=   -0.12 log2C=  -23.00	MSE= 0.916133
+iter_sum: 5 P: -0.1176 C: -22
+log2P=   -0.12 log2C=  -22.00	MSE= 0.915868
+iter_sum: 5 P: -0.1176 C: -21
+log2P=   -0.12 log2C=  -21.00	MSE= 0.915338
+iter_sum: 5 P: -0.1176 C: -20
+log2P=   -0.12 log2C=  -20.00	MSE= 0.914286
+iter_sum: 5 P: -0.1176 C: -19
+log2P=   -0.12 log2C=  -19.00	MSE= 0.912204
+iter_sum: 5 P: -0.1176 C: -18
+log2P=   -0.12 log2C=  -18.00	MSE= 0.908129
+iter_sum: 8 P: -0.1176 C: -17
+log2P=   -0.12 log2C=  -17.00	MSE= 0.900316
+iter_sum: 10 P: -0.1176 C: -16
+log2P=   -0.12 log2C=  -16.00	MSE= 0.8859
+iter_sum: 10 P: -0.1176 C: -15
+log2P=   -0.12 log2C=  -15.00	MSE= 0.861005
+iter_sum: 15 P: -0.1176 C: -14
+log2P=   -0.12 log2C=  -14.00	MSE= 0.82222
+iter_sum: 15 P: -0.1176 C: -13
+log2P=   -0.12 log2C=  -13.00	MSE= 0.769618
+iter_sum: 15 P: -0.1176 C: -12
+log2P=   -0.12 log2C=  -12.00	MSE= 0.708289
+iter_sum: 15 P: -0.1176 C: -11
+log2P=   -0.12 log2C=  -11.00	MSE= 0.647143
+iter_sum: 15 P: -0.1176 C: -10
+log2P=   -0.12 log2C=  -10.00	MSE= 0.592593
+iter_sum: 15 P: -0.1176 C: -9
+log2P=   -0.12 log2C=   -9.00	MSE= 0.543016
+iter_sum: 10 P: -0.1176 C: -8
+log2P=   -0.12 log2C=   -8.00	MSE= 0.497297
+iter_sum: 15 P: -0.1176 C: -7
+log2P=   -0.12 log2C=   -7.00	MSE= 0.46212
+iter_sum: 10 P: -0.1176 C: -6
+log2P=   -0.12 log2C=   -6.00	MSE= 0.434904
+iter_sum: 11 P: -0.1176 C: -5
+log2P=   -0.12 log2C=   -5.00	MSE= 0.413351
+iter_sum: 5 P: -0.1176 C: -4
+log2P=   -0.12 log2C=   -4.00	MSE= 0.399462
+iter_sum: 5 P: -0.1176 C: -3
+log2P=   -0.12 log2C=   -3.00	MSE= 0.386455
+iter_sum: 5 P: -0.1176 C: -2
+log2P=   -0.12 log2C=   -2.00	MSE= 0.375729
+iter_sum: 2 P: -0.1176 C: -1
+log2P=   -0.12 log2C=   -1.00	MSE= 0.372828
+iter_sum: 3 P: -0.1176 C: 0
+log2P=   -0.12 log2C=    0.00	MSE= 0.367662
+iter_sum: 0 P: -0.1176 C: 1
+log2P=   -0.12 log2C=    1.00	MSE= 0.367662
+New Break P: -0.1176 C: 1 MSE= 0.367662 
+New Break Iteration: cur_logP: -0.1176 iter_sum: 214
+iter_sum: 0 P: -0.1176 C: 2
+log2P=   -0.12 log2C=    2.00	MSE= 0.367662
+iter_sum: 0 P: -0.1176 C: 3
+log2P=   -0.12 log2C=    3.00	MSE= 0.367662
+Old Break P: -0.1176 C: 3 MSE= 0.367662 
+Old Break Iteration: cur_logP: -0.1176 iter_sum: 214
+Cumulative logP : -0.1176 Iteration sum of whole process (new break) : 1269
+======================================
+iter_sum: 5 P: -0.224515 C: -23
+log2P=   -0.22 log2C=  -23.00	MSE= 0.916027
+iter_sum: 5 P: -0.224515 C: -22
+log2P=   -0.22 log2C=  -22.00	MSE= 0.915656
+iter_sum: 5 P: -0.224515 C: -21
+log2P=   -0.22 log2C=  -21.00	MSE= 0.914917
+iter_sum: 5 P: -0.224515 C: -20
+log2P=   -0.22 log2C=  -20.00	MSE= 0.913447
+iter_sum: 5 P: -0.224515 C: -19
+log2P=   -0.22 log2C=  -19.00	MSE= 0.910543
+iter_sum: 5 P: -0.224515 C: -18
+log2P=   -0.22 log2C=  -18.00	MSE= 0.904874
+iter_sum: 7 P: -0.224515 C: -17
+log2P=   -0.22 log2C=  -17.00	MSE= 0.894056
+iter_sum: 10 P: -0.224515 C: -16
+log2P=   -0.22 log2C=  -16.00	MSE= 0.874261
+iter_sum: 10 P: -0.224515 C: -15
+log2P=   -0.22 log2C=  -15.00	MSE= 0.840666
+iter_sum: 15 P: -0.224515 C: -14
+log2P=   -0.22 log2C=  -14.00	MSE= 0.790111
+iter_sum: 15 P: -0.224515 C: -13
+log2P=   -0.22 log2C=  -13.00	MSE= 0.724897
+iter_sum: 15 P: -0.224515 C: -12
+log2P=   -0.22 log2C=  -12.00	MSE= 0.652829
+iter_sum: 15 P: -0.224515 C: -11
+log2P=   -0.22 log2C=  -11.00	MSE= 0.5833
+iter_sum: 15 P: -0.224515 C: -10
+log2P=   -0.22 log2C=  -10.00	MSE= 0.523967
+iter_sum: 15 P: -0.224515 C: -9
+log2P=   -0.22 log2C=   -9.00	MSE= 0.473273
+iter_sum: 11 P: -0.224515 C: -8
+log2P=   -0.22 log2C=   -8.00	MSE= 0.427848
+iter_sum: 14 P: -0.224515 C: -7
+log2P=   -0.22 log2C=   -7.00	MSE= 0.392362
+iter_sum: 11 P: -0.224515 C: -6
+log2P=   -0.22 log2C=   -6.00	MSE= 0.365425
+iter_sum: 12 P: -0.224515 C: -5
+log2P=   -0.22 log2C=   -5.00	MSE= 0.344206
+iter_sum: 5 P: -0.224515 C: -4
+log2P=   -0.22 log2C=   -4.00	MSE= 0.330433
+iter_sum: 5 P: -0.224515 C: -3
+log2P=   -0.22 log2C=   -3.00	MSE= 0.31796
+iter_sum: 5 P: -0.224515 C: -2
+log2P=   -0.22 log2C=   -2.00	MSE= 0.307452
+iter_sum: 0 P: -0.224515 C: -1
+log2P=   -0.22 log2C=   -1.00	MSE= 0.307452
+iter_sum: 5 P: -0.224515 C: 0
+log2P=   -0.22 log2C=    0.00	MSE= 0.297963
+iter_sum: 0 P: -0.224515 C: 1
+log2P=   -0.22 log2C=    1.00	MSE= 0.297963
+New Break P: -0.224515 C: 1 MSE= 0.297963 
+New Break Iteration: cur_logP: -0.224515 iter_sum: 215
+iter_sum: 0 P: -0.224515 C: 2
+log2P=   -0.22 log2C=    2.00	MSE= 0.297963
+iter_sum: 0 P: -0.224515 C: 3
+log2P=   -0.22 log2C=    3.00	MSE= 0.297963
+Old Break P: -0.224515 C: 3 MSE= 0.297963 
+Old Break Iteration: cur_logP: -0.224515 iter_sum: 215
+Cumulative logP : -0.224515 Iteration sum of whole process (new break) : 1484
+======================================
+iter_sum: 5 P: -0.339993 C: -23
+log2P=   -0.34 log2C=  -23.00	MSE= 0.915911
+iter_sum: 5 P: -0.339993 C: -22
+log2P=   -0.34 log2C=  -22.00	MSE= 0.915425
+iter_sum: 5 P: -0.339993 C: -21
+log2P=   -0.34 log2C=  -21.00	MSE= 0.914455
+iter_sum: 5 P: -0.339993 C: -20
+log2P=   -0.34 log2C=  -20.00	MSE= 0.912529
+iter_sum: 5 P: -0.339993 C: -19
+log2P=   -0.34 log2C=  -19.00	MSE= 0.908728
+iter_sum: 5 P: -0.339993 C: -18
+log2P=   -0.34 log2C=  -18.00	MSE= 0.901326
+iter_sum: 10 P: -0.339993 C: -17
+log2P=   -0.34 log2C=  -17.00	MSE= 0.887269
+iter_sum: 10 P: -0.339993 C: -16
+log2P=   -0.34 log2C=  -16.00	MSE= 0.861779
+iter_sum: 10 P: -0.339993 C: -15
+log2P=   -0.34 log2C=  -15.00	MSE= 0.819133
+iter_sum: 15 P: -0.339993 C: -14
+log2P=   -0.34 log2C=  -14.00	MSE= 0.756324
+iter_sum: 15 P: -0.339993 C: -13
+log2P=   -0.34 log2C=  -13.00	MSE= 0.678175
+iter_sum: 15 P: -0.339993 C: -12
+log2P=   -0.34 log2C=  -12.00	MSE= 0.596558
+iter_sum: 15 P: -0.339993 C: -11
+log2P=   -0.34 log2C=  -11.00	MSE= 0.521047
+iter_sum: 15 P: -0.339993 C: -10
+log2P=   -0.34 log2C=  -10.00	MSE= 0.457999
+iter_sum: 15 P: -0.339993 C: -9
+log2P=   -0.34 log2C=   -9.00	MSE= 0.406884
+iter_sum: 14 P: -0.339993 C: -8
+log2P=   -0.34 log2C=   -8.00	MSE= 0.363184
+iter_sum: 13 P: -0.339993 C: -7
+log2P=   -0.34 log2C=   -7.00	MSE= 0.327984
+iter_sum: 12 P: -0.339993 C: -6
+log2P=   -0.34 log2C=   -6.00	MSE= 0.30222
+iter_sum: 9 P: -0.339993 C: -5
+log2P=   -0.34 log2C=   -5.00	MSE= 0.283001
+iter_sum: 5 P: -0.339993 C: -4
+log2P=   -0.34 log2C=   -4.00	MSE= 0.268791
+iter_sum: 5 P: -0.339993 C: -3
+log2P=   -0.34 log2C=   -3.00	MSE= 0.256989
+iter_sum: 5 P: -0.339993 C: -2
+log2P=   -0.34 log2C=   -2.00	MSE= 0.246577
+iter_sum: 0 P: -0.339993 C: -1
+log2P=   -0.34 log2C=   -1.00	MSE= 0.246577
+iter_sum: 0 P: -0.339993 C: 0
+log2P=   -0.34 log2C=    0.00	MSE= 0.246577
+iter_sum: 5 P: -0.339993 C: 1
+log2P=   -0.34 log2C=    1.00	MSE= 0.235515
+iter_sum: 0 P: -0.339993 C: 2
+log2P=   -0.34 log2C=    2.00	MSE= 0.235515
+New Break P: -0.339993 C: 2 MSE= 0.235515 
+New Break Iteration: cur_logP: -0.339993 iter_sum: 218
+iter_sum: 0 P: -0.339993 C: 3
+log2P=   -0.34 log2C=    3.00	MSE= 0.235515
+iter_sum: 0 P: -0.339993 C: 4
+log2P=   -0.34 log2C=    4.00	MSE= 0.235515
+Old Break P: -0.339993 C: 4 MSE= 0.235515 
+Old Break Iteration: cur_logP: -0.339993 iter_sum: 218
+Cumulative logP : -0.339993 Iteration sum of whole process (new break) : 1702
+======================================
+iter_sum: 5 P: -0.465524 C: -23
+log2P=   -0.47 log2C=  -23.00	MSE= 0.915786
+iter_sum: 5 P: -0.465524 C: -22
+log2P=   -0.47 log2C=  -22.00	MSE= 0.915174
+iter_sum: 5 P: -0.465524 C: -21
+log2P=   -0.47 log2C=  -21.00	MSE= 0.913956
+iter_sum: 5 P: -0.465524 C: -20
+log2P=   -0.47 log2C=  -20.00	MSE= 0.911537
+iter_sum: 5 P: -0.465524 C: -19
+log2P=   -0.47 log2C=  -19.00	MSE= 0.906771
+iter_sum: 5 P: -0.465524 C: -18
+log2P=   -0.47 log2C=  -18.00	MSE= 0.897515
+iter_sum: 10 P: -0.465524 C: -17
+log2P=   -0.47 log2C=  -17.00	MSE= 0.880022
+iter_sum: 10 P: -0.465524 C: -16
+log2P=   -0.47 log2C=  -16.00	MSE= 0.848573
+iter_sum: 14 P: -0.465524 C: -15
+log2P=   -0.47 log2C=  -15.00	MSE= 0.796669
+iter_sum: 15 P: -0.465524 C: -14
+log2P=   -0.47 log2C=  -14.00	MSE= 0.721726
+iter_sum: 15 P: -0.465524 C: -13
+log2P=   -0.47 log2C=  -13.00	MSE= 0.631023
+iter_sum: 15 P: -0.465524 C: -12
+log2P=   -0.47 log2C=  -12.00	MSE= 0.540321
+iter_sum: 15 P: -0.465524 C: -11
+log2P=   -0.47 log2C=  -11.00	MSE= 0.460704
+iter_sum: 15 P: -0.465524 C: -10
+log2P=   -0.47 log2C=  -10.00	MSE= 0.395908
+iter_sum: 15 P: -0.465524 C: -9
+log2P=   -0.47 log2C=   -9.00	MSE= 0.345047
+iter_sum: 14 P: -0.465524 C: -8
+log2P=   -0.47 log2C=   -8.00	MSE= 0.302926
+iter_sum: 11 P: -0.465524 C: -7
+log2P=   -0.47 log2C=   -7.00	MSE= 0.269253
+iter_sum: 14 P: -0.465524 C: -6
+log2P=   -0.47 log2C=   -6.00	MSE= 0.245378
+iter_sum: 5 P: -0.465524 C: -5
+log2P=   -0.47 log2C=   -5.00	MSE= 0.229539
+iter_sum: 5 P: -0.465524 C: -4
+log2P=   -0.47 log2C=   -4.00	MSE= 0.215359
+iter_sum: 5 P: -0.465524 C: -3
+log2P=   -0.47 log2C=   -3.00	MSE= 0.203638
+iter_sum: 5 P: -0.465524 C: -2
+log2P=   -0.47 log2C=   -2.00	MSE= 0.193712
+iter_sum: 0 P: -0.465524 C: -1
+log2P=   -0.47 log2C=   -1.00	MSE= 0.193712
+iter_sum: 0 P: -0.465524 C: 0
+log2P=   -0.47 log2C=    0.00	MSE= 0.193712
+iter_sum: 0 P: -0.465524 C: 1
+log2P=   -0.47 log2C=    1.00	MSE= 0.193712
+Old Break P: -0.465524 C: 1 MSE= 0.193712 
+Old Break Iteration: cur_logP: -0.465524 iter_sum: 213
+iter_sum: 5 P: -0.465524 C: 2
+log2P=   -0.47 log2C=    2.00	MSE= 0.182856
+iter_sum: 0 P: -0.465524 C: 3
+log2P=   -0.47 log2C=    3.00	MSE= 0.182856
+New Break P: -0.465524 C: 3 MSE= 0.182856 
+New Break Iteration: cur_logP: -0.465524 iter_sum: 218
+Cumulative logP : -0.465524 Iteration sum of whole process (new break) : 1920
+======================================
+iter_sum: 5 P: -0.603027 C: -23
+log2P=   -0.60 log2C=  -23.00	MSE= 0.915648
+iter_sum: 5 P: -0.603027 C: -22
+log2P=   -0.60 log2C=  -22.00	MSE= 0.9149
+iter_sum: 5 P: -0.603027 C: -21
+log2P=   -0.60 log2C=  -21.00	MSE= 0.913409
+iter_sum: 5 P: -0.603027 C: -20
+log2P=   -0.60 log2C=  -20.00	MSE= 0.910452
+iter_sum: 5 P: -0.603027 C: -19
+log2P=   -0.60 log2C=  -19.00	MSE= 0.904634
+iter_sum: 5 P: -0.603027 C: -18
+log2P=   -0.60 log2C=  -18.00	MSE= 0.893369
+iter_sum: 10 P: -0.603027 C: -17
+log2P=   -0.60 log2C=  -17.00	MSE= 0.872204
+iter_sum: 10 P: -0.603027 C: -16
+log2P=   -0.60 log2C=  -16.00	MSE= 0.834552
+iter_sum: 15 P: -0.603027 C: -15
+log2P=   -0.60 log2C=  -15.00	MSE= 0.773366
+iter_sum: 15 P: -0.603027 C: -14
+log2P=   -0.60 log2C=  -14.00	MSE= 0.686682
+iter_sum: 15 P: -0.603027 C: -13
+log2P=   -0.60 log2C=  -13.00	MSE= 0.584386
+iter_sum: 15 P: -0.603027 C: -12
+log2P=   -0.60 log2C=  -12.00	MSE= 0.485484
+iter_sum: 15 P: -0.603027 C: -11
+log2P=   -0.60 log2C=  -11.00	MSE= 0.402827
+iter_sum: 15 P: -0.603027 C: -10
+log2P=   -0.60 log2C=  -10.00	MSE= 0.337872
+iter_sum: 15 P: -0.603027 C: -9
+log2P=   -0.60 log2C=   -9.00	MSE= 0.28806
+iter_sum: 14 P: -0.603027 C: -8
+log2P=   -0.60 log2C=   -8.00	MSE= 0.248129
+iter_sum: 12 P: -0.603027 C: -7
+log2P=   -0.60 log2C=   -7.00	MSE= 0.216966
+iter_sum: 13 P: -0.603027 C: -6
+log2P=   -0.60 log2C=   -6.00	MSE= 0.194842
+iter_sum: 5 P: -0.603027 C: -5
+log2P=   -0.60 log2C=   -5.00	MSE= 0.180435
+iter_sum: 5 P: -0.603027 C: -4
+log2P=   -0.60 log2C=   -4.00	MSE= 0.16788
+iter_sum: 5 P: -0.603027 C: -3
+log2P=   -0.60 log2C=   -3.00	MSE= 0.156969
+iter_sum: 5 P: -0.603027 C: -2
+log2P=   -0.60 log2C=   -2.00	MSE= 0.148011
+iter_sum: 0 P: -0.603027 C: -1
+log2P=   -0.60 log2C=   -1.00	MSE= 0.148011
+New Break P: -0.603027 C: -1 MSE= 0.148011 
+New Break Iteration: cur_logP: -0.603027 iter_sum: 214
+iter_sum: 0 P: -0.603027 C: 0
+log2P=   -0.60 log2C=    0.00	MSE= 0.148011
+iter_sum: 0 P: -0.603027 C: 1
+log2P=   -0.60 log2C=    1.00	MSE= 0.148011
+Old Break P: -0.603027 C: 1 MSE= 0.148011 
+Old Break Iteration: cur_logP: -0.603027 iter_sum: 214
+Cumulative logP : -0.603027 Iteration sum of whole process (new break) : 2134
+======================================
+iter_sum: 5 P: -0.75503 C: -23
+log2P=   -0.76 log2C=  -23.00	MSE= 0.915499
+iter_sum: 5 P: -0.75503 C: -22
+log2P=   -0.76 log2C=  -22.00	MSE= 0.914603
+iter_sum: 5 P: -0.75503 C: -21
+log2P=   -0.76 log2C=  -21.00	MSE= 0.912818
+iter_sum: 5 P: -0.75503 C: -20
+log2P=   -0.76 log2C=  -20.00	MSE= 0.90928
+iter_sum: 5 P: -0.75503 C: -19
+log2P=   -0.76 log2C=  -19.00	MSE= 0.90233
+iter_sum: 5 P: -0.75503 C: -18
+log2P=   -0.76 log2C=  -18.00	MSE= 0.888907
+iter_sum: 10 P: -0.75503 C: -17
+log2P=   -0.76 log2C=  -17.00	MSE= 0.863823
+iter_sum: 10 P: -0.75503 C: -16
+log2P=   -0.76 log2C=  -16.00	MSE= 0.819632
+iter_sum: 14 P: -0.75503 C: -15
+log2P=   -0.76 log2C=  -15.00	MSE= 0.74903
+iter_sum: 15 P: -0.75503 C: -14
+log2P=   -0.76 log2C=  -14.00	MSE= 0.651328
+iter_sum: 15 P: -0.75503 C: -13
+log2P=   -0.76 log2C=  -13.00	MSE= 0.5385
+iter_sum: 15 P: -0.75503 C: -12
+log2P=   -0.76 log2C=  -12.00	MSE= 0.432613
+iter_sum: 15 P: -0.75503 C: -11
+log2P=   -0.76 log2C=  -11.00	MSE= 0.34796
+iter_sum: 15 P: -0.75503 C: -10
+log2P=   -0.76 log2C=  -10.00	MSE= 0.284115
+iter_sum: 15 P: -0.75503 C: -9
+log2P=   -0.76 log2C=   -9.00	MSE= 0.236508
+iter_sum: 15 P: -0.75503 C: -8
+log2P=   -0.76 log2C=   -8.00	MSE= 0.199401
+iter_sum: 13 P: -0.75503 C: -7
+log2P=   -0.76 log2C=   -7.00	MSE= 0.170997
+iter_sum: 11 P: -0.75503 C: -6
+log2P=   -0.76 log2C=   -6.00	MSE= 0.151579
+iter_sum: 5 P: -0.75503 C: -5
+log2P=   -0.76 log2C=   -5.00	MSE= 0.138296
+iter_sum: 5 P: -0.75503 C: -4
+log2P=   -0.76 log2C=   -4.00	MSE= 0.127647
+iter_sum: 5 P: -0.75503 C: -3
+log2P=   -0.76 log2C=   -3.00	MSE= 0.118399
+iter_sum: 5 P: -0.75503 C: -2
+log2P=   -0.76 log2C=   -2.00	MSE= 0.110441
+iter_sum: 0 P: -0.75503 C: -1
+log2P=   -0.76 log2C=   -1.00	MSE= 0.110441
+New Break P: -0.75503 C: -1 MSE= 0.110441 
+New Break Iteration: cur_logP: -0.75503 iter_sum: 213
+iter_sum: 0 P: -0.75503 C: 0
+log2P=   -0.76 log2C=    0.00	MSE= 0.110441
+iter_sum: 0 P: -0.75503 C: 1
+log2P=   -0.76 log2C=    1.00	MSE= 0.110441
+Old Break P: -0.75503 C: 1 MSE= 0.110441 
+Old Break Iteration: cur_logP: -0.75503 iter_sum: 213
+Cumulative logP : -0.75503 Iteration sum of whole process (new break) : 2347
+======================================
+iter_sum: 5 P: -0.924955 C: -23
+log2P=   -0.92 log2C=  -23.00	MSE= 0.915343
+iter_sum: 5 P: -0.924955 C: -22
+log2P=   -0.92 log2C=  -22.00	MSE= 0.914291
+iter_sum: 5 P: -0.924955 C: -21
+log2P=   -0.92 log2C=  -21.00	MSE= 0.912197
+iter_sum: 5 P: -0.924955 C: -20
+log2P=   -0.92 log2C=  -20.00	MSE= 0.908048
+iter_sum: 5 P: -0.924955 C: -19
+log2P=   -0.92 log2C=  -19.00	MSE= 0.899906
+iter_sum: 5 P: -0.924955 C: -18
+log2P=   -0.92 log2C=  -18.00	MSE= 0.88422
+iter_sum: 10 P: -0.924955 C: -17
+log2P=   -0.92 log2C=  -17.00	MSE= 0.855026
+iter_sum: 10 P: -0.924955 C: -16
+log2P=   -0.92 log2C=  -16.00	MSE= 0.804028
+iter_sum: 10 P: -0.924955 C: -15
+log2P=   -0.92 log2C=  -15.00	MSE= 0.723786
+iter_sum: 15 P: -0.924955 C: -14
+log2P=   -0.92 log2C=  -14.00	MSE= 0.615569
+iter_sum: 15 P: -0.924955 C: -13
+log2P=   -0.92 log2C=  -13.00	MSE= 0.493751
+iter_sum: 15 P: -0.924955 C: -12
+log2P=   -0.92 log2C=  -12.00	MSE= 0.382328
+iter_sum: 15 P: -0.924955 C: -11
+log2P=   -0.92 log2C=  -11.00	MSE= 0.296664
+iter_sum: 15 P: -0.924955 C: -10
+log2P=   -0.92 log2C=  -10.00	MSE= 0.235107
+iter_sum: 15 P: -0.924955 C: -9
+log2P=   -0.92 log2C=   -9.00	MSE= 0.190392
+iter_sum: 15 P: -0.924955 C: -8
+log2P=   -0.92 log2C=   -8.00	MSE= 0.156807
+iter_sum: 11 P: -0.924955 C: -7
+log2P=   -0.92 log2C=   -7.00	MSE= 0.131494
+iter_sum: 15 P: -0.924955 C: -6
+log2P=   -0.92 log2C=   -6.00	MSE= 0.114764
+iter_sum: 5 P: -0.924955 C: -5
+log2P=   -0.92 log2C=   -5.00	MSE= 0.10402
+iter_sum: 5 P: -0.924955 C: -4
+log2P=   -0.92 log2C=   -4.00	MSE= 0.0948666
+iter_sum: 5 P: -0.924955 C: -3
+log2P=   -0.92 log2C=   -3.00	MSE= 0.0875201
+iter_sum: 5 P: -0.924955 C: -2
+log2P=   -0.92 log2C=   -2.00	MSE= 0.0810478
+iter_sum: 0 P: -0.924955 C: -1
+log2P=   -0.92 log2C=   -1.00	MSE= 0.0810478
+New Break P: -0.924955 C: -1 MSE= 0.0810478 
+New Break Iteration: cur_logP: -0.924955 iter_sum: 211
+iter_sum: 0 P: -0.924955 C: 0
+log2P=   -0.92 log2C=    0.00	MSE= 0.0810478
+iter_sum: 0 P: -0.924955 C: 1
+log2P=   -0.92 log2C=    1.00	MSE= 0.0810478
+Old Break P: -0.924955 C: 1 MSE= 0.0810478 
+Old Break Iteration: cur_logP: -0.924955 iter_sum: 211
+Cumulative logP : -0.924955 Iteration sum of whole process (new break) : 2558
+======================================
+iter_sum: 5 P: -1.1176 C: -23
+log2P=   -1.12 log2C=  -23.00	MSE= 0.915181
+iter_sum: 5 P: -1.1176 C: -22
+log2P=   -1.12 log2C=  -22.00	MSE= 0.913967
+iter_sum: 5 P: -1.1176 C: -21
+log2P=   -1.12 log2C=  -21.00	MSE= 0.911552
+iter_sum: 5 P: -1.1176 C: -20
+log2P=   -1.12 log2C=  -20.00	MSE= 0.90677
+iter_sum: 5 P: -1.1176 C: -19
+log2P=   -1.12 log2C=  -19.00	MSE= 0.897396
+iter_sum: 5 P: -1.1176 C: -18
+log2P=   -1.12 log2C=  -18.00	MSE= 0.879371
+iter_sum: 10 P: -1.1176 C: -17
+log2P=   -1.12 log2C=  -17.00	MSE= 0.845961
+iter_sum: 10 P: -1.1176 C: -16
+log2P=   -1.12 log2C=  -16.00	MSE= 0.787998
+iter_sum: 10 P: -1.1176 C: -15
+log2P=   -1.12 log2C=  -15.00	MSE= 0.698045
+iter_sum: 15 P: -1.1176 C: -14
+log2P=   -1.12 log2C=  -14.00	MSE= 0.57947
+iter_sum: 15 P: -1.1176 C: -13
+log2P=   -1.12 log2C=  -13.00	MSE= 0.450229
+iter_sum: 15 P: -1.1176 C: -12
+log2P=   -1.12 log2C=  -12.00	MSE= 0.334829
+iter_sum: 15 P: -1.1176 C: -11
+log2P=   -1.12 log2C=  -11.00	MSE= 0.249539
+iter_sum: 15 P: -1.1176 C: -10
+log2P=   -1.12 log2C=  -10.00	MSE= 0.190979
+iter_sum: 15 P: -1.1176 C: -9
+log2P=   -1.12 log2C=   -9.00	MSE= 0.150283
+iter_sum: 15 P: -1.1176 C: -8
+log2P=   -1.12 log2C=   -8.00	MSE= 0.120619
+iter_sum: 10 P: -1.1176 C: -7
+log2P=   -1.12 log2C=   -7.00	MSE= 0.0989556
+iter_sum: 11 P: -1.1176 C: -6
+log2P=   -1.12 log2C=   -6.00	MSE= 0.0855874
+iter_sum: 9 P: -1.1176 C: -5
+log2P=   -1.12 log2C=   -5.00	MSE= 0.0763362
+iter_sum: 5 P: -1.1176 C: -4
+log2P=   -1.12 log2C=   -4.00	MSE= 0.069627
+iter_sum: 5 P: -1.1176 C: -3
+log2P=   -1.12 log2C=   -3.00	MSE= 0.064124
+iter_sum: 4 P: -1.1176 C: -2
+log2P=   -1.12 log2C=   -2.00	MSE= 0.0601321
+iter_sum: 1 P: -1.1176 C: -1
+log2P=   -1.12 log2C=   -1.00	MSE= 0.0591533
+iter_sum: 0 P: -1.1176 C: 0
+log2P=   -1.12 log2C=    0.00	MSE= 0.0591533
+New Break P: -1.1176 C: 0 MSE= 0.0591533 
+New Break Iteration: cur_logP: -1.1176 iter_sum: 210
+iter_sum: 0 P: -1.1176 C: 1
+log2P=   -1.12 log2C=    1.00	MSE= 0.0591533
+iter_sum: 0 P: -1.1176 C: 2
+log2P=   -1.12 log2C=    2.00	MSE= 0.0591533
+Old Break P: -1.1176 C: 2 MSE= 0.0591533 
+Old Break Iteration: cur_logP: -1.1176 iter_sum: 210
+Cumulative logP : -1.1176 Iteration sum of whole process (new break) : 2768
+======================================
+iter_sum: 5 P: -1.33999 C: -23
+log2P=   -1.34 log2C=  -23.00	MSE= 0.915013
+iter_sum: 5 P: -1.33999 C: -22
+log2P=   -1.34 log2C=  -22.00	MSE= 0.913633
+iter_sum: 5 P: -1.33999 C: -21
+log2P=   -1.34 log2C=  -21.00	MSE= 0.910887
+iter_sum: 5 P: -1.33999 C: -20
+log2P=   -1.34 log2C=  -20.00	MSE= 0.905453
+iter_sum: 5 P: -1.33999 C: -19
+log2P=   -1.34 log2C=  -19.00	MSE= 0.89481
+iter_sum: 5 P: -1.33999 C: -18
+log2P=   -1.34 log2C=  -18.00	MSE= 0.874385
+iter_sum: 10 P: -1.33999 C: -17
+log2P=   -1.34 log2C=  -17.00	MSE= 0.836673
+iter_sum: 10 P: -1.33999 C: -16
+log2P=   -1.34 log2C=  -16.00	MSE= 0.77171
+iter_sum: 11 P: -1.33999 C: -15
+log2P=   -1.34 log2C=  -15.00	MSE= 0.672086
+iter_sum: 15 P: -1.33999 C: -14
+log2P=   -1.34 log2C=  -14.00	MSE= 0.543546
+iter_sum: 15 P: -1.33999 C: -13
+log2P=   -1.34 log2C=  -13.00	MSE= 0.407922
+iter_sum: 15 P: -1.33999 C: -12
+log2P=   -1.34 log2C=  -12.00	MSE= 0.290406
+iter_sum: 15 P: -1.33999 C: -11
+log2P=   -1.34 log2C=  -11.00	MSE= 0.206782
+iter_sum: 15 P: -1.33999 C: -10
+log2P=   -1.34 log2C=  -10.00	MSE= 0.152096
+iter_sum: 15 P: -1.33999 C: -9
+log2P=   -1.34 log2C=   -9.00	MSE= 0.116097
+iter_sum: 15 P: -1.33999 C: -8
+log2P=   -1.34 log2C=   -8.00	MSE= 0.0909274
+iter_sum: 10 P: -1.33999 C: -7
+log2P=   -1.34 log2C=   -7.00	MSE= 0.0736048
+iter_sum: 5 P: -1.33999 C: -6
+log2P=   -1.34 log2C=   -6.00	MSE= 0.0639046
+iter_sum: 7 P: -1.33999 C: -5
+log2P=   -1.34 log2C=   -5.00	MSE= 0.0569635
+iter_sum: 5 P: -1.33999 C: -4
+log2P=   -1.34 log2C=   -4.00	MSE= 0.0522293
+iter_sum: 5 P: -1.33999 C: -3
+log2P=   -1.34 log2C=   -3.00	MSE= 0.0489982
+iter_sum: 0 P: -1.33999 C: -2
+log2P=   -1.34 log2C=   -2.00	MSE= 0.0489982
+iter_sum: 10 P: -1.33999 C: -1
+log2P=   -1.34 log2C=   -1.00	MSE= 0.044466
+iter_sum: 0 P: -1.33999 C: 0
+log2P=   -1.34 log2C=    0.00	MSE= 0.044466
+New Break P: -1.33999 C: 0 MSE= 0.044466 
+New Break Iteration: cur_logP: -1.33999 iter_sum: 208
+iter_sum: 0 P: -1.33999 C: 1
+log2P=   -1.34 log2C=    1.00	MSE= 0.044466
+iter_sum: 0 P: -1.33999 C: 2
+log2P=   -1.34 log2C=    2.00	MSE= 0.044466
+Old Break P: -1.33999 C: 2 MSE= 0.044466 
+Old Break Iteration: cur_logP: -1.33999 iter_sum: 208
+Cumulative logP : -1.33999 Iteration sum of whole process (new break) : 2976
+======================================
+iter_sum: 5 P: -1.60303 C: -23
+log2P=   -1.60 log2C=  -23.00	MSE= 0.914845
+iter_sum: 5 P: -1.60303 C: -22
+log2P=   -1.60 log2C=  -22.00	MSE= 0.913297
+iter_sum: 5 P: -1.60303 C: -21
+log2P=   -1.60 log2C=  -21.00	MSE= 0.910218
+iter_sum: 5 P: -1.60303 C: -20
+log2P=   -1.60 log2C=  -20.00	MSE= 0.904126
+iter_sum: 5 P: -1.60303 C: -19
+log2P=   -1.60 log2C=  -19.00	MSE= 0.892201
+iter_sum: 5 P: -1.60303 C: -18
+log2P=   -1.60 log2C=  -18.00	MSE= 0.869343
+iter_sum: 10 P: -1.60303 C: -17
+log2P=   -1.60 log2C=  -17.00	MSE= 0.827246
+iter_sum: 10 P: -1.60303 C: -16
+log2P=   -1.60 log2C=  -16.00	MSE= 0.75522
+iter_sum: 11 P: -1.60303 C: -15
+log2P=   -1.60 log2C=  -15.00	MSE= 0.646113
+iter_sum: 15 P: -1.60303 C: -14
+log2P=   -1.60 log2C=  -14.00	MSE= 0.508083
+iter_sum: 15 P: -1.60303 C: -13
+log2P=   -1.60 log2C=  -13.00	MSE= 0.366968
+iter_sum: 15 P: -1.60303 C: -12
+log2P=   -1.60 log2C=  -12.00	MSE= 0.249258
+iter_sum: 15 P: -1.60303 C: -11
+log2P=   -1.60 log2C=  -11.00	MSE= 0.168548
+iter_sum: 15 P: -1.60303 C: -10
+log2P=   -1.60 log2C=  -10.00	MSE= 0.118817
+iter_sum: 15 P: -1.60303 C: -9
+log2P=   -1.60 log2C=   -9.00	MSE= 0.0881217
+iter_sum: 15 P: -1.60303 C: -8
+log2P=   -1.60 log2C=   -8.00	MSE= 0.0681225
+iter_sum: 15 P: -1.60303 C: -7
+log2P=   -1.60 log2C=   -7.00	MSE= 0.0559202
+iter_sum: 5 P: -1.60303 C: -6
+log2P=   -1.60 log2C=   -6.00	MSE= 0.0500109
+iter_sum: 10 P: -1.60303 C: -5
+log2P=   -1.60 log2C=   -5.00	MSE= 0.0452716
+iter_sum: 10 P: -1.60303 C: -4
+log2P=   -1.60 log2C=   -4.00	MSE= 0.0418179
+iter_sum: 10 P: -1.60303 C: -3
+log2P=   -1.60 log2C=   -3.00	MSE= 0.0390815
+iter_sum: 0 P: -1.60303 C: -2
+log2P=   -1.60 log2C=   -2.00	MSE= 0.0390815
+iter_sum: 10 P: -1.60303 C: -1
+log2P=   -1.60 log2C=   -1.00	MSE= 0.0355646
+iter_sum: 0 P: -1.60303 C: 0
+log2P=   -1.60 log2C=    0.00	MSE= 0.0355646
+New Break P: -1.60303 C: 0 MSE= 0.0355646 
+New Break Iteration: cur_logP: -1.60303 iter_sum: 226
+iter_sum: 0 P: -1.60303 C: 1
+log2P=   -1.60 log2C=    1.00	MSE= 0.0355646
+iter_sum: 0 P: -1.60303 C: 2
+log2P=   -1.60 log2C=    2.00	MSE= 0.0355646
+Old Break P: -1.60303 C: 2 MSE= 0.0355646 
+Old Break Iteration: cur_logP: -1.60303 iter_sum: 226
+Cumulative logP : -1.60303 Iteration sum of whole process (new break) : 3202
+======================================
+iter_sum: 5 P: -1.92496 C: -23
+log2P=   -1.92 log2C=  -23.00	MSE= 0.914676
+iter_sum: 5 P: -1.92496 C: -22
+log2P=   -1.92 log2C=  -22.00	MSE= 0.912961
+iter_sum: 5 P: -1.92496 C: -21
+log2P=   -1.92 log2C=  -21.00	MSE= 0.909548
+iter_sum: 5 P: -1.92496 C: -20
+log2P=   -1.92 log2C=  -20.00	MSE= 0.902799
+iter_sum: 5 P: -1.92496 C: -19
+log2P=   -1.92 log2C=  -19.00	MSE= 0.889596
+iter_sum: 5 P: -1.92496 C: -18
+log2P=   -1.92 log2C=  -18.00	MSE= 0.864316
+iter_sum: 10 P: -1.92496 C: -17
+log2P=   -1.92 log2C=  -17.00	MSE= 0.817862
+iter_sum: 10 P: -1.92496 C: -16
+log2P=   -1.92 log2C=  -16.00	MSE= 0.738723
+iter_sum: 10 P: -1.92496 C: -15
+log2P=   -1.92 log2C=  -15.00	MSE= 0.620287
+iter_sum: 15 P: -1.92496 C: -14
+log2P=   -1.92 log2C=  -14.00	MSE= 0.473275
+iter_sum: 15 P: -1.92496 C: -13
+log2P=   -1.92 log2C=  -13.00	MSE= 0.32772
+iter_sum: 15 P: -1.92496 C: -12
+log2P=   -1.92 log2C=  -12.00	MSE= 0.211459
+iter_sum: 15 P: -1.92496 C: -11
+log2P=   -1.92 log2C=  -11.00	MSE= 0.135147
+iter_sum: 15 P: -1.92496 C: -10
+log2P=   -1.92 log2C=  -10.00	MSE= 0.0914128
+iter_sum: 15 P: -1.92496 C: -9
+log2P=   -1.92 log2C=   -9.00	MSE= 0.0672475
+iter_sum: 15 P: -1.92496 C: -8
+log2P=   -1.92 log2C=   -8.00	MSE= 0.0537383
+iter_sum: 25 P: -1.92496 C: -7
+log2P=   -1.92 log2C=   -7.00	MSE= 0.0460566
+iter_sum: 10 P: -1.92496 C: -6
+log2P=   -1.92 log2C=   -6.00	MSE= 0.0413924
+iter_sum: 10 P: -1.92496 C: -5
+log2P=   -1.92 log2C=   -5.00	MSE= 0.0375863
+iter_sum: 10 P: -1.92496 C: -4
+log2P=   -1.92 log2C=   -4.00	MSE= 0.0346552
+iter_sum: 13 P: -1.92496 C: -3
+log2P=   -1.92 log2C=   -3.00	MSE= 0.0322293
+iter_sum: 0 P: -1.92496 C: -2
+log2P=   -1.92 log2C=   -2.00	MSE= 0.0322293
+iter_sum: 17 P: -1.92496 C: -1
+log2P=   -1.92 log2C=   -1.00	MSE= 0.0290435
+iter_sum: 0 P: -1.92496 C: 0
+log2P=   -1.92 log2C=    0.00	MSE= 0.0290435
+New Break P: -1.92496 C: 0 MSE= 0.0290435 
+New Break Iteration: cur_logP: -1.92496 iter_sum: 250
+iter_sum: 0 P: -1.92496 C: 1
+log2P=   -1.92 log2C=    1.00	MSE= 0.0290435
+iter_sum: 0 P: -1.92496 C: 2
+log2P=   -1.92 log2C=    2.00	MSE= 0.0290435
+Old Break P: -1.92496 C: 2 MSE= 0.0290435 
+Old Break Iteration: cur_logP: -1.92496 iter_sum: 250
+Cumulative logP : -1.92496 Iteration sum of whole process (new break) : 3452
+======================================
+iter_sum: 5 P: -2.33999 C: -23
+log2P=   -2.34 log2C=  -23.00	MSE= 0.914508
+iter_sum: 5 P: -2.33999 C: -22
+log2P=   -2.34 log2C=  -22.00	MSE= 0.912625
+iter_sum: 5 P: -2.33999 C: -21
+log2P=   -2.34 log2C=  -21.00	MSE= 0.908879
+iter_sum: 5 P: -2.33999 C: -20
+log2P=   -2.34 log2C=  -20.00	MSE= 0.901474
+iter_sum: 5 P: -2.33999 C: -19
+log2P=   -2.34 log2C=  -19.00	MSE= 0.886995
+iter_sum: 5 P: -2.33999 C: -18
+log2P=   -2.34 log2C=  -18.00	MSE= 0.859304
+iter_sum: 10 P: -2.33999 C: -17
+log2P=   -2.34 log2C=  -17.00	MSE= 0.808534
+iter_sum: 10 P: -2.33999 C: -16
+log2P=   -2.34 log2C=  -16.00	MSE= 0.722419
+iter_sum: 10 P: -2.33999 C: -15
+log2P=   -2.34 log2C=  -15.00	MSE= 0.594627
+iter_sum: 15 P: -2.33999 C: -14
+log2P=   -2.34 log2C=  -14.00	MSE= 0.439395
+iter_sum: 15 P: -2.33999 C: -13
+log2P=   -2.34 log2C=  -13.00	MSE= 0.290511
+iter_sum: 15 P: -2.33999 C: -12
+log2P=   -2.34 log2C=  -12.00	MSE= 0.177171
+iter_sum: 15 P: -2.33999 C: -11
+log2P=   -2.34 log2C=  -11.00	MSE= 0.106987
+iter_sum: 15 P: -2.33999 C: -10
+log2P=   -2.34 log2C=  -10.00	MSE= 0.0715212
+iter_sum: 15 P: -2.33999 C: -9
+log2P=   -2.34 log2C=   -9.00	MSE= 0.0543949
+iter_sum: 24 P: -2.33999 C: -8
+log2P=   -2.34 log2C=   -8.00	MSE= 0.0452349
+iter_sum: 18 P: -2.33999 C: -7
+log2P=   -2.34 log2C=   -7.00	MSE= 0.0393609
+iter_sum: 10 P: -2.33999 C: -6
+log2P=   -2.34 log2C=   -6.00	MSE= 0.0350261
+iter_sum: 10 P: -2.33999 C: -5
+log2P=   -2.34 log2C=   -5.00	MSE= 0.0315608
+iter_sum: 14 P: -2.33999 C: -4
+log2P=   -2.34 log2C=   -4.00	MSE= 0.0290215
+iter_sum: 20 P: -2.33999 C: -3
+log2P=   -2.34 log2C=   -3.00	MSE= 0.0272306
+iter_sum: 12 P: -2.33999 C: -2
+log2P=   -2.34 log2C=   -2.00	MSE= 0.0265294
+iter_sum: 8 P: -2.33999 C: -1
+log2P=   -2.34 log2C=   -1.00	MSE= 0.0257626
+iter_sum: 0 P: -2.33999 C: 0
+log2P=   -2.34 log2C=    0.00	MSE= 0.0257626
+New Break P: -2.33999 C: 0 MSE= 0.0257626 
+New Break Iteration: cur_logP: -2.33999 iter_sum: 266
+iter_sum: 0 P: -2.33999 C: 1
+log2P=   -2.34 log2C=    1.00	MSE= 0.0257626
+iter_sum: 0 P: -2.33999 C: 2
+log2P=   -2.34 log2C=    2.00	MSE= 0.0257626
+Old Break P: -2.33999 C: 2 MSE= 0.0257626 
+Old Break Iteration: cur_logP: -2.33999 iter_sum: 266
+Cumulative logP : -2.33999 Iteration sum of whole process (new break) : 3718
+======================================
+iter_sum: 5 P: -2.92496 C: -23
+log2P=   -2.92 log2C=  -23.00	MSE= 0.91434
+iter_sum: 5 P: -2.92496 C: -22
+log2P=   -2.92 log2C=  -22.00	MSE= 0.912288
+iter_sum: 5 P: -2.92496 C: -21
+log2P=   -2.92 log2C=  -21.00	MSE= 0.90821
+iter_sum: 5 P: -2.92496 C: -20
+log2P=   -2.92 log2C=  -20.00	MSE= 0.900149
+iter_sum: 5 P: -2.92496 C: -19
+log2P=   -2.92 log2C=  -19.00	MSE= 0.884398
+iter_sum: 5 P: -2.92496 C: -18
+log2P=   -2.92 log2C=  -18.00	MSE= 0.854307
+iter_sum: 10 P: -2.92496 C: -17
+log2P=   -2.92 log2C=  -17.00	MSE= 0.799264
+iter_sum: 10 P: -2.92496 C: -16
+log2P=   -2.92 log2C=  -16.00	MSE= 0.706309
+iter_sum: 10 P: -2.92496 C: -15
+log2P=   -2.92 log2C=  -15.00	MSE= 0.569524
+iter_sum: 10 P: -2.92496 C: -14
+log2P=   -2.92 log2C=  -14.00	MSE= 0.406419
+iter_sum: 15 P: -2.92496 C: -13
+log2P=   -2.92 log2C=  -13.00	MSE= 0.255524
+iter_sum: 15 P: -2.92496 C: -12
+log2P=   -2.92 log2C=  -12.00	MSE= 0.146695
+iter_sum: 15 P: -2.92496 C: -11
+log2P=   -2.92 log2C=  -11.00	MSE= 0.0858871
+iter_sum: 15 P: -2.92496 C: -10
+log2P=   -2.92 log2C=  -10.00	MSE= 0.0585995
+iter_sum: 25 P: -2.92496 C: -9
+log2P=   -2.92 log2C=   -9.00	MSE= 0.0462586
+iter_sum: 20 P: -2.92496 C: -8
+log2P=   -2.92 log2C=   -8.00	MSE= 0.0392328
+iter_sum: 21 P: -2.92496 C: -7
+log2P=   -2.92 log2C=   -7.00	MSE= 0.0339761
+iter_sum: 10 P: -2.92496 C: -6
+log2P=   -2.92 log2C=   -6.00	MSE= 0.0301094
+iter_sum: 13 P: -2.92496 C: -5
+log2P=   -2.92 log2C=   -5.00	MSE= 0.0273533
+iter_sum: 20 P: -2.92496 C: -4
+log2P=   -2.92 log2C=   -4.00	MSE= 0.0258232
+iter_sum: 20 P: -2.92496 C: -3
+log2P=   -2.92 log2C=   -3.00	MSE= 0.0250359
+iter_sum: 0 P: -2.92496 C: -2
+log2P=   -2.92 log2C=   -2.00	MSE= 0.0250359
+iter_sum: 20 P: -2.92496 C: -1
+log2P=   -2.92 log2C=   -1.00	MSE= 0.0245425
+iter_sum: 0 P: -2.92496 C: 0
+log2P=   -2.92 log2C=    0.00	MSE= 0.0245425
+New Break P: -2.92496 C: 0 MSE= 0.0245425 
+New Break Iteration: cur_logP: -2.92496 iter_sum: 279
+iter_sum: 0 P: -2.92496 C: 1
+log2P=   -2.92 log2C=    1.00	MSE= 0.0245425
+iter_sum: 0 P: -2.92496 C: 2
+log2P=   -2.92 log2C=    2.00	MSE= 0.0245425
+Old Break P: -2.92496 C: 2 MSE= 0.0245425 
+Old Break Iteration: cur_logP: -2.92496 iter_sum: 279
+Cumulative logP : -2.92496 Iteration sum of whole process (new break) : 3997
+======================================
+iter_sum: 5 P: -3.92496 C: -23
+log2P=   -3.92 log2C=  -23.00	MSE= 0.914171
+iter_sum: 5 P: -3.92496 C: -22
+log2P=   -3.92 log2C=  -22.00	MSE= 0.911952
+iter_sum: 5 P: -3.92496 C: -21
+log2P=   -3.92 log2C=  -21.00	MSE= 0.907542
+iter_sum: 5 P: -3.92496 C: -20
+log2P=   -3.92 log2C=  -20.00	MSE= 0.898826
+iter_sum: 5 P: -3.92496 C: -19
+log2P=   -3.92 log2C=  -19.00	MSE= 0.881805
+iter_sum: 5 P: -3.92496 C: -18
+log2P=   -3.92 log2C=  -18.00	MSE= 0.849326
+iter_sum: 8 P: -3.92496 C: -17
+log2P=   -3.92 log2C=  -17.00	MSE= 0.790049
+iter_sum: 10 P: -3.92496 C: -16
+log2P=   -3.92 log2C=  -16.00	MSE= 0.690393
+iter_sum: 10 P: -3.92496 C: -15
+log2P=   -3.92 log2C=  -15.00	MSE= 0.545007
+iter_sum: 10 P: -3.92496 C: -14
+log2P=   -3.92 log2C=  -14.00	MSE= 0.374694
+iter_sum: 15 P: -3.92496 C: -13
+log2P=   -3.92 log2C=  -13.00	MSE= 0.222875
+iter_sum: 15 P: -3.92496 C: -12
+log2P=   -3.92 log2C=  -12.00	MSE= 0.121838
+iter_sum: 15 P: -3.92496 C: -11
+log2P=   -3.92 log2C=  -11.00	MSE= 0.0711689
+iter_sum: 15 P: -3.92496 C: -10
+log2P=   -3.92 log2C=  -10.00	MSE= 0.0501561
+iter_sum: 20 P: -3.92496 C: -9
+log2P=   -3.92 log2C=   -9.00	MSE= 0.0406039
+iter_sum: 24 P: -3.92496 C: -8
+log2P=   -3.92 log2C=   -8.00	MSE= 0.0346132
+iter_sum: 10 P: -3.92496 C: -7
+log2P=   -3.92 log2C=   -7.00	MSE= 0.0303119
+iter_sum: 10 P: -3.92496 C: -6
+log2P=   -3.92 log2C=   -6.00	MSE= 0.0273784
+iter_sum: 16 P: -3.92496 C: -5
+log2P=   -3.92 log2C=   -5.00	MSE= 0.0255766
+iter_sum: 20 P: -3.92496 C: -4
+log2P=   -3.92 log2C=   -4.00	MSE= 0.024706
+iter_sum: 20 P: -3.92496 C: -3
+log2P=   -3.92 log2C=   -3.00	MSE= 0.0243405
+iter_sum: 0 P: -3.92496 C: -2
+log2P=   -3.92 log2C=   -2.00	MSE= 0.0243405
+iter_sum: 4 P: -3.92496 C: -1
+log2P=   -3.92 log2C=   -1.00	MSE= 0.0243646
+iter_sum: 16 P: -3.92496 C: 0
+log2P=   -3.92 log2C=    0.00	MSE= 0.0241623
+iter_sum: 0 P: -3.92496 C: 1
+log2P=   -3.92 log2C=    1.00	MSE= 0.0241623
+New Break P: -3.92496 C: 1 MSE= 0.0241623 
+New Break Iteration: cur_logP: -3.92496 iter_sum: 268
+iter_sum: 0 P: -3.92496 C: 2
+log2P=   -3.92 log2C=    2.00	MSE= 0.0241623
+iter_sum: 0 P: -3.92496 C: 3
+log2P=   -3.92 log2C=    3.00	MSE= 0.0241623
+Old Break P: -3.92496 C: 3 MSE= 0.0241623 
+Old Break Iteration: cur_logP: -3.92496 iter_sum: 268
+Cumulative logP : -3.92496 Iteration sum of whole process (new break) : 4265
+======================================
+iter_sum: 5 P: INF C: -23
+log2P= INF log2C=  -23.00	MSE= 0.914003
+iter_sum: 5 P: INF C: -22
+log2P= INF log2C=  -22.00	MSE= 0.911616
+iter_sum: 5 P: INF C: -21
+log2P= INF log2C=  -21.00	MSE= 0.906873
+iter_sum: 5 P: INF C: -20
+log2P= INF log2C=  -20.00	MSE= 0.897503
+iter_sum: 5 P: INF C: -19
+log2P= INF log2C=  -19.00	MSE= 0.879216
+iter_sum: 5 P: INF C: -18
+log2P= INF log2C=  -18.00	MSE= 0.844361
+iter_sum: 5 P: INF C: -17
+log2P= INF log2C=  -17.00	MSE= 0.780892
+iter_sum: 10 P: INF C: -16
+log2P= INF log2C=  -16.00	MSE= 0.674671
+iter_sum: 10 P: INF C: -15
+log2P= INF log2C=  -15.00	MSE= 0.521077
+iter_sum: 10 P: INF C: -14
+log2P= INF log2C=  -14.00	MSE= 0.344217
+iter_sum: 10 P: INF C: -13
+log2P= INF log2C=  -13.00	MSE= 0.194062
+iter_sum: 15 P: INF C: -12
+log2P= INF log2C=  -12.00	MSE= 0.102698
+iter_sum: 15 P: INF C: -11
+log2P= INF log2C=  -11.00	MSE= 0.0611038
+iter_sum: 10 P: INF C: -10
+log2P= INF log2C=  -10.00	MSE= 0.044474
+iter_sum: 10 P: INF C: -9
+log2P= INF log2C=   -9.00	MSE= 0.0366413
+iter_sum: 10 P: INF C: -8
+log2P= INF log2C=   -8.00	MSE= 0.0315869
+iter_sum: 10 P: INF C: -7
+log2P= INF log2C=   -7.00	MSE= 0.0281801
+iter_sum: 15 P: INF C: -6
+log2P= INF log2C=   -6.00	MSE= 0.0259778
+iter_sum: 19 P: INF C: -5
+log2P= INF log2C=   -5.00	MSE= 0.0249066
+iter_sum: 18 P: INF C: -4
+log2P= INF log2C=   -4.00	MSE= 0.0243908
+iter_sum: 19 P: INF C: -3
+log2P= INF log2C=   -3.00	MSE= 0.0241905
+iter_sum: 0 P: INF C: -2
+log2P= INF log2C=   -2.00	MSE= 0.0241905
+iter_sum: 0 P: INF C: -1
+log2P= INF log2C=   -1.00	MSE= 0.0241905
+iter_sum: 20 P: INF C: 0
+log2P= INF log2C=    0.00	MSE= 0.0241122
+iter_sum: 0 P: INF C: 1
+log2P= INF log2C=    1.00	MSE= 0.0241122
+New Break P: INF C: 1 MSE= 0.0241122 
+New Break Iteration: cur_logP: INF iter_sum: 236
+iter_sum: 0 P: INF C: 2
+log2P= INF log2C=    2.00	MSE= 0.0241122
+iter_sum: 0 P: INF C: 3
+log2P= INF log2C=    3.00	MSE= 0.0241122
+Old Break P: INF C: 3 MSE= 0.0241122 
+Old Break Iteration: cur_logP: INF iter_sum: 236
+Cumulative logP : INF Iteration sum of whole process (new break) : 4501
+======================================
+Iteration sum of whole process (new break) : 4501
+Best logP = INF Best logC = 0 Best MSE = 0.0241122 
