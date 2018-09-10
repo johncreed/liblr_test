@@ -1,5 +1,12 @@
+# Make output
 *.o
-*.swp
 train
 predict
 blas/blas.a
+# Edit backup file
+*.swp
+# Train output
+*.model
+# Ctags file
+*/tags
+tags
