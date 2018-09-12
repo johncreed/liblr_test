@@ -131,21 +131,21 @@ void find_parameter_linear_step_P_C(const problem *prob,const parameter *param, 
   struct problem_folds *prob_folds = split_data(prob, nr_fold);
 
   //Fix p run C
-  double current_rate = INF, best_rate = INF;
-  double best_P, best_C, cur_C;
+  double best_rate = INF;
+  double best_P=-1, best_C=-1;
   struct parameter param1 = *param;
   stepSz = max_P / double(numSteps);
   printf("Initialize numSteps: %d stepSz: %g\n", numSteps, stepSz);
   for(int i = numSteps - 1; i >= 0; i--){
     param1.p = stepSz * i;
     min_C = calc_min_C( prob, &param1);
-    
+    double cur_rate = INF, cur_C;  
     reset_iter_sum_fix_one_param();
-    find_parameter_C(prob, prob_folds, &param1, nr_fold, min_C, max_C, &cur_C, &current_rate);
-    if(best_rate > current_rate){
+    find_parameter_C(prob, prob_folds, &param1, nr_fold, min_C, max_C, &cur_C, &cur_rate);
+    if(best_rate > cur_rate){
       best_C = cur_C;
       best_P = param1.p;
-      best_rate = current_rate;
+      best_rate = cur_rate;
     }
   }
   
@@ -337,64 +337,35 @@ void find_parameter_C(const problem *prob, const problem_folds *prob_folds, cons
 
 void find_parameter_linear_step_P_C_noWarm(const problem *prob,const parameter *param, int nr_fold)
 {
-  printf("No Warm Start Log\n");
   //Set range of parameter
-  double ratio = 2.0;
   double min_P = 0.0;
   double max_P = calc_max_P(prob, param);
-  stepSz = max_P / numSteps;
-  printf("Initialize numSteps: %d stepSz: %g\n", int(numSteps), stepSz);
   double max_C = pow(2.0, 50);
   double min_C = INF;
-  struct parameter param1 = *param;
-  param1.p = min_P;
-  while( param1.p < max_P ){
-    min_C = min( calc_min_C( prob, &param1), min_C);
-    param1.p += stepSz;
-  }
-  printf("min_P %g max_P %g min_C %g max_C %g\n", log(min_P)/log(2.0), log(max_P)/log(2.0), log(min_C)/log(2.0), log(max_C)/log(2.0));
 
-  // split data
-  if (nr_fold > prob->l)
-  {
-    nr_fold = prob->l;
-    fprintf(stderr,"WARNING: # folds > # data. Will use # folds = # data instead (i.e., leave-one-out cross validation)\n");
-  }
+  //Split data
   struct problem_folds *prob_folds = split_data(prob, nr_fold);
 
-  //fix p run C
-  double current_rate = INF, best_rate = INF;
-  double best_P, best_C;
-  param1.p = max_P;
-  reset_iter_sum_whole_process();
-  while( true ){
-    //If next step is too close to zero, set it to zero.
-    if( param1.p < stepSz / 2.0)
-      param1.p = 0.0;
-
-    reset_iter_sum_fix_one_param();
-    find_parameter_C_noWarm(prob, prob_folds, &param1, nr_fold, min_C, max_C, &best_C, &current_rate);
-    if(best_rate > current_rate){
+  //Fix p run C
+  double best_rate = INF;
+  double best_P=-1, best_C=-1;
+  struct parameter param1 = *param;
+  stepSz = max_P / double(numSteps);
+  printf("Initialize numSteps: %d stepSz: %g\n", numSteps, stepSz);
+  for(int i = numSteps - 1; i >= 0; i--){
+    param1.p = stepSz * i;
+    min_C = calc_min_C( prob, &param1);
+    double cur_rate = INF, cur_C;
+    find_parameter_C_noWarm(prob, prob_folds, &param1, nr_fold, min_C, max_C, &cur_C, &cur_rate);
+    if(best_rate > cur_rate){
+      best_C = cur_C;
       best_P = param1.p;
-      best_rate = current_rate;
+      best_rate = cur_rate;
     }
-    
-    if(param1.p == 0.0)
-      printf("Cumulative logP : INF ");
-    else
-      printf("Cumulative logP : %g ", log2(param1.p) );
-    print_iter_sum_whole_process();
-
-    // param1.p is zero. It is the last iteration
-    if( param1.p == 0.0 )
-      break;
-    else
-      param1.p -= stepSz;
   }
   
   // Print the best result
   printf("======================================\n");
-  print_iter_sum_whole_process();
   if( best_P == 0.0 )
     printf("Best logP = INF Best logC = %g Best MSE = %g \n", log2(best_C), best_rate );
   else
@@ -411,7 +382,7 @@ void find_parameter_C_noWarm(const problem *prob, const problem_folds *prob_fold
   double *target = Malloc(double, l);
   struct problem *subprob = prob_folds->subprobs;
 
-  // variables for warm start
+  //Variables for warm start
   double ratio = 2;
   struct parameter param1 = *param;
   void (*default_print_string) (const char *) = liblinear_print_string;
@@ -433,6 +404,7 @@ void find_parameter_C_noWarm(const problem *prob, const problem_folds *prob_fold
       double eps = param1.eps;
       param1.eps = (1.0 - 0.1) * param1.eps;
       struct model *submodel = train(&subprob[i],&param1);
+      param1.eps = eps;
 
       for(int j=begin; j<end; j++)
         target[perm[j]] = predict(submodel,prob->x[perm[j]]);
@@ -452,17 +424,14 @@ void find_parameter_C_noWarm(const problem *prob, const problem_folds *prob_fold
       info("log2P= INF log2C= %7.2f\tMSE= %g\n",log2(param1.C), current_rate);
     else
       info("log2P= %7.2f log2C= %7.2f\tMSE= %g\n", log2(param1.p), log2(param1.C), current_rate);
-
+    
     // Update next problem parameter
     param1.C = param1.C * ratio;
   }
 
-  if(param1.C > max_C && max_C > min_C)
-    info("Finish noWarm with max_C : %g \n", log2(max_C));
   free(target);
   param1.init_sol = NULL;
 }
-
 
 double calc_error(const problem *prob ,const parameter *param, double *target)
 {
@@ -913,18 +882,19 @@ void find_parameter_linear_step_C_P(const problem *prob, const parameter *param,
   struct problem_folds *prob_folds = split_data(prob, nr_fold);
 
   //Go P fix C.
-  double current_rate = INF, best_rate = INF;
-  double best_P, best_C, cur_P;
+  double best_rate = INF;
+  double best_P=-1, best_C=-1;
   param1.C = min_C;
   while(param1.C < max_C){
     reset_iter_sum_fix_one_param();
-    find_parameter_P(prob, prob_folds, &param1, nr_fold, min_P, max_P, &cur_P, &current_rate);
+    double cur_rate = INF, cur_P;
+    find_parameter_P(prob, prob_folds, &param1, nr_fold, min_P, max_P, &cur_P, &cur_rate);
     printf("New Break Iteration: ");
     print_iter_sum_fix_one_param('C', param1.C);
-    if(best_rate > current_rate){
+    if(best_rate > cur_rate){
       best_P = cur_P;
       best_C = param1.C;
-      best_rate = current_rate;
+      best_rate = cur_rate;
     }
     param1.C *= ratio;
   }
