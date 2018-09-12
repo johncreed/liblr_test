@@ -202,13 +202,10 @@ def draw_warm_vs_noWarm():
 
     # Get break C list for each fix P
     breakCDict = {}
-    old = warmDict["old"] # [ [P], [C], [MSE] ]
-    new = warmDict["new"]
-    for i, P in enumerate(old[0]):
-      breakCDict[P] = new[1][i]
-
-    #print (breakCDict.keys())
-    
+    new = warmDict["new"]# [ [P], [C], [MSE] ]
+    new_T = transposeList(new)
+    for i in len(new_T):
+        breakCDict[new_T[i][0]] = new_T[i][1]
 
     # Get iteration culmulative for each fix P
     warmCulIterDict = {}
@@ -216,26 +213,26 @@ def draw_warm_vs_noWarm():
     
     curP = -1
     for inst in warmIterSum_T :
-      iter = inst[0]
+      cnt = inst[0]
       P = inst[2]
       C = inst[3]
       if curP != P :
         curP = P
         culIter = 0
         warmCulIterDict[curP] = {}
-      culIter = culIter + iter
+      culIter = culIter + cnt
       warmCulIterDict[curP][C] = culIter
    
     curP = -1
     for inst in noWarmIterSum_T :
-      iter = inst[0]
+      cnt = inst[0]
       P = inst[2]
       C = inst[3]
       if curP != P :
         curP = P
         culIter = 0
         noWarmCulIterDict[curP] = {}
-      culIter = culIter + iter
+      culIter = culIter + cnt
       noWarmCulIterDict[curP][C] = culIter
     
     tmp = join(pic_path, file_name)
