@@ -21,9 +21,8 @@ import collections
 
 home = "/home/johncreed"
 tmp = join(home, "tmp")
-all_logs = join(tmp, "all_logs")
-all_graphs = join(tmp, "all_graphs")
-pic_path = ""
+all_logs = "log"
+all_graphs = "pic"
 
 def escape_keyword( myS ):
   escapeWordList = ["_", "."]
@@ -68,23 +67,16 @@ def clear_dir( path ):
       os.remove(pth)
 
 
-def choose_pic_folder(log_path, output_label):
-    global pic_path
-    pic_dir = "{}-{}".format(output_label,basename(log_path))
+def choose_pic_folder(log_path, pic_type):
+    pic_dir = "{}-{}".format(pic_type,basename(log_path))
     pic_path = join(all_graphs, pic_dir)
-    if pic_dir in os.listdir(all_graphs):
-        cmf = input("Will remove all the elements(y/n) ? ")
-        if cmf == 'y':
-            pwd = input("Input password: ")
-            if pwd == "shit1024":
-              clear_dir(pic_path)
-        cmf = input("May replace some files. Continue (y/n) ?")
-        if cmf == 'n':
-          sys.exit("Try Again!")
+    print([x for x in os.listdir(all_graphs)])
+    if pic_dir not in [x for x in os.listdir(all_graphs)]:
+        os.makedirs(pic_path)
     else:
-        makedirs(pic_path)
+        clear_dir(pic_path)
     print("pic_path is {}".format(pic_path))
-    return
+    return pic_path
 
 def print_list_with_idx( myList ):
   idx = 0
@@ -95,14 +87,10 @@ def print_list_with_idx( myList ):
 
 def logToNoLog( val ):
   infList = ["INF", "-INF", "inf", "-inf"]
-  if not isinstance( val, str ):
-    sys.exit( "Warning (logToNolog) : Value is not string. Possible \"inf\" \"INF\" string not detect.")
+  if val not in infList:
+    return float(pow( 2.0, float(val)))
   else:
-    if val not in infList:
-      return float(pow( 2.0, float(val)))
-    else:
-      return 0.0
-    
+    return 0.0
 
 def set_log_path():
     log_path = ""
@@ -146,13 +134,6 @@ def read_log_file(file_path):
                 new[0].append( logToNoLog( matchVal("log2P:", 1, tmp)))
                 new[1].append( logToNoLog( matchVal("log2C:", 1, tmp)))
                 new[2].append(float( matchVal("MSE:", 1, tmp)))
-              if(tmp[0] == "Best"):
-                # logP
-                best[0].append( logToNoLog( matchVal("log2P:", 1, tmp)))
-                # logC
-                best[1].append( logToNoLog( matchVal("log2C:", 1, tmp)))
-                # MSE
-                best[2].append( float( matchVal("MSE:", 3, tmp)))
               if("Old Break Iteration:".split() == tmp[:3]):
                 oldIter[0].append( logToNoLog( matchVal("log2P:", 1, tmp)))
                 oldIter[1].append( float( matchVal("iter_sum:", 1, tmp)))
@@ -162,10 +143,14 @@ def read_log_file(file_path):
                   newIter[0].append( logToNoLog( matchVal("log2P:", 1, tmp)))
                   newIter[1].append( float( matchVal("iter_sum:", 1, tmp)))
                   newIter[2].append(sum(newIter[1]))
-                else if( tmp[3] == "log2C:" ):
+                elif( tmp[3] == "log2C:" ):
                   newIter[0].append( logToNoLog( matchVal("log2C:", 1, tmp)))
                   newIter[1].append( float( matchVal("iter_sum:", 1, tmp)))
                   newIter[2].append(sum(newIter[1]))
+              if(tmp[0] == "Best"):
+                best[0].append( logToNoLog( matchVal("log2P:", 1, tmp)))
+                best[1].append( logToNoLog( matchVal("log2C:", 1, tmp)))
+                best[2].append( float( matchVal("MSE:", 1, tmp)))
       return { "cvs" : cvs,
               "old" : old,
               "new" : new,
@@ -183,17 +168,19 @@ def draw_warm_vs_noWarm():
   warm_log_path = set_log_path()
   print ("=== noWarm file ===")
   noWarm_log_path = set_log_path()
-  choose_pic_folder(warm_log_path, "[Graph-warm-vs-noWarm]")
-  all_file_names = [f for f in os.listdir(noWarm_log_path)]
-  all_file_names2 = [f for f in os.listdir(warm_log_path)]
+  getExt = lambda x : x[x.rfind('.')+1:]
+  trimExt = lambda y : y[:y.rfind('.')]
+  pic_path = choose_pic_folder("{}-{}".format(getExt(warm_log_path),getExt(noWarm_log_path)), "[Graph-warm-vs-noWarm]")
+  all_file_names = [trimExt(trimExt(f)) for f in os.listdir(noWarm_log_path)]
+  all_file_names2 = [trimExt(f) for f in os.listdir(warm_log_path)]
   if len(all_file_names) > len(all_file_names2):
     all_file_names = all_file_names2
   f = open(join(pic_path, "warm-vs-noWarm-table"), 'w')
   tbl_cnt = 1
   for file_name in all_file_names:
     print ("Do {}".format(file_name))
-    warmDict = read_log_file( join(warm_log_path, file_name))
-    noWarmDict = read_log_file( join(noWarm_log_path, file_name) )
+    warmDict = read_log_file( join(warm_log_path, "{}.fixPgoC".format(file_name)))
+    noWarmDict = read_log_file( join(noWarm_log_path, "{}.fixPgoC.noWarm".format(file_name)) )
     warmIterSum = warmDict["iterSum"]
     noWarmIterSum = noWarmDict["iterSum"]
     warmIterSum_T = transposeList(warmIterSum)
@@ -204,7 +191,7 @@ def draw_warm_vs_noWarm():
     breakCDict = {}
     new = warmDict["new"]# [ [P], [C], [MSE] ]
     new_T = transposeList(new)
-    for i in len(new_T):
+    for i in range(len(new_T)):
         breakCDict[new_T[i][0]] = new_T[i][1]
 
     # Get iteration culmulative for each fix P
@@ -252,12 +239,12 @@ def draw_warm_vs_noWarm():
 
       # Trim data untill break C occur:
       breakC = breakCDict[P]
-      idx = len(warmCList)
-      for i, C in enumerate(warmCList):
-        if C >= breakC:
-          idx = i + 1
-          break
+      try:
+          idx = warmCList.index(breakC)
+      except ValueError:
+          sys.exit("breakC not found.")
 
+      idx = idx + 1
       warmCList = warmCList[:idx]
       warmList = warmList[:idx]
       noWarmCList = noWarmCList[:idx]
@@ -293,14 +280,13 @@ def draw_warm_vs_noWarm():
 def draw_3D():
   log_path = set_log_path()
   all_file_names = [f for f in os.listdir(log_path)]
-  choose_pic_folder(log_path, "[Graph-3D]")
+  pic_path = choose_pic_folder(log_path, "[Graph-3D]")
   f = open(join(pic_path, "best-eps-table"), 'w')
   tbl_cnt = 1
   for file_name in all_file_names:
     print ("Do " + file_name)
     file_path = join(log_path, file_name)
     dictResult = read_log_file(file_path)
-    #angle_list = [0,10,20,40,50,60,70,80,90,100,110,120,130,140,140,160,170,180] # 0 ~ 90
     if tbl_cnt % 2 :
       f.write("{} & ${}$ & ".format(escape_keyword(file_name), str(round(dictResult["best"][0][0], 3))))
     else :
@@ -314,8 +300,6 @@ def draw_3D():
         ax = p3.Axes3D(fig)
         tle = file_name
         pylab.title(tle)
-        log2List(dictResult["best"][1])
-        log2List(dictResult["best"][2])
         ax.scatter3D(dictResult["best"][0],log2List(dictResult["best"][1]),log2List(dictResult["best"][2]), s =  [300],c = "yellow", marker = 'o')
         ax.scatter3D(dictResult["cvs"][0],log2List(dictResult["cvs"][1]), log2List(dictResult["cvs"][2]), s=[10] ,c = "black",marker = 'o')
         ax.scatter3D(dictResult["new"][0],log2List(dictResult["new"][1]), log2List(dictResult["new"][2]), s =  [80],c = "green", marker = 'o')
@@ -340,35 +324,37 @@ def do_gif(file_name):
 def draw_2D():
   log_path = set_log_path()
   all_file_names = [f for f in os.listdir(log_path)]
-  choose_pic_folder(log_path, "[Graph-2D]")
+  pic_path = choose_pic_folder(log_path, "[Graph-2D]")
   for file_name in all_file_names:
     print ("Do " + file_name)
     file_path = join(log_path, file_name)
     dictResult = read_log_file(file_path)
-    fix, ax = plt.subplots()
-    plt.title(file_name)
    
     # Line1 is the CV score and parameter C
     cvs = transposeList(dictResult["cvs"])
-    x = [ point[1] for point in cvs if point[0] == 0.0]
-    y = [ point[2] for point in cvs if point[0] == 0.0]
-    line1 = ax.plot(log2List(x), log2List(y), 'b--o',linewidth=2, label='Warm Start')
-    # Point1 is old Break
-    old_break = transposeList(dictResult["old"])
-    x = [ point[1] for point in old_break if point[0] == 0.0]
-    y = [ point[2] for point in old_break if point[0] == 0.0]
-    line2 = ax.scatter(log2List(x), log2List(y), color = "r", marker = 'o', s = 200, label='Old Break')
-    # Point2 is new Break
-    new_break = transposeList(dictResult["new"])
-    x = [ point[1] for point in new_break if point[0] == 0.0]
-    y = [ point[2] for point in new_break if point[0] == 0.0]
-    line3 = ax.scatter(log2List(x), log2List(y), color = "g", marker = 'o',s = 200, label='New Break')
-    
-    ax.set_xlabel("Log2( C )")
-    ax.set_ylabel("Log2(MSE)")
-    plt.legend(scatterpoints=1)
-    plt.savefig(join(pic_path,escape_keyword(file_name)+".eps"), format="eps", dpi=1000)
-    plt.close()
+    p_set = set(dictResult["cvs"][0])
+    for p in list(p_set)[::10]:
+        fix, ax = plt.subplots()
+        x = [ point[1] for point in cvs if point[0] == p]
+        y = [ point[2] for point in cvs if point[0] == p]
+        line1 = ax.plot(log2List(x), log2List(y), 'b--o',linewidth=2, label='Warm Start')
+        # Point1 is old Break
+        old_break = transposeList(dictResult["old"])
+        x = [ point[1] for point in old_break if point[0] == p]
+        y = [ point[2] for point in old_break if point[0] == p]
+        line2 = ax.scatter(log2List(x), log2List(y), color = "r", marker = 'o', s = 200, label='Old Break')
+        # Point2 is new Break
+        new_break = transposeList(dictResult["new"])
+        x = [ point[1] for point in new_break if point[0] == p]
+        y = [ point[2] for point in new_break if point[0] == p]
+        line3 = ax.scatter(log2List(x), log2List(y), color = "g", marker = 'o',s = 200, label='New Break')
+        
+        ax.set_xlabel("Log2( C )")
+        ax.set_ylabel("Log2(MSE)")
+        plt.legend(scatterpoints=1)
+        plt.title("{} p={}".format(file_name, round(p,3)))
+        plt.savefig(join(pic_path,escape_keyword("{}.{}".format(file_name, round(p,3)))+".eps"), format="eps", dpi=1000)
+        plt.close()
 
 
 def draw_fixP_vs_fixC():
@@ -376,19 +362,19 @@ def draw_fixP_vs_fixC():
   FixC_log_path = set_log_path()
   print ("=== Choose FixP Folder ===")
   FixP_log_path = set_log_path()
-  choose_pic_folder(FixC_log_path, "[Graph-FixP-vs-FixC-Cmp]")
-  print (pic_path)
-  all_file_names = [f for f in os.listdir(FixC_log_path)]
+  getext = lambda x: x[x.rfind('.')+1:]
+  pic_path = choose_pic_folder("{}-{}".format(getext(FixC_log_path),getext(FixP_log_path)), "[Graph-FixP-vs-FixC-Cmp]")
+  file_names = [f[:f.rfind('.')] for f in os.listdir(FixC_log_path)]
   f = open(join(pic_path, 'fixP-vs-fixC-table') ,'w')
   tbl_cnt = 1
-  for file_name in all_file_names:
+  for file_name in file_names:
     print ("Do " + file_name)
-    FixC_file_path = join(FixC_log_path, file_name)
-    FixP_file_path = join(FixP_log_path, file_name)
+    FixC_file_path = join(FixC_log_path, "{}.fixCgoP".format(file_name))
+    FixP_file_path = join(FixP_log_path, "{}.fixPgoC".format(file_name))
     fixCDict = read_log_file( FixC_file_path )
-    fixPDict = read_log_file( FixP_file_path)
+    fixPDict = read_log_file( FixP_file_path )
 
-    maxCUsed = max( fixPDict["cvs"][1] )
+    maxCUsed = max( fixPDict["new"][1] )
     #print ( "Max C used is {}".format(maxCUsed) )
 
     # Create subplots with 1 rows/2 cols and share the same y-axis.
@@ -399,7 +385,7 @@ def draw_fixP_vs_fixC():
     bw = 0.5 # bar width
     PValue = fixPDict["newIter"][0]
     PIter = fixPDict["newIter"][1]
-    PBarLoc = np.arange(len(PIter))
+    PBarLoc = np.arange(len(PValue))
     fixPCulIter = fixPDict["newIter"][2][-1]
     BC1 = ax1.bar(PBarLoc, PIter, width=bw, align='center')
     # Set x ticks
@@ -424,21 +410,17 @@ def draw_fixP_vs_fixC():
     CValue = fixCDict["newIter"][0]
     CIter = fixCDict["newIter"][1]
     CBarLoc = np.arange(len(CIter))
-    # Find the index of the first greater then maxCUsed in CValue
-    idx = len(CValue) - 1
+    # Find the index of maxCUsed in CValue
     color = ['b' for x in CValue]
-    for i, x in enumerate(CValue):
-      if x > maxCUsed:
-        color[i] = 'r'
-        idx = i
-        break
-    # print ( "len {} idx {}".format(len(CValue), idx))
-    #
-    idxDraw = idx + 1
+    try:
+        idx = CValue.index(maxCUsed)
+        color[idx] = 'r'
+    except ValueError:
+        print("max C not found.")
     fixCCulIter = fixCDict["newIter"][2][idx]
-    BC2 = ax2.bar(CBarLoc[:idxDraw], CIter[:idxDraw], width=bw, align='center', color=color[:idxDraw])
+    BC2 = ax2.bar(CBarLoc[:idx+1], CIter[:idx+1], width=bw, align='center', color=color[:idx+1])
     # Set x ticks
-    gap = int ( idxDraw / 10.0 )
+    gap = int ( (idx+1) / 10.0 )
     Cxticklabels = []
     for i , x in enumerate(CValue):
       if i == idx:
@@ -449,7 +431,7 @@ def draw_fixP_vs_fixC():
         Cxticklabels.append('')
     #print (Cxticklabels)
     ax2.set_xticklabels(Cxticklabels,rotation=90)
-    ax2.set_xticks(CBarLoc[:idxDraw])
+    ax2.set_xticks(CBarLoc[:idx+1])
     # Set title
     ax2.set_title("Fix C Total Iteration: {}".format(int(fixCCulIter)))
     # Set x label and y label
@@ -466,28 +448,6 @@ def draw_fixP_vs_fixC():
     else:
       f.write("{} & {} & {} \\\\ \n".format( escape_keyword(file_name), int(fixPCulIter), int(fixCCulIter)))
     tbl_cnt = tbl_cnt + 1 
-    """
-    objects = tuple(P_labels + C_labels)
-    len1 = len(P_labels)
-    len2 = len(C_labels)
-    wd = 3
-    x = [a * wd for a in range(len1)]
-    x = x + [(a + len1 + 1) * wd for a in range(len2)]
-    x = np.array(x)
-
-    plt.figure(figsize=(20,10))
-    barlist = plt.bar(x, y_val, width=wd, align='center', alpha=1)
-    
-    red_bar_index = len1 + int(max_c - min_c)
-    print(max_c - min_c)
-    if len(barlist) >= red_bar_index + 1:
-        barlist[red_bar_index].set_color('r')
-    plt.xticks(x, objects)
-    plt.xlabel('Parameter Fix P or Fix C')
-    plt.title(file_name + " " + str(max_c))
-    plt.savefig(pic_path+file_name+".eps", format="eps", dpi=1000)
-    plt.close()
-    """
 
 
 # Define which draw picture name and corresponded function

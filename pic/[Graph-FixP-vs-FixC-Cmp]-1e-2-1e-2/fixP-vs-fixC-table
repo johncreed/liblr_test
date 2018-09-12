@@ -1,0 +1,10 @@
+space-ga-scale-1e-2 & 5031 & 11779 & mpg-1e-2 & 2638 & 4264 \\ 
+abalone-scale-1e-2 & 3850 & 6242 & cpusmall-1e-2 & 2321 & 3798 \\ 
+mg-scale-1e-2 & 4811 & 7646 & mg-1e-2 & 2453 & 3492 \\ 
+bodyfat-scale-1e-2 & 4030 & 8437 & triazines-1e-2 & 3962 & 8328 \\ 
+housing-1e-2 & 3086 & 4599 & bodyfat-1e-2 & 2168 & 4029 \\ 
+triazines-scale-1e-2 & 3556 & 6097 & pyrim-1e-2 & 3284 & 5790 \\ 
+space-ga-1e-2 & 2014 & 4722 & mpg-scale-1e-2 & 4414 & 6838 \\ 
+eunite2001-1e-2 & 2219 & 4791 & housing-scale-1e-2 & 4125 & 6501 \\ 
+cadata-1e-2 & 4572 & 7179 & cpusmall-scale-1e-2 & 2508 & 4292 \\ 
+abalone-1e-2 & 2994 & 5270 & pyrim-scale-1e-2 & 3717 & 5313 \\ 
