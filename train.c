@@ -151,7 +151,7 @@ void do_find_parameter_C()
 		start_C = param.C;
 	else
 		start_C = -1;
-	fprintf(stderr,"Doing parameter search with %d-fold cross validation.\n", nr_fold);
+	fprintf(stdout,"Doing parameter search with %d-fold cross validation.\n", nr_fold);
 	if( param.solver_type == L2R_LR || param.solver_type == L2R_L2LOSS_SVC){
 		printf( "Do classification with param.C %g\n", log2(param.C));
 		struct problem_folds *prob_folds = split_data(&prob, nr_fold);

@@ -132,38 +132,38 @@ def read_log_file(file_path):
               if(tmp[0] == "iter_sum:"):
                 iterSum[0].append( int(matchVal("iter_sum:", 1, tmp)))
                 iterSum[1].append(sum(iterSum[0]))
-                iterSum[2].append( logToNoLog( matchVal("P:", 1, tmp)))
-                iterSum[3].append( logToNoLog( matchVal("C:", 1, tmp)))
-              if(tmp[0] == "log2P="):
-                cvs[0].append( logToNoLog( matchVal("log2P=", 1, tmp)))
-                cvs[1].append( logToNoLog( matchVal("log2C=", 1, tmp)))
-                cvs[2].append( float(matchVal("MSE=", 1, tmp)))
-              if(tmp[0] == "Old" and tmp[-2] == "MSE="):
-                old[0].append( logToNoLog( matchVal("P:", 1, tmp)))
-                old[1].append( logToNoLog( matchVal("C:", 1, tmp)))
-                old[2].append(float( matchVal("MSE=", 1, tmp)))
-              if(tmp[0] == "New" and tmp[-2] == "MSE="):
-                new[0].append( logToNoLog( matchVal("P:", 1, tmp)))
-                new[1].append( logToNoLog( matchVal("C:", 1, tmp)))
-                new[2].append(float( matchVal("MSE=", 1, tmp)))
+                iterSum[2].append( logToNoLog( matchVal("log2P:", 1, tmp)))
+                iterSum[3].append( logToNoLog( matchVal("log2C:", 1, tmp)))
+              if(tmp[0] == "log2P:"):
+                cvs[0].append( logToNoLog( matchVal("log2P:", 1, tmp)))
+                cvs[1].append( logToNoLog( matchVal("log2C:", 1, tmp)))
+                cvs[2].append( float(matchVal("MSE:", 1, tmp)))
+              if("Old Break log2P:".split() == tmp[:3]):
+                old[0].append( logToNoLog( matchVal("log2P:", 1, tmp)))
+                old[1].append( logToNoLog( matchVal("log2C:", 1, tmp)))
+                old[2].append(float( matchVal("MSE:", 1, tmp)))
+              if("New Break log2P:".split() == tmp[:3]):
+                new[0].append( logToNoLog( matchVal("log2P:", 1, tmp)))
+                new[1].append( logToNoLog( matchVal("log2C:", 1, tmp)))
+                new[2].append(float( matchVal("MSE:", 1, tmp)))
               if(tmp[0] == "Best"):
                 # logP
-                best[0].append( logToNoLog( matchVal("=", 1, tmp)))
+                best[0].append( logToNoLog( matchVal("log2P:", 1, tmp)))
                 # logC
-                best[1].append( logToNoLog( matchVal("=", 2, tmp)))
+                best[1].append( logToNoLog( matchVal("log2C:", 1, tmp)))
                 # MSE
-                best[2].append( float( matchVal("=", 3, tmp)))
-              if(tmp[0] == "Old" and tmp[2] == "Iteration:"):
-                oldIter[0].append( logToNoLog( matchVal("cur_logP:", 1, tmp)))
+                best[2].append( float( matchVal("MSE:", 3, tmp)))
+              if("Old Break Iteration:".split() == tmp[:3]):
+                oldIter[0].append( logToNoLog( matchVal("log2P:", 1, tmp)))
                 oldIter[1].append( float( matchVal("iter_sum:", 1, tmp)))
                 oldIter[2].append(sum(oldIter[1]))
-              if(tmp[0] == "New" and tmp[2] == "Iteration:"):
-                if( tmp[3] == "cur_logP:" ):
-                  newIter[0].append( logToNoLog( matchVal("cur_logP:", 1, tmp)))
+              if("New Break Iteration:".split() == tmp[:3]):
+                if( tmp[3] == "log2P:" ):
+                  newIter[0].append( logToNoLog( matchVal("log2P:", 1, tmp)))
                   newIter[1].append( float( matchVal("iter_sum:", 1, tmp)))
                   newIter[2].append(sum(newIter[1]))
-                else:
-                  newIter[0].append( logToNoLog( matchVal("cur_logC:", 1, tmp)))
+                else if( tmp[3] == "log2C:" ):
+                  newIter[0].append( logToNoLog( matchVal("log2C:", 1, tmp)))
                   newIter[1].append( float( matchVal("iter_sum:", 1, tmp)))
                   newIter[2].append(sum(newIter[1]))
       return { "cvs" : cvs,

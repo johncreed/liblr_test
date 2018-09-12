@@ -135,7 +135,7 @@ void find_parameter_linear_step_P_C(const problem *prob,const parameter *param, 
   double best_P=-1, best_C=-1;
   struct parameter param1 = *param;
   stepSz = max_P / double(numSteps);
-  printf("Initialize numSteps: %d stepSz: %g\n", numSteps, stepSz);
+  printf("Initialize numSteps: %d stepSz: %10.5f\n", numSteps, stepSz);
   for(int i = numSteps - 1; i >= 0; i--){
     param1.p = stepSz * i;
     min_C = calc_min_C( prob, &param1);
@@ -152,9 +152,9 @@ void find_parameter_linear_step_P_C(const problem *prob,const parameter *param, 
   // Print the best result
   printf("======================================\n");
   if( best_P == 0.0 )
-    printf("Best logP = INF Best logC = %g Best MSE = %g \n", log2(best_C), best_rate );
+    printf("Best log2P: INF Best log2C: %10.5f Best MSE: %10.5f \n", log2(best_C), best_rate );
   else
-    printf("Best logP = %g Best logC = %g Best MSE = %g \n", log2(best_P), log2(best_C), best_rate );
+    printf("Best log2P: %10.5f Best log2C: %10.5f Best MSE: %10.5f \n", log2(best_P), log2(best_C), best_rate );
 }
 
 /**
@@ -172,7 +172,7 @@ void find_parameter(const problem *prob,const parameter *param, int nr_fold)
     min_C = min( calc_min_C( prob, &param1), min_C);
     param1.p *= ratio;
   }
-  printf("min_P %g max_P %g min_C %g max_C %g\n", log(min_P)/log(2.0), log(max_P)/log(2.0), log(min_C)/log(2.0), log(max_C)/log(2.0));
+  printf("min_P %10.5f max_P %10.5f min_C %10.5f max_C %10.5f\n", log(min_P)/log(2.0), log(max_P)/log(2.0), log(min_C)/log(2.0), log(max_C)/log(2.0));
   // split data
   if (nr_fold > prob->l)
   {
@@ -204,7 +204,7 @@ void find_parameter(const problem *prob,const parameter *param, int nr_fold)
     best_rate = current_rate;
   }
 
-  printf("Best logC = %g Best logP = %g Best MSE = %g \n", log(best_C)/log(2.0), log(best_P)/log(2.0), best_rate );
+  printf("Best logC = %10.5f Best logP = %10.5f Best MSE = %10.5f \n", log(best_C)/log(2.0), log(best_P)/log(2.0), best_rate );
 }
 **/
 
@@ -290,17 +290,17 @@ void find_parameter_C(const problem *prob, const problem_folds *prob_folds, cons
       *best_rate = current_rate;
     }
     if(param1.p == 0.0)
-      info("log2P= INF log2C= %7.2f\tMSE= %g\n",log2(param1.C), current_rate);
+      printf("log2P: INF log2C: %10.5f MSE: %10.5f\n",log2(param1.C), current_rate);
     else
-      info("log2P= %7.2f log2C= %7.2f\tMSE= %g\n", log2(param1.p), log2(param1.C), current_rate);
+      printf("log2P: %10.5f log2C: %10.5f MSE: %10.5f\n", log2(param1.p), log2(param1.C), current_rate);
     num_unchanged_w++;
 
     //Check old break condition
     if(num_unchanged_w == 3 && first_old_break == true){
       if( param1.p == 0.0 )
-        printf("Old Break P: INF C: %g MSE= %g \n",  log2(param1.C), current_rate ) ;
+        printf("Old Break log2P: INF log2C: %10.5f MSE: %10.5f \n",  log2(param1.C), current_rate ) ;
       else
-        printf("Old Break P: %g C: %g MSE= %g \n", log2(param1.p), log2(param1.C), current_rate ) ;
+        printf("Old Break log2P: %10.5f log2C: %10.5f MSE: %10.5f \n", log2(param1.p), log2(param1.C), current_rate ) ;
       first_old_break = false;
       printf("Old Break Iteration: ");
       print_iter_sum_fix_one_param('P', param1.p);
@@ -308,9 +308,9 @@ void find_parameter_C(const problem *prob, const problem_folds *prob_folds, cons
     
     if( get_new_break() == nr_fold && first_new_break == true){
       if( param1.p == 0.0 )
-        printf("New Break P: INF C: %g MSE= %g \n", log2(param1.C), current_rate );
+        printf("New Break log2P: INF log2C: %10.5f MSE: %10.5f \n", log2(param1.C), current_rate );
       else
-        printf("New Break P: %g C: %g MSE= %g \n", log2(param1.p), log2(param1.C), current_rate );
+        printf("New Break log2P: %10.5f log2C: %10.5f MSE: %10.5f \n", log2(param1.p), log2(param1.C), current_rate );
       first_new_break = false;
       printf("New Break Iteration: ");
       print_iter_sum_fix_one_param('P', param1.p);
@@ -326,7 +326,7 @@ void find_parameter_C(const problem *prob, const problem_folds *prob_folds, cons
   }
 
   if(param1.C > max_C && max_C > min_C)
-    info("warning: maximum C reached.\n");
+    printf("warning: maximum C reached.\n");
   free(target);
   for(int i=0; i<nr_fold; i++)
     free(prev_w[i]);
@@ -351,7 +351,7 @@ void find_parameter_linear_step_P_C_noWarm(const problem *prob,const parameter *
   double best_P=-1, best_C=-1;
   struct parameter param1 = *param;
   stepSz = max_P / double(numSteps);
-  printf("Initialize numSteps: %d stepSz: %g\n", numSteps, stepSz);
+  printf("Initialize numSteps: %d stepSz: %10.5f\n", numSteps, stepSz);
   for(int i = numSteps - 1; i >= 0; i--){
     param1.p = stepSz * i;
     min_C = calc_min_C( prob, &param1);
@@ -367,9 +367,9 @@ void find_parameter_linear_step_P_C_noWarm(const problem *prob,const parameter *
   // Print the best result
   printf("======================================\n");
   if( best_P == 0.0 )
-    printf("Best logP = INF Best logC = %g Best MSE = %g \n", log2(best_C), best_rate );
+    printf("Best log2P: INF Best log2C: %10.5f Best MSE: %10.5f \n", log2(best_C), best_rate );
   else
-    printf("Best logP = %g Best logC = %g Best MSE = %g \n", log2(best_P), log2(best_C), best_rate );
+    printf("Best log2P: %10.5f Best log2C: %10.5f Best MSE: %10.5f \n", log2(best_P), log2(best_C), best_rate );
 }
 
 
@@ -421,9 +421,9 @@ void find_parameter_C_noWarm(const problem *prob, const problem_folds *prob_fold
       *best_rate = current_rate;
     }
     if(param1.p == 0.0)
-      info("log2P= INF log2C= %7.2f\tMSE= %g\n",log2(param1.C), current_rate);
+      printf("log2P: INF log2C: %10.5f MSE: %10.5f\n",log2(param1.C), current_rate);
     else
-      info("log2P= %7.2f log2C= %7.2f\tMSE= %g\n", log2(param1.p), log2(param1.C), current_rate);
+      printf("log2P: %10.5f log2C: %10.5f MSE: %10.5f\n", log2(param1.p), log2(param1.C), current_rate);
     
     // Update next problem parameter
     param1.C = param1.C * ratio;
@@ -454,8 +454,8 @@ double calc_error(const problem *prob ,const parameter *param, double *target)
       sumyy += y*y;
       sumvy += v*y;
     }
-    //printf("Cross Validation Mean squared error = %g\n",total_error/prob->l);
-    //printf("Cross Validation Squared correlation coefficient = %g\n",
+    //printf("Cross Validation Mean squared error = %10.5f\n",total_error/prob->l);
+    //printf("Cross Validation Squared correlation coefficient = %10.5f\n",
     //    ((prob->l*sumvy-sumv*sumy)*(prob->l*sumvy-sumv*sumy))/
     //    ((prob->l*sumvv-sumv*sumv)*(prob->l*sumyy-sumy*sumy))
     //    );
@@ -466,7 +466,7 @@ double calc_error(const problem *prob ,const parameter *param, double *target)
     for(int i=0;i<prob->l;i++)
       if(target[i] == prob->y[i])
         ++total_correct;
-    //printf("Cross Validation Accuracy = %g%%\n",100.0*total_correct/prob->l);
+    //printf("Cross Validation Accuracy = %10.5f%%\n",100.0*total_correct/prob->l);
     return (double) total_correct / prob->l;
   }
 }
@@ -656,7 +656,7 @@ void find_parameter_classification(const problem *prob, const problem_folds *pro
   
   while(param1.C <= max_C)
   {
-    printf("====================C %g========================\n", log2(param1.C));
+    printf("====================C %10.5f========================\n", log2(param1.C));
     //Output disabled for running CV at a particular C
     set_print_string_function(&print_null);
     
@@ -719,17 +719,17 @@ void find_parameter_classification(const problem *prob, const problem_folds *pro
       *best_rate = current_rate;
     }
 
-    printf("log2c=%7.2f\trate=%g\n",log2(param1.C),100.0*current_rate);
+    printf("log2c=%10.5f\trate=%10.5f\n",log2(param1.C),100.0*current_rate);
     num_unchanged_w++;
     
     //Check break condition
     if(num_unchanged_w == 3 && first_old_break == true){
-      fprintf( stdout ,"Old Break C: %g rate= %g \n", log2(param1.C), 100 * *best_rate ) ;
+      fprintf( stdout ,"Old Break C: %10.5f rate= %10.5f \n", log2(param1.C), 100 * *best_rate ) ;
       first_old_break = false;
     }
     
     if( get_new_break() == nr_fold && first_new_break == true){
-      fprintf( stdout ,"New Break C: %g rate= %g \n", log2(param1.C), 100 * *best_rate );
+      fprintf( stdout ,"New Break C: %10.5f rate= %10.5f \n", log2(param1.C), 100 * *best_rate );
       first_new_break = false;
     }
     if(first_old_break == false && first_new_break == false){
@@ -739,7 +739,7 @@ void find_parameter_classification(const problem *prob, const problem_folds *pro
   }
 
   if(param1.C > max_C && max_C > start_C)
-    info("warning: maximum C reached.\n");
+    printf("warning: maximum C reached.\n");
   free(fold_start);
   free(perm);
   free(target);
@@ -783,10 +783,10 @@ void reset_iter_sum_fix_one_param()
 
 void print_iter_sum_fix_one_param(char c, double val)
 {
-  if( val == 0.0)
-    printf("cur_log%c: INF iter_sum: %d\n", c, total_iter_sum_fix_one_param);
+  if( val == 0.0 )
+    printf("log2%c: INF iter_sum: %d\n", c, total_iter_sum_fix_one_param);
   else
-    printf("cur_log%c: %g iter_sum: %d\n", c, log2(val), total_iter_sum_fix_one_param);
+    printf("log2%c: %10.5f iter_sum: %d\n", c, log2(val), total_iter_sum_fix_one_param);
 }
 
 // add_iter count the cg_iter for parameter (P,C) search total cg_iter
@@ -803,9 +803,9 @@ void reset_iter_sum(){
 
 void print_iter_sum(double p, double C){
   if( p == 0.0 )
-    printf("iter_sum: %d P: INF C: %g\n", total_iter_sum,  log2(C));
+    printf("iter_sum: %d log2P: INF log2C: %10.5f\n", total_iter_sum,  log2(C));
   else
-    printf("iter_sum: %d P: %g C: %g\n", total_iter_sum, log2(p), log2(C));
+    printf("iter_sum: %d log2P: %10.5f log2C: %10.5f\n", total_iter_sum, log2(p), log2(C));
 }
 
 // Iteration sum for whole process.
@@ -902,9 +902,9 @@ void find_parameter_linear_step_C_P(const problem *prob, const parameter *param,
   // Print Final Result
   printf("======================================\n");
   if(best_P == 0.0)
-    printf("Best logP = INF Best logC = %g Best MSE = %g \n", log2(best_C), best_rate );
+    printf("Best log2P: INF Best log2C: %10.5f Best MSE: %10.5f \n", log2(best_C), best_rate );
   else
-    printf("Best logP = %g Best logC = %g Best MSE = %g \n", log2(best_P), log2(best_C), best_rate );
+    printf("Best log2P: %10.5f Best log2C: %10.5f Best MSE: %10.5f \n", log2(best_P), log2(best_C), best_rate );
 }
 
 
@@ -925,7 +925,7 @@ void find_parameter_P(const problem *prob, const problem_folds *prob_folds, cons
   void (*default_print_string) (const char *) = liblinear_print_string;
 
   *best_rate = INF;
-  for(int i = numSteps-1; i >=0; i ++)
+  for(int i = numSteps-1; i >=0; i --)
   {
     param1.p = stepSz * double(i);
     //Output disabled for running CV at a particular C
@@ -969,9 +969,9 @@ void find_parameter_P(const problem *prob, const problem_folds *prob_folds, cons
       *best_rate = current_rate;
     }
     if(param1.p == 0.0)
-      info("log2P= INF log2C= %7.2f\tMSE= %g\n",log2(param1.C), current_rate);
+      printf("log2P: INF log2C: %10.5f\tMSE: %10.5f\n",log2(param1.C), current_rate);
     else
-      info("log2P= %7.2f log2C= %7.2f\tMSE= %g\n", log2(param1.p), log2(param1.C), current_rate);
+      printf("log2P: %10.5f log2C: %10.5f\tMSE: %10.5f\n", log2(param1.p), log2(param1.C), current_rate);
   }
 
   free(target);
