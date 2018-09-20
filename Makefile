@@ -16,11 +16,14 @@ lib: linear.o tron.o blas/blas.a
 	fi; \
 	$(CXX) $${SHARED_LIB_FLAG} linear.o tron.o blas/blas.a -o liblinear.so.$(SHVER)
 
-train: tron.o linear.o train.c blas/blas.a
-	$(CXX) $(CFLAGS) -o train train.c tron.o linear.o $(LIBS)
+train: exp_code.o tron.o linear.o train.c blas/blas.a
+	$(CXX) $(CFLAGS) -o train train.c tron.o exp_code.o linear.o $(LIBS)
 
-predict: tron.o linear.o predict.c blas/blas.a
-	$(CXX) $(CFLAGS) -o predict predict.c tron.o linear.o $(LIBS)
+predict: exp_code.o linear.o predict.c blas/blas.a
+	$(CXX) $(CFLAGS) -o predict predict.c tron.o exp_code.o linear.o $(LIBS)
+
+exp_code.o: exp_code.h exp_code.cpp
+	$(CXX) $(CFLAGS) -c -o exp_code.o exp_code.cpp
 
 tron.o: tron.cpp tron.h
 	$(CXX) $(CFLAGS) -c -o tron.o tron.cpp
@@ -28,10 +31,11 @@ tron.o: tron.cpp tron.h
 linear.o: linear.cpp linear.h
 	$(CXX) $(CFLAGS) -c -o linear.o linear.cpp
 
+
 blas/blas.a: blas/*.c blas/*.h
 	make -C blas OPTFLAGS='$(CFLAGS)' CC='$(CC)';
 
 clean:
 	make -C blas clean
 	make -C matlab clean
-	rm -f *~ tron.o linear.o train predict liblinear.so.$(SHVER)
+	rm -f *~ tron.o linear.o exp_code.o train predict liblinear.so.$(SHVER)
