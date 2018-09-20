@@ -170,6 +170,14 @@ void do_find_parameter_C()
 			printf( "Fix P go C with no warm start\n");
 			find_parameter_linear_step_P_C_noWarm(&prob, &param, nr_fold);
 		}
+    else if( which_type == 3){
+      printf( "(P, C) linear fix range\n");
+      linear_step_fix_range(&prob, &param, nr_fold);
+    }
+    else if( which_type == 4){
+      printf( "(P, C) log fix range\n");
+      log_step_fix_range(&prob, &param, nr_fold);
+    }
 	}
 	//printf("Best C = %g  CV accuracy = %g%%\n", best_C, 100.0*best_rate);
 }

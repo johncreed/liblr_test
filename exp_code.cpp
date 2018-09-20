@@ -25,20 +25,6 @@ static void print_null(const char *s) {}
 
 static void (*liblinear_print_string) (const char *) = &print_string_stdout;
 
-#if 1
-static void info(const char *fmt,...)
-{
-  char buf[BUFSIZ];
-  va_list ap;
-  va_start(ap,fmt);
-  vsprintf(buf,fmt,ap);
-  va_end(ap);
-  (*liblinear_print_string)(buf);
-}
-#else
-static void info(const char *fmt,...) {}
-#endif
-
 
 #ifdef __cplusplus
 extern "C" {
@@ -56,10 +42,25 @@ problem_folds::~problem_folds()
   free(fold_start);
   for(int i = 0; i < nr_fold; i++)
   {
+    free( init_sols[i] );
     free( (subprobs+i)->x);
     free( (subprobs+i)->y);
   }
+  free(init_sols);
   free(subprobs);
+}
+
+bool score_type(const struct parameter &param){
+	if(param.solver_type == L2R_L2LOSS_SVR ||
+	   param.solver_type == L2R_L1LOSS_SVR_DUAL ||
+	   param.solver_type == L2R_L2LOSS_SVR_DUAL)
+	{
+    return true;
+	}
+	else
+	{
+	  return false;
+  }
 }
 
 problem_folds* split_data(const problem *prob, int nr_fold){
@@ -75,10 +76,12 @@ problem_folds* split_data(const problem *prob, int nr_fold){
   prob_folds->nr_fold = nr_fold;
   prob_folds->fold_start = Malloc(int, nr_fold+1);
   prob_folds->perm = Malloc(int, l);
+  prob_folds->init_sols = Malloc(double*, nr_fold);
   prob_folds->subprobs = Malloc(problem, nr_fold);
 
   int *fold_start = prob_folds->fold_start;
   int *perm = prob_folds->perm;
+  double **init_sols = prob_folds->init_sols;
   problem *subprobs = prob_folds->subprobs;
 
   for(int i = 0; i < l; i++) perm[i] = i;
@@ -92,6 +95,7 @@ problem_folds* split_data(const problem *prob, int nr_fold){
 
   for(int i=0;i<nr_fold;i++)
   {
+    init_sols[i] = NULL;
     int begin = fold_start[i];
     int end = fold_start[i+1];
 
@@ -117,6 +121,164 @@ problem_folds* split_data(const problem *prob, int nr_fold){
   }
 
   return prob_folds;
+}
+
+void cross_validation_with_splits(const problem *prob, const problem_folds *prob_folds,const parameter *param, int nr_fold, double &score, bool &w_diff)
+{
+  //Tightness of stop approximate condition
+  double delta1 = 0.1;
+  
+  //Fold data
+  int *fold_start = prob_folds->fold_start;
+  int l = prob->l;
+  int *perm = prob_folds->perm;
+  double *target = Malloc(double, l);
+  struct problem *subprob = prob_folds->subprobs;
+  double **init_sols = prob_folds->init_sols;
+  struct parameter param1 = *param;
+
+  set_print_string_function(&print_null);
+  w_diff = false;
+  for(int i=0; i<nr_fold; i++)
+  {
+    param1.init_sol = init_sols[i];
+    param1.eps = (1.0 - delta1) * param1.eps;
+    struct model *submodel = train(&subprob[i],&param1);
+    param1.eps = param->eps;
+
+    int total_w_size;
+    if(submodel->nr_class == 2)
+      total_w_size = subprob[i].n;
+    else
+      total_w_size = subprob[i].n * submodel->nr_class;
+
+    if(init_sols[i] == NULL)
+    {
+      init_sols[i] = Malloc(double, total_w_size);
+    }
+    else
+    {
+      double norm_w_diff = 0;
+      for(int j=0; j<total_w_size; j++)
+        norm_w_diff += (submodel->w[j] - init_sols[i][j])*(submodel->w[j] - init_sols[i][j]);
+      norm_w_diff = sqrt(norm_w_diff);
+
+      if(norm_w_diff > 1e-15)
+        w_diff  = true;
+    }
+
+    for(int j=0; j<total_w_size; j++)
+      init_sols[i][j] = submodel->w[j];
+
+    //Predict value on i-th fold
+    int begin = fold_start[i];
+    int end = fold_start[i+1];
+    for(int j=begin; j<end; j++)
+      target[perm[j]] = predict(submodel,prob->x[perm[j]]);
+
+    free_and_destroy_model(&submodel);
+  }
+  
+  score = calc_error(prob, param, target);
+  free(target);
+}
+
+void linear_step_fix_range(const problem *prob,const parameter *param, int nr_fold)
+{
+  //Set range of parameter
+  double min_P = 0.0;
+  double max_P = calc_max_P(prob, param);
+  //double min_C = INF;
+  double max_C = pow(2.0, 50);
+
+  //Split data
+  struct problem_folds *prob_folds = split_data(prob, nr_fold);
+
+  //Best score
+  double best_score = INF;
+  double best_P=-1, best_C=-1;
+
+  //Run
+  struct parameter param1 = *param;
+  stepSz = max_P / double(numSteps);
+  printf("Initialize numSteps: %d stepSz: %10.5f\n", numSteps, stepSz);
+  for(int i = numSteps - 1; i >= 0; i--)
+  {
+    param1.p = stepSz * i;
+    param1.C = calc_min_C(prob, &param1);
+    while( param1.C < max_C )
+    {
+      double score = -1;
+      bool w_diff = false;
+      cross_validation_with_splits(prob, prob_folds, &param1, nr_fold, score, w_diff);
+      if(param1.p == 0.0)
+        printf("log2P: INF log2C: %10.5f MSE: %10.5f\n",log2(param1.C), score);
+      else
+        printf("log2P: %10.5f log2C: %10.5f MSE: %10.5f\n", log2(param1.p), log2(param1.C), score);
+      if(best_score > score){
+        best_C = param1.C;
+        best_P = param1.p;
+        best_score = score;
+      }
+      param1.C *= 2.0;
+    }
+  }
+  
+  // Print the best result
+  printf("======================================\n");
+  if( best_P == 0.0 )
+    printf("Best log2P: INF Best log2C: %10.5f Best MSE: %10.5f \n", log2(best_C), best_score );
+  else
+    printf("Best log2P: %10.5f Best log2C: %10.5f Best MSE: %10.5f \n", log2(best_P), log2(best_C), best_score );
+}
+
+void log_step_fix_range(const problem *prob,const parameter *param, int nr_fold)
+{
+  //Set range of parameter
+  double min_P = pow(2.0, -30);
+  double max_P = calc_max_P(prob, param);
+  //double min_C = INF;
+  double max_C = pow(2.0, 50);
+
+  //Split data
+  struct problem_folds *prob_folds = split_data(prob, nr_fold);
+
+  //Best score
+  double best_score = INF;
+  double best_P=-1, best_C=-1;
+
+  //Run
+  struct parameter param1 = *param;
+  double ratio = 2.0;
+  param1.p = max_P;
+  while( param1.p > min_P )
+  {
+    param1.p /= ratio;
+    param1.C = calc_min_C(prob, &param1);
+    while( param1.C < max_C )
+    {
+      double score = -1;
+      bool w_diff = false;
+      cross_validation_with_splits(prob, prob_folds, &param1, nr_fold, score, w_diff);
+      if(param1.p == 0.0)
+        printf("log2P: INF log2C: %10.5f MSE: %10.5f\n",log2(param1.C), score);
+      else
+        printf("log2P: %10.5f log2C: %10.5f MSE: %10.5f\n", log2(param1.p), log2(param1.C), score);
+      if(best_score > score){
+        best_C = param1.C;
+        best_P = param1.p;
+        best_score = score;
+      }
+      param1.C *= ratio;
+    }
+  }
+  
+  // Print the best result
+  printf("======================================\n");
+  if( best_P == 0.0 )
+    printf("Best log2P: INF Best log2C: %10.5f Best MSE: %10.5f \n", log2(best_C), best_score );
+  else
+    printf("Best log2P: %10.5f Best log2C: %10.5f Best MSE: %10.5f \n", log2(best_P), log2(best_C), best_score );
 }
 
 void find_parameter_linear_step_P_C(const problem *prob,const parameter *param, int nr_fold)
@@ -454,11 +616,6 @@ double calc_error(const problem *prob ,const parameter *param, double *target)
       sumyy += y*y;
       sumvy += v*y;
     }
-    //printf("Cross Validation Mean squared error = %10.5f\n",total_error/prob->l);
-    //printf("Cross Validation Squared correlation coefficient = %10.5f\n",
-    //    ((prob->l*sumvy-sumv*sumy)*(prob->l*sumvy-sumv*sumy))/
-    //    ((prob->l*sumvv-sumv*sumv)*(prob->l*sumyy-sumy*sumy))
-    //    );
     return total_error / prob->l;
   }
   else
@@ -466,7 +623,6 @@ double calc_error(const problem *prob ,const parameter *param, double *target)
     for(int i=0;i<prob->l;i++)
       if(target[i] == prob->y[i])
         ++total_correct;
-    //printf("Cross Validation Accuracy = %10.5f%%\n",100.0*total_correct/prob->l);
     return (double) total_correct / prob->l;
   }
 }
