@@ -18,6 +18,16 @@ log_path='log/C_P'.$e
 mkdir -p $log_path
 ext='fixCgoP'
 
+t=4
+log_path='log/P_C_log'.$e
+mkdir -p $log_path
+ext='fixPgoC.log'
+
+t=3
+log_path='log/P_C_linear'.$e
+mkdir -p $log_path
+ext='fixPgoC.linear'
+
 grid()
 {
 for f in reg_small/*
