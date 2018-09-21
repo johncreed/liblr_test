@@ -1,0 +1,42 @@
+abalone.1e-2.PC.new
+MSE:    6.00266
+abalone.scale.1e-2.PC.new
+MSE:    5.76198
+bodyfat.1e-2.PC.new
+MSE:    0.00669
+bodyfat.scale.1e-2.PC.new
+MSE:    0.02555
+cadata.1e-2.PC.new
+MSE: 11629974577.06245
+cpusmall.1e-2.PC.new
+MSE:  356.14013
+cpusmall.scale.1e-2.PC.new
+MSE:  127.66797
+eunite2001.1e-2.PC.new
+MSE: 3268.56934
+housing.1e-2.PC.new
+MSE:   74.50721
+housing.scale.1e-2.PC.new
+MSE:   27.29281
+iter_sum
+    0.00000
+mg.1e-2.PC.new
+MSE:    0.02460
+mg.scale.1e-2.PC.new
+MSE:    0.36819
+mpg.1e-2.PC.new
+MSE:  150.01004
+mpg.scale.1e-2.PC.new
+MSE:   63.48752
+pyrim.1e-2.PC.new
+MSE:    0.02007
+pyrim.scale.1e-2.PC.new
+MSE:    0.01431
+space.ga.1e-2.PC.new
+MSE:    0.05351
+space.ga.scale.1e-2.PC.new
+MSE:    0.03448
+triazines.1e-2.PC.new
+MSE:    0.02617
+triazines.scale.1e-2.PC.new
+MSE:    0.02436
