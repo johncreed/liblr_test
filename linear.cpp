@@ -2206,6 +2206,7 @@ static void train_one(const problem *prob, const parameter *param, double *w, do
 			TRON tron_obj(fun_obj, param->eps);
 			tron_obj.set_print_string(liblinear_print_string);
 			tron_obj.tron(w);
+      tron_obj.parameter_search_break_condition(w);
 			delete fun_obj;
 			delete[] C;
 			break;

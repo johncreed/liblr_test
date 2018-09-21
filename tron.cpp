@@ -84,20 +84,10 @@ void TRON::tron(double *w)
 	f = fun_obj->fun(w);
 	fun_obj->grad(w, g);
 	delta = dnrm2_(&n, g, &inc);
-	double *gl = new double[n];
-	for (int i = 0; i < n; i++)
-		gl[i] = g[i] - w[i];
-	double Clnorm_w = dnrm2_(&n, gl, &inc);
-	delete [] gl;
-	double norm_w = dnrm2_(&n, g, &inc);
 	double gnorm = delta;
 
 	if (gnorm <= eps*gnorm0)
 		search = 0;
-	//fprintf(stderr,"In tron gnorm %g, eps gnorm0 %g search %d\n", gnorm, eps*gnorm0, search);
-	//fprintf(stderr,"In tron Clnorm_w %g eps Clnorm0 %g search norm_w %g\n", Clnorm_w, eps * gnorm0, norm_w);
-	if( Clnorm_w <= eps * gnorm0 )
-		add_new_break();
 
 	iter = 1;
 
@@ -259,4 +249,29 @@ double TRON::norm_inf(int n, double *x)
 void TRON::set_print_string(void (*print_string) (const char *buf))
 {
 	tron_print_string = print_string;
+}
+
+//Stopping condition for parameter search
+void TRON::parameter_search_break_condition(double *w){
+	int n = fun_obj->get_nr_variable();
+	double *w0 = new double[n];
+  double *gl = new double[n]; // gradient of loss term "C(Loss(w))"
+	int inc = 1;
+
+	for (int i=0; i<n; i++)
+		w0[i] = 0;
+	fun_obj->fun(w0);
+	fun_obj->grad(w0, gl);
+	double glnorm0 = dnrm2_(&n, gl, &inc);
+	delete [] w0;
+
+	fun_obj->fun(w);
+	fun_obj->grad(w, gl);
+	for (int i = 0; i < n; i++)
+		gl[i] = gl[i] - w[i];
+	double glnorm = dnrm2_(&n, gl, &inc);
+  delete [] gl;
+ 
+	if( glnorm <= eps / (1.0 - 1e-5) * glnorm0 )
+		add_new_break();
 }

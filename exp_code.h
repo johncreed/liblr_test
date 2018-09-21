@@ -24,6 +24,8 @@ struct problem_folds{
 	~problem_folds();
 };
 
+void reset_init_sols(problem_folds *prob_folds);
+
 struct problem_folds* split_data(const problem *prob, int nr_fold);
 double calc_min_C(const problem *prob, const parameter *param);
 double calc_max_P(const problem *prob, const parameter *param);
@@ -44,6 +46,10 @@ void find_parameter_C_noWarm(const problem *prob, const problem_folds *prob_fold
 void cross_validation_with_splits(const problem *prob, const problem_folds *prob_folds,const parameter *param, int nr_fold, double &score, bool &w_diff);
 void linear_step_fix_range(const problem *prob,const parameter *param, int nr_fold);
 void log_step_fix_range(const problem *prob,const parameter *param, int nr_fold);
+void C_P_new(const problem *prob,const parameter *param,int nr_fold);
+void P_C_new(const problem *prob,const parameter *param,int nr_fold);
+void P_C_old(const problem *prob,const parameter *param,int nr_fold);
+void P_C_nowarm(const problem *prob,const parameter *param,int nr_fold);
 
 double calc_error(const problem *prob ,const parameter *param, double *target);
 

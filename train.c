@@ -159,16 +159,16 @@ void do_find_parameter_C()
 	}
 	else if( param.solver_type == L2R_L2LOSS_SVR){
 		if( which_type == 0 ){
-			printf( "Fix P go C\n");
-			find_parameter_linear_step_P_C(&prob, &param, nr_fold);
+			printf( "(P, C) new method\n");
+      P_C_new(&prob, &param, nr_fold);
 		}
 		else if( which_type == 1){
-			printf( "Fix C go P\n");
-			find_parameter_linear_step_C_P(&prob, &param, nr_fold);
+			printf( "(P, C) old method\n");
+      P_C_old(&prob, &param, nr_fold);
 		}
 		else if( which_type == 2){
-			printf( "Fix P go C with no warm start\n");
-			find_parameter_linear_step_P_C_noWarm(&prob, &param, nr_fold);
+			printf( "(P, C) new method without warm-start\n");
+      P_C_nowarm(&prob, &param, nr_fold);
 		}
     else if( which_type == 3){
       printf( "(P, C) linear fix range\n");
@@ -177,6 +177,10 @@ void do_find_parameter_C()
     else if( which_type == 4){
       printf( "(P, C) log fix range\n");
       log_step_fix_range(&prob, &param, nr_fold);
+    }
+    else if( which_type == 5){
+      printf( "(C, P) new method ");
+      C_P_new(&prob, &param, nr_fold);
     }
 	}
 	//printf("Best C = %g  CV accuracy = %g%%\n", best_C, 100.0*best_rate);
