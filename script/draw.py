@@ -161,7 +161,13 @@ def read_log_file(file_path):
               }
 
 def log2List( origList ):
-  return [log(x)/log(2.0) for x in origList]
+  ret = []
+  for x in origList:
+      if x != 0.0:
+          ret.append(log(x) / log(2.0))
+      else:
+          ret.append(-30)
+  return ret
 
 def draw_warm_vs_noWarm():
   print ("=== warm file ===")
@@ -449,12 +455,64 @@ def draw_fixP_vs_fixC():
       f.write("{} & {} & {} \\\\ \n".format( escape_keyword(file_name), int(fixPCulIter), int(fixCCulIter)))
     tbl_cnt = tbl_cnt + 1 
 
+def draw_linear_vs_log():
+  print ("=== Choose linear Folder ===")
+  linear_log_path = set_log_path()
+  print ("=== Choose log Folder ===")
+  log_log_path = set_log_path()
+  ext = lambda x: x[x.rfind('.')+1:]
+  name = lambda x: x[:x.rfind('.')]
+  pic_path = choose_pic_folder("{}-{}".format(ext(linear_log_path),ext(log_log_path)), "[Graph-linear-vs-log]")
+  file_names = [name(name(f)) for f in os.listdir(linear_log_path)]
+  for file_name in file_names:
+    print ("Do " + file_name)
+    linear_file_path = join(linear_log_path, "{}.fixPgoC.linear".format(file_name))
+    log_file_path = join(log_log_path, "{}.fixPgoC.log".format(file_name))
+    linearDict = read_log_file( linear_file_path )
+    logDict = read_log_file( log_file_path )
+
+    angle_list = [20,80]
+    cnt = "a"
+    for angle in angle_list:
+        fig=pylab.figure()
+        ax = p3.Axes3D(fig)
+        tle = file_name
+        pylab.title(tle)
+        ax.scatter3D(linearDict["cvs"][0],log2List(linearDict["cvs"][1]), log2List(linearDict["cvs"][2]), s=[10] ,c = "black",marker = 'o')
+        ax.scatter3D(logDict["cvs"][0],log2List(logDict["cvs"][1]), log2List(logDict["cvs"][2]), s=[10] ,c = "red",marker = 'o')
+        ax.set_xlabel('P')
+        ax.set_ylabel('log2(C)')
+        ax.set_zlabel('log2(MSE)')
+        ax.view_init(30, angle)
+        fig.add_axes(ax)
+        plt.savefig(join(pic_path, "{}-{}.eps".format(escape_keyword(file_name), cnt)), format="eps", dpi=1000)
+        cnt += "a"
+        plt.close()
+
+    angle_list = [20,80]
+    cnt = "a"
+    for angle in angle_list:
+        fig=pylab.figure()
+        ax = p3.Axes3D(fig)
+        tle = file_name
+        pylab.title(tle)
+        ax.scatter3D(log2List(linearDict["cvs"][0]),log2List(linearDict["cvs"][1]), log2List(linearDict["cvs"][2]), s=[10] ,c = "black",marker = 'o')
+        ax.scatter3D(log2List(logDict["cvs"][0]),log2List(logDict["cvs"][1]), log2List(logDict["cvs"][2]), s=[10] ,c = "red",marker = 'o')
+        ax.set_xlabel('log2(P)')
+        ax.set_ylabel('log2(C)')
+        ax.set_zlabel('log2(MSE)')
+        ax.view_init(30, angle)
+        fig.add_axes(ax)
+        plt.savefig(join(pic_path, "{}-{}-logP.eps".format(escape_keyword(file_name), cnt)), format="eps", dpi=1000)
+        cnt += "a"
+        plt.close()
 
 # Define which draw picture name and corresponded function
 gDict = {"[Graph-3D]" : draw_3D ,
          "[Graph-2D]" : draw_2D ,
          "[Graph-FixP-vs-FixC-Cmp]" : draw_fixP_vs_fixC,
-         "[Graph-warm-vs-noWarm]" : draw_warm_vs_noWarm
+         "[Graph-warm-vs-noWarm]" : draw_warm_vs_noWarm,
+         "[Graph-linear-vs-log]":draw_linear_vs_log
          }
 
 def choose_graph_type():
