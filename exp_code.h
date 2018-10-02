@@ -31,18 +31,6 @@ double calc_min_C(const problem *prob, const parameter *param);
 double calc_max_P(const problem *prob, const parameter *param);
 double calc_min_P(const problem *prob, const parameter *param);
 
-void find_parameter_classification(const problem *prob, const problem_folds * prob_folds, const parameter *param, int nr_fold, double start_C, double max_C, double *best_C, double *best_rate);
-
-void find_parameter_linear_step_C_P(const problem *prob, const parameter *param, int nr_fold);
-void find_parameter_P(const problem *prob, const problem_folds *prob_folds, const parameter *param, int nr_fold, double min_P, double max_P, double *best_P, double *best_rate);
-
-void find_parameter_linear_step_P_C(const problem *prob,const parameter *param, int nr_fold);
-void find_parameter_C(const problem *prob, const problem_folds *prob_folds, const parameter *param, int nr_fold, double min_C, double max_C, double *best_C, double *best_rate);
-
-void find_parameter_linear_step_P_C_noWarm(const problem *prob,const parameter *param, int nr_fold);
-void find_parameter_C_noWarm(const problem *prob, const problem_folds *prob_folds, const parameter *param, int nr_fold, double min_C, double max_C, double *best_C, double *best_rate);
-
-
 void cross_validation_with_splits(const problem *prob, const problem_folds *prob_folds,const parameter *param, int nr_fold, double &score, bool &w_diff);
 void linear_step_fix_range(const problem *prob,const parameter *param, int nr_fold);
 void log_step_fix_range(const problem *prob,const parameter *param, int nr_fold);
@@ -50,27 +38,13 @@ void C_P_new(const problem *prob,const parameter *param,int nr_fold);
 void P_C_new(const problem *prob,const parameter *param,int nr_fold);
 void P_C_old(const problem *prob,const parameter *param,int nr_fold);
 void P_C_nowarm(const problem *prob,const parameter *param,int nr_fold);
+void find_classification(const problem *prob,const parameter *param,int nr_fold); 
 
 double calc_error(const problem *prob ,const parameter *param, double *target);
-
-void add_iter_sum_fix_one_param(int num);
-void reset_iter_sum_fix_one_param();
-void print_iter_sum_fix_one_param(char c, double val);
 
 void add_iter(int num);
 void reset_iter_sum();
 void print_iter_sum(double p, double C);
-
-void reset_iter_sum_whole_process();
-void update_iter_sum_whole_process();
-void print_iter_sum_whole_process();
-
-double get_l2r_l2_svr_fun_grad_norm(double *w, const problem *prob, const parameter *param);
-double get_l2r_l2_svr_loss_norm(double *w, const problem *prob, const double p);
-
-
-double get_l2r_lr_loss_norm(double *w, const problem *prob);
-double get_l2r_l2l_svc_loss_norm(double *w, const problem *prob);
 
 void reset_new_break();
 void add_new_break();

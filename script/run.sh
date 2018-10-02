@@ -3,6 +3,14 @@ num_core=20
 e='1e-2'
 s='11'
 
+t=3
+log_path='log/linear'.$e
+ext='PClinear'
+
+t=4
+log_path='log/log'.$e
+ext='PClog'
+
 t=2
 log_path='log/PC_noWarm'.$e
 ext='PCnowarm'
@@ -18,14 +26,6 @@ ext='PCold'
 t=0
 log_path='log/PC_new_1e-5'.$e
 ext='PCnew'
-
-t=3
-log_path='log/linear'.$e
-ext='PClinear'
-
-t=4
-log_path='log/log'.$e
-ext='PClog'
 
 mkdir -p $log_path
 grid()

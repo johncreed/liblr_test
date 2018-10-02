@@ -510,12 +510,78 @@ def draw_linear_vs_log():
         cnt += "a"
         plt.close()
 
+def mse_table():
+    print("nowarm")
+    nowarm_dir = set_log_path()
+    print("CPnew")
+    CPnew_dir = set_log_path()
+    print("PCold")
+    PCold_dir = set_log_path()
+    print("PCnew")
+    PCnew_dir = set_log_path()
+    
+    pic_path = choose_pic_folder("", "[Table-MSE-Comparison]")
+    f = open(join(pic_path,'mse-table'), 'w')
+    file_list = [trim(f) for f in os.listdir(nowarm_dir)]
+    for name in file_list:
+        nowarm = join(nowarm_dir, "{}.PCnowarm".format(name))
+        CPnew = join(CPnew_dir, "{}.CPnew".format(name))
+        PCold = join(PCold_dir, "{}.PCold".format(name))
+        PCnew = join(PCnew_dir, "{}.PCnew".format(name))
+
+        nowarm_D = read_log_file(nowarm)
+        CPnew_D = read_log_file(CPnew)
+        PCold_D = read_log_file(PCold)
+        PCnew_D = read_log_file(PCnew)
+
+        nowarm_best = nowarm_D['best'][2][0]
+        CPnew_best = CPnew_D['best'][2][0]
+        PCold_best = PCold_D['best'][2][0]
+        PCnew_best = PCnew_D['best'][2][0]
+
+        f.write(" {} & {} & {} & {} & {} \\\\ \n".format(name, nowarm_best, CPnew_best, PCold_best, PCnew_best))
+
+
+
+def iter_table():
+    print("nowarm")
+    nowarm_dir = set_log_path()
+    print("CPnew")
+    CPnew_dir = set_log_path()
+    print("PCold")
+    PCold_dir = set_log_path()
+    print("PCnew")
+    PCnew_dir = set_log_path()
+    
+    pic_path = choose_pic_folder("", "[Table-iter-Comparison]")
+    f = open(join(pic_path,'iter-table'), 'w')
+    file_list = [trim(f) for f in os.listdir(nowarm_dir)]
+    for name in file_list:
+        nowarm = join(nowarm_dir, "{}.PCnowarm".format(name))
+        CPnew = join(CPnew_dir, "{}.CPnew".format(name))
+        PCold = join(PCold_dir, "{}.PCold".format(name))
+        PCnew = join(PCnew_dir, "{}.PCnew".format(name))
+
+        nowarm_D = read_log_file(nowarm)
+        CPnew_D = read_log_file(CPnew)
+        PCold_D = read_log_file(PCold)
+        PCnew_D = read_log_file(PCnew)
+
+        nowarm_iter = sum(nowarm_D['iterSum'][0])
+        CPnew_iter = sum(CPnew_D['iterSum'][0])*100 / nowarm_iter
+        PCold_iter = sum(PCold_D['iterSum'][0])*100 / nowarm_iter
+        PCnew_iter = sum(PCnew_D['iterSum'][0])*100 / nowarm_iter
+
+        f.write(" {} & {} & {} & {} & {} \\\\ \n".format(name, '100', round(CPnew_iter, 2), round(PCold_iter, 2), round(PCnew_iter, 2)))
+
 # Define which draw picture name and corresponded function
 gDict = {"[Graph-3D]" : draw_3D ,
          "[Graph-2D]" : draw_2D ,
          "[Graph-FixP-vs-FixC-Cmp]" : draw_fixP_vs_fixC,
          "[Graph-warm-vs-noWarm]" : draw_warm_vs_noWarm,
-         "[Graph-linear-vs-log]":draw_linear_vs_log
+         "[Graph-linear-vs-log]":draw_linear_vs_log,
+         "[Table-MSE-Comparison]": mse_table, 
+         "[Table-iter-Comparison]": iter_table
          }
 
 def choose_graph_type():

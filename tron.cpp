@@ -135,7 +135,6 @@ void TRON::tron(double *w)
 
 		info("iter %2d act %5.3e pre %5.3e delta %5.3e f %5.3e |g| %5.3e CG %3d\n", iter, actred, prered, delta, f, gnorm, cg_iter);
 		add_iter(cg_iter);
-		add_iter_sum_fix_one_param(cg_iter);
 
 		if (actred > eta0*prered)
 		{
