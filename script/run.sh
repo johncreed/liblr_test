@@ -4,28 +4,28 @@ e='1e-2'
 s='11'
 
 t=2
-log_path='log/P_C_noWarm'.$e
-ext='PC.nowarm'
-
-t=4
-log_path='log/P_C_log'.$e
-ext='PC.log'
-
-t=3
-log_path='log/P_C_linear'.$e
-ext='PC.linear'
+log_path='log/PC_noWarm'.$e
+ext='PCnowarm'
 
 t=5
-log_path='log/C_P_new'.$e
-ext='CP.new'
+log_path='log/CP_new'.$e
+ext='CPnew'
 
 t=1
-log_path='log/P_C_old'.$e
-ext='PC.old'
+log_path='log/PC_old'.$e
+ext='PCold'
 
 t=0
-log_path='log/P_C_new_1e-5'.$e
-ext='PC.new'
+log_path='log/PC_new_1e-5'.$e
+ext='PCnew'
+
+t=3
+log_path='log/linear'.$e
+ext='PClinear'
+
+t=4
+log_path='log/log'.$e
+ext='PClog'
 
 mkdir -p $log_path
 grid()
@@ -36,4 +36,4 @@ do
 done
 }
 
-grid | xargs -d '\n' -P $num_core -I {} sh -c {} & 
+grid | xargs -d '\n' -P $num_core -I {} sh -c {} &

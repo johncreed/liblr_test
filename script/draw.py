@@ -23,6 +23,10 @@ home = "/home/johncreed"
 tmp = join(home, "tmp")
 all_logs = "log"
 all_graphs = "pic"
+  
+ext = lambda x: x[x.rfind('.')+1:]
+name = lambda x: x[x.rfind('/')+1:]
+trim = lambda x: x[:x.rfind('.')]
 
 def escape_keyword( myS ):
   escapeWordList = ["_", "."]
@@ -369,7 +373,8 @@ def draw_fixP_vs_fixC():
   print ("=== Choose FixP Folder ===")
   FixP_log_path = set_log_path()
   getext = lambda x: x[x.rfind('.')+1:]
-  pic_path = choose_pic_folder("{}-{}".format(getext(FixC_log_path),getext(FixP_log_path)), "[Graph-FixP-vs-FixC-Cmp]")
+  basename = lambda x : x[x.rfind('/')+1:]
+  pic_path = choose_pic_folder("{}-{}".format(basename(FixC_log_path),basename(FixP_log_path)), "[Graph-FixP-vs-FixC-Cmp]")
   file_names = [f[:f.rfind('.')] for f in os.listdir(FixC_log_path)]
   f = open(join(pic_path, 'fixP-vs-fixC-table') ,'w')
   tbl_cnt = 1
@@ -460,14 +465,12 @@ def draw_linear_vs_log():
   linear_log_path = set_log_path()
   print ("=== Choose log Folder ===")
   log_log_path = set_log_path()
-  ext = lambda x: x[x.rfind('.')+1:]
-  name = lambda x: x[:x.rfind('.')]
-  pic_path = choose_pic_folder("{}-{}".format(ext(linear_log_path),ext(log_log_path)), "[Graph-linear-vs-log]")
-  file_names = [name(name(f)) for f in os.listdir(linear_log_path)]
+  pic_path = choose_pic_folder("{}-{}".format(name(linear_log_path),name(log_log_path)), "[Graph-linear-vs-log]")
+  file_names = [trim(f) for f in os.listdir(linear_log_path)]
   for file_name in file_names:
     print ("Do " + file_name)
-    linear_file_path = join(linear_log_path, "{}.fixPgoC.linear".format(file_name))
-    log_file_path = join(log_log_path, "{}.fixPgoC.log".format(file_name))
+    linear_file_path = join(linear_log_path, "{}.PClinear".format(file_name))
+    log_file_path = join(log_log_path, "{}.PClog".format(file_name))
     linearDict = read_log_file( linear_file_path )
     logDict = read_log_file( log_file_path )
 

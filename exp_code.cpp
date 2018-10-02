@@ -899,7 +899,7 @@ double calc_min_C(const problem *prob, const parameter *param)
   int i;
   double xTx,max_xTx;
   double phi, loss, yi_abs;
-  double delta = 0.1;
+  double delta2 = 0.1;
   phi = loss = max_xTx = 0;
   for(i=0; i<prob->l; i++)
   {
@@ -914,7 +914,7 @@ double calc_min_C(const problem *prob, const parameter *param)
     }
     if(xTx > max_xTx)
       max_xTx = xTx;
-    phi += max( yi_abs - param->p, 0.0 );
+    phi += max( yi_abs, 0.0 );
     loss += max( yi_abs - param->p, 0.0) * max(yi_abs - param->p, 0.0);
   }
 
@@ -929,7 +929,7 @@ double calc_min_C(const problem *prob, const parameter *param)
   else if(param->solver_type == L2R_L2LOSS_SVC)
     min_C = 1.0 / (2 * prob->l * max_xTx);
   else if(param->solver_type == L2R_L2LOSS_SVR)
-    min_C = delta * delta * loss / (8.0 * phi * phi * max_xTx);
+    min_C = delta2 * delta2 * loss / (8.0 * phi * phi * max_xTx);
 
   return pow( 2, floor(log(min_C) / log(2.0)) );
 }
