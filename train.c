@@ -147,8 +147,14 @@ void do_find_parameter_C()
 {
 	fprintf(stdout,"Doing parameter search with %d-fold cross validation.\n", nr_fold);
 	if( param.solver_type == L2R_LR || param.solver_type == L2R_L2LOSS_SVC){
-		printf( "Do classification with param.C %g\n", log2(param.C));
-		find_classification(&prob, &param, nr_fold); 
+    if( which_type == 11 ){
+      printf("cls Old method\n");
+      cls_old(&prob, &param, nr_fold); 
+    }
+    else if( which_type == 12 ){
+      printf("cls new method\n");
+      cls_new(&prob, &param, nr_fold); 
+    }
 	}
 	else if( param.solver_type == L2R_L2LOSS_SVR){
 		if( which_type == 0 ){

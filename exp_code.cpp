@@ -171,8 +171,9 @@ void cross_validation_with_splits(const problem *prob, const problem_folds *prob
         norm_w_diff += (submodel->w[j] - init_sols[i][j])*(submodel->w[j] - init_sols[i][j]);
       norm_w_diff = sqrt(norm_w_diff);
 
-      if(norm_w_diff > 1e-15)
+      if(norm_w_diff != 0.0){
         w_diff  = true;
+      }
     }
 
     for(int j=0; j<total_w_size; j++)
@@ -517,7 +518,9 @@ void P_C_nowarm(const problem *prob,const parameter *param, int nr_fold)
       reset_new_break();
       reset_iter_sum();
       reset_init_sols(prob_folds);
+      param1.eps = (1 - delta1) * param->eps;
       cross_validation_with_splits(prob, prob_folds, &param1, nr_fold, score, w_diff);
+      param1.eps = param->eps;
       print_iter_sum( param1.p, param1.C );
       
       if(param1.p == 0.0)
@@ -543,9 +546,6 @@ void P_C_nowarm(const problem *prob,const parameter *param, int nr_fold)
     printf("Best log2P: %10.5f Best log2C: %10.5f Best MSE: %10.5f \n", log2(best_P), log2(best_C), best_score );
 }
 
-void find_classification(const problem *prob,const parameter *param,int nr_fold){
-  printf("123");
-} 
 
 
 double calc_error(const problem *prob ,const parameter *param, double *target)
@@ -670,7 +670,95 @@ void print_iter_sum(double p, double C){
     printf("iter_sum: %d log2P: %10.5f log2C: %10.5f\n", total_iter_sum, log2(p), log2(C));
 }
 
+void cls_new(const problem *prob,const parameter *param, int nr_fold)
+{
+  //Set range of parameter
+  double min_C = calc_min_C(prob, param);
+  double max_C = pow(2.0, 50);
 
+  //Split data
+  struct problem_folds *prob_folds = split_data(prob, nr_fold);
+
+  //Best score
+  double best_score = 0;
+  double best_C=-1;
+
+  //Run
+  struct parameter param1 = *param;
+  param1.eps = (1 - delta1) * param->eps;
+  param1.C = min_C;
+  int w_diff_cnt = -1;
+  while( param1.C < max_C )
+  {
+    double score = -1;
+    bool w_diff = false;
+
+    reset_new_break();
+    reset_iter_sum();
+    cross_validation_with_splits(prob, prob_folds, &param1, nr_fold, score, w_diff);
+    print_iter_sum( 0, param1.C );
+
+    printf("log2C: %10.5f Acc: %10.5f\n",log2(param1.C), score);
+    if(best_score < score){
+      best_C = param1.C;
+      best_score = score;
+    }
+    
+    if( get_new_break() == nr_fold )
+      break;
+    
+    param1.C *= 2.0;
+  }
+  
+  // Print the best result
+  printf("======================================\n");
+  printf("Best log2C: %10.5f Best Acc: %10.5f\n",log2(param1.C), best_score);
+}
+
+void cls_old(const problem *prob,const parameter *param, int nr_fold)
+{
+  //Set range of parameter
+  double min_C = calc_min_C(prob, param);
+  double max_C = pow(2.0, 50);
+
+  //Split data
+  struct problem_folds *prob_folds = split_data(prob, nr_fold);
+
+  //Best score
+  double best_score = 0;
+  double best_C=-1;
+
+  //Run
+  struct parameter param1 = *param;
+  param1.C = min_C;
+  int w_diff_cnt = -1;
+  while( param1.C < max_C )
+  {
+    double score = -1;
+    bool w_diff = false;
+
+    reset_iter_sum();
+    cross_validation_with_splits(prob, prob_folds, &param1, nr_fold, score, w_diff);
+    print_iter_sum( 0, param1.C );
+
+    printf("log2C: %10.5f Acc: %10.5f\n",log2(param1.C), score);
+    if(best_score < score){
+      best_C = param1.C;
+      best_score = score;
+    }
+    
+    if(w_diff) w_diff_cnt = -1;
+    w_diff_cnt++;
+    if(w_diff_cnt == 3)
+      break;
+    
+    param1.C *= 2.0;
+  }
+  
+  // Print the best result
+  printf("======================================\n");
+  printf("Best log2C: %10.5f Best Acc: %10.5f\n",log2(param1.C), best_score);
+}
 
 #ifdef __cplusplus
 }

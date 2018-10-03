@@ -38,7 +38,9 @@ void C_P_new(const problem *prob,const parameter *param,int nr_fold);
 void P_C_new(const problem *prob,const parameter *param,int nr_fold);
 void P_C_old(const problem *prob,const parameter *param,int nr_fold);
 void P_C_nowarm(const problem *prob,const parameter *param,int nr_fold);
-void find_classification(const problem *prob,const parameter *param,int nr_fold); 
+
+void cls_old(const problem *prob,const parameter *param,int nr_fold); 
+void cls_new(const problem *prob,const parameter *param,int nr_fold); 
 
 double calc_error(const problem *prob ,const parameter *param, double *target);
 
