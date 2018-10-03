@@ -520,7 +520,7 @@ def mse_table():
     print("PCnew")
     PCnew_dir = set_log_path()
     
-    pic_path = choose_pic_folder("", "[Table-MSE-Comparison]")
+    pic_path = choose_pic_folder(ext(PCnew_dir), "[Table-MSE-Comparison]")
     f = open(join(pic_path,'mse-table'), 'w')
     file_list = [trim(f) for f in os.listdir(nowarm_dir)]
     for name in file_list:
@@ -553,7 +553,7 @@ def iter_table():
     print("PCnew")
     PCnew_dir = set_log_path()
     
-    pic_path = choose_pic_folder("", "[Table-iter-Comparison]")
+    pic_path = choose_pic_folder(ext(PCnew_dir), "[Table-iter-Comparison]")
     f = open(join(pic_path,'iter-table'), 'w')
     file_list = [trim(f) for f in os.listdir(nowarm_dir)]
     for name in file_list:

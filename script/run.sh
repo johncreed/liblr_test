@@ -1,6 +1,6 @@
 #! /bin/bash
 num_core=20
-e='1e-2'
+e='1e-7'
 s='11'
 
 t=3
