@@ -11,4 +11,6 @@ blas/blas.a
 */tags
 tags
 # Data path
+cls
+reg_small
 reg
