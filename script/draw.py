@@ -122,10 +122,15 @@ def read_log_file(file_path):
           for line in f:
               tmp = line.split();
               if(tmp[0] == "iter_sum:"):
-                iterSum[0].append( int(matchVal("iter_sum:", 1, tmp)))
-                iterSum[1].append(sum(iterSum[0]))
-                iterSum[2].append( logToNoLog( matchVal("log2P:", 1, tmp)))
-                iterSum[3].append( logToNoLog( matchVal("log2C:", 1, tmp)))
+                  if(tmp[2] ==  "log2P:"):
+                    iterSum[0].append( int(matchVal("iter_sum:", 1, tmp)))
+                    iterSum[1].append(sum(iterSum[0]))
+                    iterSum[2].append( logToNoLog( matchVal("log2P:", 1, tmp)))
+                    iterSum[3].append( logToNoLog( matchVal("log2C:", 1, tmp)))
+                  elif(tmp[2] == "log2C"):
+                    iterSum[0].append( int(matchVal("iter_sum:", 1, tmp)))
+                    iterSum[1].append(sum(iterSum[0]))
+                    iterSum[3].append( logToNoLog( matchVal("log2C:", 1, tmp)))
               if(tmp[0] == "log2P:"):
                 cvs[0].append( logToNoLog( matchVal("log2P:", 1, tmp)))
                 cvs[1].append( logToNoLog( matchVal("log2C:", 1, tmp)))
@@ -151,10 +156,13 @@ def read_log_file(file_path):
                   newIter[0].append( logToNoLog( matchVal("log2C:", 1, tmp)))
                   newIter[1].append( float( matchVal("iter_sum:", 1, tmp)))
                   newIter[2].append(sum(newIter[1]))
-              if(tmp[0] == "Best"):
+              if(tmp[:2] == "Best log2P:".split()):
                 best[0].append( logToNoLog( matchVal("log2P:", 1, tmp)))
                 best[1].append( logToNoLog( matchVal("log2C:", 1, tmp)))
                 best[2].append( float( matchVal("MSE:", 1, tmp)))
+              if(tmp[:2] == "Best log2C:".split()):
+                best[1].append( logToNoLog( matchVal("log2C:", 1, tmp)))
+                best[2].append( float( matchVal("Acc:", 1, tmp)))
       return { "cvs" : cvs,
               "old" : old,
               "new" : new,
@@ -574,6 +582,73 @@ def iter_table():
 
         f.write(" {} & {} & {} & {} & {} \\\\ \n".format(name, '100', round(CPnew_iter, 2), round(PCold_iter, 2), round(PCnew_iter, 2)))
 
+def acc_table():
+    print("s0old")
+    s0old_dir = set_log_path()
+    print("s0new")
+    s0new_dir = set_log_path()
+    print("s2old")
+    s2old_dir = set_log_path()
+    print("s2new")
+    s2new_dir = set_log_path()
+    
+    pic_path = choose_pic_folder(ext(s2new_dir), "[Table-Acc-Comparison]")
+    f = open(join(pic_path,'acc-table'), 'w')
+    file_list = [trim(f) for f in os.listdir(s0old_dir)]
+    for name in file_list:
+        s0old = join(s0old_dir, "{}.s0old".format(name))
+        s0new = join(s0new_dir, "{}.s0new".format(name))
+        s2old = join(s2old_dir, "{}.s2old".format(name))
+        s2new = join(s2new_dir, "{}.s2new".format(name))
+
+        s0old_D = read_log_file(s0old)
+        s0new_D = read_log_file(s0new)
+        s2old_D = read_log_file(s2old)
+        s2new_D = read_log_file(s2new)
+
+        s0old_best = s0old_D['best'][2][0]
+        s0new_best = s0new_D['best'][2][0]
+        s2old_best = s2old_D['best'][2][0]
+        s2new_best = s2new_D['best'][2][0]
+
+        f.write("{} & {} & {} \\\\ \n".format( name, round(s0new_best*100 / s0old_best,2) , round(s2new_best * 100 / s2old_best, 2))) 
+
+#        f.write(" {} & {} & {} & {} & {} \\\\ \n".format(name, s0old_best, s0new_best, s2old_best, s2new_best))
+
+def cls_iter_table():
+    print("s0old")
+    s0old_dir = set_log_path()
+    print("s0new")
+    s0new_dir = set_log_path()
+    print("s2old")
+    s2old_dir = set_log_path()
+    print("s2new")
+    s2new_dir = set_log_path()
+    
+    pic_path = choose_pic_folder(ext(s2new_dir), "[Table-cls-iter-Comparison]")
+    f = open(join(pic_path,'cls-iter-table'), 'w')
+    file_list = [trim(f) for f in os.listdir(s0old_dir)]
+    for name in file_list:
+        s0old = join(s0old_dir, "{}.s0old".format(name))
+        s0new = join(s0new_dir, "{}.s0new".format(name))
+        s2old = join(s2old_dir, "{}.s2old".format(name))
+        s2new = join(s2new_dir, "{}.s2new".format(name))
+
+        s0old_D = read_log_file(s0old)
+        s0new_D = read_log_file(s0new)
+        s2old_D = read_log_file(s2old)
+        s2new_D = read_log_file(s2new)
+
+        s0old_iter =sum( s0old_D['iterSum'][0])
+        s0new_iter =sum( s0new_D['iterSum'][0])
+        s2old_iter =sum( s2old_D['iterSum'][0])
+        s2new_iter =sum( s2new_D['iterSum'][0])
+
+
+        f.write(" {} & {} & {} \\\\ \n".format(name, round ( 100 * s0new_iter / s0old_iter,2), round(100 * s2new_iter/ s2old_iter, 2)) )
+
+#        f.write(" {} & {} & {} & {} & {} \\\\ \n".format(name, s0old_iter, s0new_iter, s2old_iter, s2new_iter))
+
 # Define which draw picture name and corresponded function
 gDict = {"[Graph-3D]" : draw_3D ,
          "[Graph-2D]" : draw_2D ,
@@ -581,7 +656,9 @@ gDict = {"[Graph-3D]" : draw_3D ,
          "[Graph-warm-vs-noWarm]" : draw_warm_vs_noWarm,
          "[Graph-linear-vs-log]":draw_linear_vs_log,
          "[Table-MSE-Comparison]": mse_table, 
-         "[Table-iter-Comparison]": iter_table
+         "[Table-iter-Comparison]": iter_table,
+         "[Table-ACC-Comparison]": acc_table, 
+         "[Table-cls-iter-Comparison]": cls_iter_table
          }
 
 def choose_graph_type():

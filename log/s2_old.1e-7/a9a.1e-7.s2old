@@ -1,0 +1,76 @@
+Doing parameter search with 5-fold cross validation.
+cls Old method
+iter_sum: 30 log2P: INF log2C:  -20.00000
+log2C:  -20.00000 Acc:    0.75919
+iter_sum: 40 log2P: INF log2C:  -19.00000
+log2C:  -19.00000 Acc:    0.75919
+iter_sum: 55 log2P: INF log2C:  -18.00000
+log2C:  -18.00000 Acc:    0.75919
+iter_sum: 60 log2P: INF log2C:  -17.00000
+log2C:  -17.00000 Acc:    0.75947
+iter_sum: 60 log2P: INF log2C:  -16.00000
+log2C:  -16.00000 Acc:    0.76699
+iter_sum: 98 log2P: INF log2C:  -15.00000
+log2C:  -15.00000 Acc:    0.79187
+iter_sum: 100 log2P: INF log2C:  -14.00000
+log2C:  -14.00000 Acc:    0.81810
+iter_sum: 115 log2P: INF log2C:  -13.00000
+log2C:  -13.00000 Acc:    0.83228
+iter_sum: 166 log2P: INF log2C:  -12.00000
+log2C:  -12.00000 Acc:    0.83926
+iter_sum: 192 log2P: INF log2C:  -11.00000
+log2C:  -11.00000 Acc:    0.84316
+iter_sum: 225 log2P: INF log2C:  -10.00000
+log2C:  -10.00000 Acc:    0.84451
+iter_sum: 287 log2P: INF log2C:   -9.00000
+log2C:   -9.00000 Acc:    0.84577
+iter_sum: 345 log2P: INF log2C:   -8.00000
+log2C:   -8.00000 Acc:    0.84641
+iter_sum: 425 log2P: INF log2C:   -7.00000
+log2C:   -7.00000 Acc:    0.84724
+iter_sum: 547 log2P: INF log2C:   -6.00000
+log2C:   -6.00000 Acc:    0.84795
+iter_sum: 690 log2P: INF log2C:   -5.00000
+log2C:   -5.00000 Acc:    0.84798
+iter_sum: 865 log2P: INF log2C:   -4.00000
+log2C:   -4.00000 Acc:    0.84804
+iter_sum: 1050 log2P: INF log2C:   -3.00000
+log2C:   -3.00000 Acc:    0.84807
+iter_sum: 1241 log2P: INF log2C:   -2.00000
+log2C:   -2.00000 Acc:    0.84795
+iter_sum: 1606 log2P: INF log2C:   -1.00000
+log2C:   -1.00000 Acc:    0.84789
+iter_sum: 1699 log2P: INF log2C:    0.00000
+log2C:    0.00000 Acc:    0.84789
+iter_sum: 1610 log2P: INF log2C:    1.00000
+log2C:    1.00000 Acc:    0.84789
+iter_sum: 1504 log2P: INF log2C:    2.00000
+log2C:    2.00000 Acc:    0.84789
+iter_sum: 1268 log2P: INF log2C:    3.00000
+log2C:    3.00000 Acc:    0.84792
+iter_sum: 1078 log2P: INF log2C:    4.00000
+log2C:    4.00000 Acc:    0.84801
+iter_sum: 987 log2P: INF log2C:    5.00000
+log2C:    5.00000 Acc:    0.84801
+iter_sum: 821 log2P: INF log2C:    6.00000
+log2C:    6.00000 Acc:    0.84801
+iter_sum: 670 log2P: INF log2C:    7.00000
+log2C:    7.00000 Acc:    0.84801
+iter_sum: 555 log2P: INF log2C:    8.00000
+log2C:    8.00000 Acc:    0.84801
+iter_sum: 442 log2P: INF log2C:    9.00000
+log2C:    9.00000 Acc:    0.84801
+iter_sum: 325 log2P: INF log2C:   10.00000
+log2C:   10.00000 Acc:    0.84801
+iter_sum: 244 log2P: INF log2C:   11.00000
+log2C:   11.00000 Acc:    0.84801
+iter_sum: 65 log2P: INF log2C:   12.00000
+log2C:   12.00000 Acc:    0.84801
+iter_sum: 0 log2P: INF log2C:   13.00000
+log2C:   13.00000 Acc:    0.84801
+iter_sum: 0 log2P: INF log2C:   14.00000
+log2C:   14.00000 Acc:    0.84801
+iter_sum: 0 log2P: INF log2C:   15.00000
+log2C:   15.00000 Acc:    0.84801
+======================================
+Best log2C:   15.00000 Best Acc:    0.84807

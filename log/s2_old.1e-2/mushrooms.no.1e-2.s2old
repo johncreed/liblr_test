@@ -1,0 +1,42 @@
+Doing parameter search with 5-fold cross validation.
+cls Old method
+iter_sum: 10 log2P: INF log2C:  -14.00000
+log2C:  -14.00000 Acc:    0.89513
+iter_sum: 15 log2P: INF log2C:  -13.00000
+log2C:  -13.00000 Acc:    0.89291
+iter_sum: 20 log2P: INF log2C:  -12.00000
+log2C:  -12.00000 Acc:    0.89119
+iter_sum: 20 log2P: INF log2C:  -11.00000
+log2C:  -11.00000 Acc:    0.89193
+iter_sum: 20 log2P: INF log2C:  -10.00000
+log2C:  -10.00000 Acc:    0.89734
+iter_sum: 30 log2P: INF log2C:   -9.00000
+log2C:   -9.00000 Acc:    0.92085
+iter_sum: 40 log2P: INF log2C:   -8.00000
+log2C:   -8.00000 Acc:    0.95963
+iter_sum: 45 log2P: INF log2C:   -7.00000
+log2C:   -7.00000 Acc:    0.97920
+iter_sum: 45 log2P: INF log2C:   -6.00000
+log2C:   -6.00000 Acc:    0.98215
+iter_sum: 49 log2P: INF log2C:   -5.00000
+log2C:   -5.00000 Acc:    0.98584
+iter_sum: 55 log2P: INF log2C:   -4.00000
+log2C:   -4.00000 Acc:    0.99003
+iter_sum: 38 log2P: INF log2C:   -3.00000
+log2C:   -3.00000 Acc:    0.99742
+iter_sum: 34 log2P: INF log2C:   -2.00000
+log2C:   -2.00000 Acc:    0.99902
+iter_sum: 28 log2P: INF log2C:   -1.00000
+log2C:   -1.00000 Acc:    0.99902
+iter_sum: 22 log2P: INF log2C:    0.00000
+log2C:    0.00000 Acc:    0.99902
+iter_sum: 6 log2P: INF log2C:    1.00000
+log2C:    1.00000 Acc:    0.99902
+iter_sum: 0 log2P: INF log2C:    2.00000
+log2C:    2.00000 Acc:    0.99902
+iter_sum: 0 log2P: INF log2C:    3.00000
+log2C:    3.00000 Acc:    0.99902
+iter_sum: 0 log2P: INF log2C:    4.00000
+log2C:    4.00000 Acc:    0.99902
+======================================
+Best log2C:    4.00000 Best Acc:    0.99902
