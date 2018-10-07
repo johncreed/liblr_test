@@ -33,7 +33,9 @@ double calc_min_P(const problem *prob, const parameter *param);
 
 void cross_validation_with_splits(const problem *prob, const problem_folds *prob_folds,const parameter *param, int nr_fold, double &score, bool &w_diff);
 void linear_step_fix_range(const problem *prob,const parameter *param, int nr_fold);
+void linear_step_fix_range_nowarm(const problem *prob,const parameter *param, int nr_fold);
 void log_step_fix_range(const problem *prob,const parameter *param, int nr_fold);
+void log_step_fix_range_nowarm(const problem *prob,const parameter *param, int nr_fold);
 void C_P_new(const problem *prob,const parameter *param,int nr_fold);
 void P_C_new(const problem *prob,const parameter *param,int nr_fold);
 void P_C_old(const problem *prob,const parameter *param,int nr_fold);

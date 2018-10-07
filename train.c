@@ -181,6 +181,14 @@ void do_find_parameter_C()
       printf( "(C, P) new method ");
       C_P_new(&prob, &param, nr_fold);
     }
+    else if( which_type == 6){
+      printf( "(P, C) linear fix range\n");
+      linear_step_fix_range_nowarm(&prob, &param, nr_fold);
+    }
+    else if( which_type == 7){
+      printf( "(P, C) log fix range\n");
+      log_step_fix_range_nowarm(&prob, &param, nr_fold);
+    }
 	}
 	//printf("Best C = %g  CV accuracy = %g%%\n", best_C, 100.0*best_rate);
 }
