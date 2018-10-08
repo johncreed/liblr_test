@@ -1,0 +1,54 @@
+Doing parameter search with 5-fold cross validation.
+cls Old method
+iter_sum: 10 log2P: INF log2C:  -20.00000
+log2C:  -20.00000 Acc:    0.68498
+iter_sum: 10 log2P: INF log2C:  -19.00000
+log2C:  -19.00000 Acc:    0.68501
+iter_sum: 10 log2P: INF log2C:  -18.00000
+log2C:  -18.00000 Acc:    0.68510
+iter_sum: 15 log2P: INF log2C:  -17.00000
+log2C:  -17.00000 Acc:    0.68519
+iter_sum: 15 log2P: INF log2C:  -16.00000
+log2C:  -16.00000 Acc:    0.68537
+iter_sum: 15 log2P: INF log2C:  -15.00000
+log2C:  -15.00000 Acc:    0.68566
+iter_sum: 30 log2P: INF log2C:  -14.00000
+log2C:  -14.00000 Acc:    0.68599
+iter_sum: 25 log2P: INF log2C:  -13.00000
+log2C:  -13.00000 Acc:    0.68701
+iter_sum: 45 log2P: INF log2C:  -12.00000
+log2C:  -12.00000 Acc:    0.69290
+iter_sum: 45 log2P: INF log2C:  -11.00000
+log2C:  -11.00000 Acc:    0.71795
+iter_sum: 50 log2P: INF log2C:  -10.00000
+log2C:  -10.00000 Acc:    0.74509
+iter_sum: 60 log2P: INF log2C:   -9.00000
+log2C:   -9.00000 Acc:    0.76775
+iter_sum: 50 log2P: INF log2C:   -8.00000
+log2C:   -8.00000 Acc:    0.78498
+iter_sum: 85 log2P: INF log2C:   -7.00000
+log2C:   -7.00000 Acc:    0.80066
+iter_sum: 93 log2P: INF log2C:   -6.00000
+log2C:   -6.00000 Acc:    0.81548
+iter_sum: 94 log2P: INF log2C:   -5.00000
+log2C:   -5.00000 Acc:    0.82934
+iter_sum: 114 log2P: INF log2C:   -4.00000
+log2C:   -4.00000 Acc:    0.84280
+iter_sum: 142 log2P: INF log2C:   -3.00000
+log2C:   -3.00000 Acc:    0.85435
+iter_sum: 152 log2P: INF log2C:   -2.00000
+log2C:   -2.00000 Acc:    0.86342
+iter_sum: 219 log2P: INF log2C:   -1.00000
+log2C:   -1.00000 Acc:    0.86954
+iter_sum: 48 log2P: INF log2C:    0.00000
+log2C:    0.00000 Acc:    0.87018
+iter_sum: 304 log2P: INF log2C:    1.00000
+log2C:    1.00000 Acc:    0.87385
+iter_sum: 0 log2P: INF log2C:    2.00000
+log2C:    2.00000 Acc:    0.87385
+iter_sum: 0 log2P: INF log2C:    3.00000
+log2C:    3.00000 Acc:    0.87385
+iter_sum: 0 log2P: INF log2C:    4.00000
+log2C:    4.00000 Acc:    0.87385
+======================================
+Best log2C:    4.00000 Best Acc:    0.87385
