@@ -1,7 +1,9 @@
 #! /bin/bash
 num_core=20
+#e='1e-3'
+e='1e-4'
+#e='1e-5'
 #e='1e-7'
-e='1e-2'
 
 case $1 in 
   0)
@@ -39,6 +41,18 @@ case $1 in
     s='11'
     log_path='log/CP_new'.$e
     ext='CPnew'
+    ;;
+  6)
+    t=6
+    s='11'
+    log_path='log/linear-nowarm'.$e
+    ext='PClinear'
+    ;;
+  7)
+    t=7
+    s='11'
+    log_path='log/log-nowarm'.$e
+    ext='PClog'
     ;;
   110)
     t=11

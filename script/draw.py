@@ -488,14 +488,17 @@ def draw_linear_vs_log():
         fig=pylab.figure()
         ax = p3.Axes3D(fig)
         tle = file_name
-        pylab.title(tle)
+        #pylab.title(tle)
         ax.scatter3D(linearDict["cvs"][0],log2List(linearDict["cvs"][1]), log2List(linearDict["cvs"][2]), s=[10] ,c = "black",marker = 'o')
         ax.scatter3D(logDict["cvs"][0],log2List(logDict["cvs"][1]), log2List(logDict["cvs"][2]), s=[10] ,c = "red",marker = 'o')
-        ax.set_xlabel('P')
-        ax.set_ylabel('log2(C)')
-        ax.set_zlabel('log2(MSE)')
+        ax.set_xlabel(r'$\epsilon $', fontsize=13)
+        ax.set_ylabel('log2(C)', fontsize=13)
+        ax.set_zlabel('log2(MSE)', fontsize=13)
         ax.view_init(30, angle)
         fig.add_axes(ax)
+        plt.xticks(fontsize=13)
+        plt.yticks(fontsize=13)
+        for t in ax.zaxis.get_major_ticks(): t.label.set_fontsize(13)
         plt.savefig(join(pic_path, "{}-{}.eps".format(escape_keyword(file_name), cnt)), format="eps", dpi=1000)
         cnt += "a"
         plt.close()
@@ -506,14 +509,17 @@ def draw_linear_vs_log():
         fig=pylab.figure()
         ax = p3.Axes3D(fig)
         tle = file_name
-        pylab.title(tle)
+        #pylab.title(tle)
         ax.scatter3D(log2List(linearDict["cvs"][0]),log2List(linearDict["cvs"][1]), log2List(linearDict["cvs"][2]), s=[10] ,c = "black",marker = 'o')
         ax.scatter3D(log2List(logDict["cvs"][0]),log2List(logDict["cvs"][1]), log2List(logDict["cvs"][2]), s=[10] ,c = "red",marker = 'o')
-        ax.set_xlabel('log2(P)')
-        ax.set_ylabel('log2(C)')
-        ax.set_zlabel('log2(MSE)')
+        ax.set_xlabel(r'$ log2(\epsilon )$', fontsize=13)
+        ax.set_ylabel('log2(C)', fontsize=13)
+        ax.set_zlabel('log2(MSE)', fontsize=13)
         ax.view_init(30, angle)
         fig.add_axes(ax)
+        plt.xticks(fontsize=13)
+        plt.yticks(fontsize=13)
+        for t in ax.zaxis.get_major_ticks(): t.label.set_fontsize(13)
         plt.savefig(join(pic_path, "{}-{}-logP.eps".format(escape_keyword(file_name), cnt)), format="eps", dpi=1000)
         cnt += "a"
         plt.close()
@@ -530,12 +536,20 @@ def mse_table():
     
     pic_path = choose_pic_folder(ext(PCnew_dir), "[Table-MSE-Comparison]")
     f = open(join(pic_path,'mse-table'), 'w')
+    f.write("{} & {} & {} & {} \\\\ \n".format(nowarm_dir,CPnew_dir, PCold_dir, PCnew_dir))
     file_list = [trim(f) for f in os.listdir(nowarm_dir)]
+    file_list.sort()
     for name in file_list:
-        nowarm = join(nowarm_dir, "{}.PCnowarm".format(name))
-        CPnew = join(CPnew_dir, "{}.CPnew".format(name))
-        PCold = join(PCold_dir, "{}.PCold".format(name))
-        PCnew = join(PCnew_dir, "{}.PCnew".format(name))
+        #nowarm = join(nowarm_dir, "{}.PCnowarm".format(name))
+        #CPnew = join(CPnew_dir, "{}.CPnew".format(name))
+        #PCold = join(PCold_dir, "{}.PCold".format(name))
+        #PCnew = join(PCnew_dir, "{}.PCnew".format(name))
+
+        name = trim(name)
+        nowarm = join(nowarm_dir, "{}.1e-4.PClinear".format(name))
+        CPnew = join(CPnew_dir, "{}.1e-4.CPnew".format(name))
+        PCold = join(PCold_dir, "{}.1e-4.PCold".format(name))
+        PCnew = join(PCnew_dir, "{}.1e-4.PCnew".format(name))
 
         nowarm_D = read_log_file(nowarm)
         CPnew_D = read_log_file(CPnew)
@@ -543,11 +557,12 @@ def mse_table():
         PCnew_D = read_log_file(PCnew)
 
         nowarm_best = nowarm_D['best'][2][0]
-        CPnew_best = CPnew_D['best'][2][0]
-        PCold_best = PCold_D['best'][2][0]
-        PCnew_best = PCnew_D['best'][2][0]
+        CPnew_best = CPnew_D['best'][2][0] * 100 / nowarm_best
+        PCold_best = PCold_D['best'][2][0] * 100 / nowarm_best
+        PCnew_best = PCnew_D['best'][2][0] * 100 / nowarm_best
 
-        f.write(" {} & {} & {} & {} & {} \\\\ \n".format(name, nowarm_best, CPnew_best, PCold_best, PCnew_best))
+        f.write(" {} & {} & {} & {}  \\\\ \n".format( name ,round(CPnew_best), round(PCold_best), round(PCnew_best)))
+        #f.write(" {} & {} & {} & {} & {} \\\\ \n".format(name, nowarm_best, CPnew_best, PCold_best, PCnew_best))
 
 
 
@@ -563,12 +578,18 @@ def iter_table():
     
     pic_path = choose_pic_folder(ext(PCnew_dir), "[Table-iter-Comparison]")
     f = open(join(pic_path,'iter-table'), 'w')
-    file_list = [trim(f) for f in os.listdir(nowarm_dir)]
+    f.write("{} & {} & {} & {} \\\\ \n".format(nowarm_dir,CPnew_dir, PCold_dir, PCnew_dir))
+    file_list = [trim(trim(f)) for f in os.listdir(nowarm_dir)]
+    file_list.sort()
     for name in file_list:
-        nowarm = join(nowarm_dir, "{}.PCnowarm".format(name))
-        CPnew = join(CPnew_dir, "{}.CPnew".format(name))
-        PCold = join(PCold_dir, "{}.PCold".format(name))
-        PCnew = join(PCnew_dir, "{}.PCnew".format(name))
+        nowarm = join(nowarm_dir, "{}.1e-4.PClinear".format(name))
+        CPnew = join(CPnew_dir, "{}.1e-4.CPnew".format(name))
+        PCold = join(PCold_dir, "{}.1e-4.PCold".format(name))
+        PCnew = join(PCnew_dir, "{}.1e-4.PCnew".format(name))
+        #nowarm = join(nowarm_dir, "{}.PCnowarm".format(name))
+        #CPnew = join(CPnew_dir, "{}.CPnew".format(name))
+        #PCold = join(PCold_dir, "{}.PCold".format(name))
+        #PCnew = join(PCnew_dir, "{}.PCnew".format(name))
 
         nowarm_D = read_log_file(nowarm)
         CPnew_D = read_log_file(CPnew)
@@ -580,7 +601,7 @@ def iter_table():
         PCold_iter = sum(PCold_D['iterSum'][0])*100 / nowarm_iter
         PCnew_iter = sum(PCnew_D['iterSum'][0])*100 / nowarm_iter
 
-        f.write(" {} & {} & {} & {} & {} \\\\ \n".format(name, '100', round(CPnew_iter, 2), round(PCold_iter, 2), round(PCnew_iter, 2)))
+        f.write(" {}  & {} & {} & {} \\\\ \n".format(name, round(CPnew_iter), round(PCold_iter), round(PCnew_iter)))
 
 def acc_table():
     print("s0old")
