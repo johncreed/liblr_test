@@ -525,7 +525,7 @@ def draw_linear_vs_log():
         plt.close()
 
 def mse_table():
-    print("nowarm")
+    print("full-nowarm")
     nowarm_dir = set_log_path()
     print("CPnew")
     CPnew_dir = set_log_path()
@@ -533,41 +533,42 @@ def mse_table():
     PCold_dir = set_log_path()
     print("PCnew")
     PCnew_dir = set_log_path()
+    print("PCfull")
+    PCfull_dir = set_log_path()
     
-    pic_path = choose_pic_folder(ext(PCnew_dir), "[Table-MSE-Comparison]")
+    
+    pic_path = choose_pic_folder(ext(PCfull_dir), "[Table-MSE-Comparison]")
     f = open(join(pic_path,'mse-table'), 'w')
-    f.write("{} & {} & {} & {} \\\\ \n".format(nowarm_dir,CPnew_dir, PCold_dir, PCnew_dir))
+    f.write("{} & {} & {} & {} & {}\\\\ \n".format(nowarm_dir,CPnew_dir, PCold_dir, PCnew_dir, PCfull_dir))
     file_list = [trim(f) for f in os.listdir(nowarm_dir)]
     file_list.sort()
     for name in file_list:
-        #nowarm = join(nowarm_dir, "{}.PCnowarm".format(name))
-        #CPnew = join(CPnew_dir, "{}.CPnew".format(name))
-        #PCold = join(PCold_dir, "{}.PCold".format(name))
-        #PCnew = join(PCnew_dir, "{}.PCnew".format(name))
-
         name = trim(name)
-        nowarm = join(nowarm_dir, "{}.1e-4.PClinear".format(name))
+        nowarm = join(nowarm_dir, "{}.1e-4.full-nowarm".format(name))
         CPnew = join(CPnew_dir, "{}.1e-4.CPnew".format(name))
         PCold = join(PCold_dir, "{}.1e-4.PCold".format(name))
         PCnew = join(PCnew_dir, "{}.1e-4.PCnew".format(name))
+        PCfull = join(PCfull_dir, "{}.1e-4.PClinear".format(name))
 
         nowarm_D = read_log_file(nowarm)
         CPnew_D = read_log_file(CPnew)
         PCold_D = read_log_file(PCold)
         PCnew_D = read_log_file(PCnew)
+        PCfull_D = read_log_file(PCfull)
 
-        nowarm_best = nowarm_D['best'][2][0]
-        CPnew_best = CPnew_D['best'][2][0] * 100 / nowarm_best
-        PCold_best = PCold_D['best'][2][0] * 100 / nowarm_best
-        PCnew_best = PCnew_D['best'][2][0] * 100 / nowarm_best
+        nowarm_best = min(nowarm_D['best'][2])
+        CPnew_best = CPnew_D['best'][2][0] / nowarm_best
+        PCold_best = PCold_D['best'][2][0]  / nowarm_best
+        PCnew_best = PCnew_D['best'][2][0]  / nowarm_best
+        PCfull_best = PCfull_D['best'][2][0] / nowarm_best
 
-        f.write(" {} & {} & {} & {}  \\\\ \n".format( name ,round(CPnew_best), round(PCold_best), round(PCnew_best)))
+        f.write(" {} & {} & {} & {} & {} \\\\ \n".format( name ,round(CPnew_best, 2), round(PCold_best, 2), round(PCnew_best, 2), round(PCfull_best, 2)))
         #f.write(" {} & {} & {} & {} & {} \\\\ \n".format(name, nowarm_best, CPnew_best, PCold_best, PCnew_best))
 
 
 
 def iter_table():
-    print("nowarm")
+    print("full-nowarm")
     nowarm_dir = set_log_path()
     print("CPnew")
     CPnew_dir = set_log_path()
@@ -577,36 +578,37 @@ def iter_table():
     PCnew_dir = set_log_path()
     print("PCnowarm")
     PCnowarm_dir = set_log_path()
+    print("full-warm")
+    PCfull_dir = set_log_path()
     
     pic_path = choose_pic_folder(ext(PCnew_dir), "[Table-iter-Comparison]")
     f = open(join(pic_path,'iter-table'), 'w')
-    f.write("{} & {} & {} & {}& {} \\\\ \n".format(nowarm_dir,CPnew_dir, PCold_dir, PCnew_dir, PCnowarm_dir))
+    f.write("{} & {} & {} & {}& {} & {}\\\\ \n".format(nowarm_dir,CPnew_dir, PCold_dir, PCnew_dir, PCnowarm_dir, PCfull_dir))
     file_list = [trim(trim(f)) for f in os.listdir(nowarm_dir)]
     file_list.sort()
     for name in file_list:
-        nowarm = join(nowarm_dir, "{}.1e-4.PClinear".format(name))
+        nowarm = join(nowarm_dir, "{}.1e-4.full-nowarm".format(name))
         CPnew = join(CPnew_dir, "{}.1e-4.CPnew".format(name))
         PCold = join(PCold_dir, "{}.1e-4.PCold".format(name))
         PCnew = join(PCnew_dir, "{}.1e-4.PCnew".format(name))
         PCnowarm = join(PCnowarm_dir, "{}.1e-4.PCnowarm".format(name))
-        #nowarm = join(nowarm_dir, "{}.PCnowarm".format(name))
-        #CPnew = join(CPnew_dir, "{}.CPnew".format(name))
-        #PCold = join(PCold_dir, "{}.PCold".format(name))
-        #PCnew = join(PCnew_dir, "{}.PCnew".format(name))
+        PCfull = join(PCfull_dir, "{}.1e-4.PClinear".format(name))
 
         nowarm_D = read_log_file(nowarm)
         CPnew_D = read_log_file(CPnew)
         PCold_D = read_log_file(PCold)
         PCnew_D = read_log_file(PCnew)
         PCnowarm_D = read_log_file(PCnowarm)
+        PCfull_D = read_log_file(PCfull)
 
         nowarm_iter = sum(nowarm_D['iterSum'][0])
-        CPnew_iter = sum(CPnew_D['iterSum'][0])*100 / nowarm_iter
-        PCold_iter = sum(PCold_D['iterSum'][0])*100 / nowarm_iter
-        PCnew_iter = sum(PCnew_D['iterSum'][0])*100 / nowarm_iter
-        PCnowarm_iter = sum(PCnowarm_D['iterSum'][0])*100 / nowarm_iter
+        CPnew_iter = sum(CPnew_D['iterSum'][0]) / nowarm_iter
+        PCold_iter = sum(PCold_D['iterSum'][0]) / nowarm_iter
+        PCnew_iter = sum(PCnew_D['iterSum'][0]) / nowarm_iter
+        PCnowarm_iter = sum(PCnowarm_D['iterSum'][0]) / nowarm_iter
+        PCfull_iter = sum(PCfull_D['iterSum'][0]) / nowarm_iter
 
-        f.write(" {}  & {} & {} & {} & {}\\\\ \n".format(name, round(CPnew_iter), round(PCold_iter), round(PCnew_iter), round(PCnowarm_iter)))
+        f.write(" {}  & {} & {} & {} & {} & {}\\\\ \n".format(name, round(CPnew_iter,2), round(PCold_iter,2), round(PCnew_iter,2), round(PCnowarm_iter,2), round(PCfull_iter, 2)))
 
 def acc_table():
     print("s0old")

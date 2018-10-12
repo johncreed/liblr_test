@@ -1,24 +1,21 @@
-log/linear.1e-4 & log/CP_new.1e-4 & log/PC_old.1e-4 & log/PC_new_1e-5.1e-4 \\ 
- E2006.train & 101 & 101 & 100  \\ 
- YearPredictionMSD & 105 & 105 & 100  \\ 
- abalone & 100 & 100 & 100  \\ 
- abalone_scale & 100 & 100 & 100  \\ 
- bodyfat & 93 & 100 & 100  \\ 
- bodyfat_scale & 100 & 100 & 100  \\ 
- cadata & 92 & 104 & 100  \\ 
- cpusmall & 107 & 109 & 100  \\ 
- cpusmall_scale & 100 & 100 & 100  \\ 
- eunite2001 & 100 & 100 & 100  \\ 
- housing & 99 & 100 & 100  \\ 
- housing_scale & 100 & 100 & 100  \\ 
- log1p.E2006.train & 100 & 100 & 100  \\ 
- mg & 100 & 100 & 100  \\ 
- mg_scale & 100 & 100 & 100  \\ 
- mpg & 101 & 103 & 100  \\ 
- mpg_scale & 100 & 100 & 100  \\ 
- pyrim & 100 & 100 & 100  \\ 
- pyrim_scale & 95 & 100 & 100  \\ 
- space_ga & 100 & 100 & 100  \\ 
- space_ga_scale & 100 & 100 & 100  \\ 
- triazines & 100 & 100 & 100  \\ 
- triazines_scale & 100 & 100 & 100  \\ 
+log/linear-nowarm.1e-4 & log/CP_new.1e-4 & log/PC_old.1e-4 & log/PC_new_1e-5.1e-4 & log/linear.1e-4\\ 
+ abalone & 1.0 & 1.0 & 1.0 & 1.0 \\ 
+ abalone_scale & 1.0 & 1.0 & 1.0 & 1.0 \\ 
+ bodyfat & 1.11 & 1.18 & 1.18 & 1.18 \\ 
+ bodyfat_scale & 1.0 & 1.0 & 1.0 & 1.0 \\ 
+ cadata & 1.0 & 1.14 & 1.09 & 1.09 \\ 
+ cpusmall & 1.07 & 1.09 & 1.0 & 1.0 \\ 
+ cpusmall_scale & 1.0 & 1.0 & 1.0 & 1.0 \\ 
+ eunite2001 & 1.0 & 1.0 & 1.0 & 1.0 \\ 
+ housing & 1.03 & 1.04 & 1.04 & 1.04 \\ 
+ housing_scale & 1.0 & 1.0 & 1.0 & 1.0 \\ 
+ mg & 1.0 & 1.0 & 1.0 & 1.0 \\ 
+ mg_scale & 1.0 & 1.0 & 1.0 & 1.0 \\ 
+ mpg & 1.0 & 1.01 & 0.99 & 0.99 \\ 
+ mpg_scale & 1.0 & 1.0 & 1.0 & 1.0 \\ 
+ pyrim & 1.0 & 1.0 & 1.0 & 1.0 \\ 
+ pyrim_scale & 0.95 & 1.0 & 1.0 & 1.0 \\ 
+ space_ga & 1.0 & 1.0 & 1.0 & 1.0 \\ 
+ space_ga_scale & 1.0 & 1.0 & 1.0 & 1.0 \\ 
+ triazines & 1.0 & 1.0 & 1.0 & 1.0 \\ 
+ triazines_scale & 1.0 & 1.0 & 1.0 & 1.0 \\ 
