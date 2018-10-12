@@ -41,6 +41,7 @@ void P_C_new(const problem *prob,const parameter *param,int nr_fold);
 void P_C_old(const problem *prob,const parameter *param,int nr_fold);
 void P_C_nowarm(const problem *prob,const parameter *param,int nr_fold);
 void FP_C_nowarm(const problem *prob,const parameter *param,int nr_fold);
+void full_nowarm_fix_p(const problem *prob,const parameter *param,int nr_fold);
 
 void cls_old(const problem *prob,const parameter *param,int nr_fold); 
 void cls_new(const problem *prob,const parameter *param,int nr_fold); 

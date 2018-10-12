@@ -8,14 +8,14 @@ ed=19
 f=$1
 
 
-log_path="log/${f##*/}"
+log_path="log/${f##*/}.full.$e"
 mkdir -p $log_path
 
 grid()
 {
 for i in $( eval echo {$st..$ed})
 do
-  echo -e "./train -s ${s} -e ${e} -C -p $i -t 8 ${f} > $log_path/${f##*/}.$e.$i \n"
+  echo -e "./train -s ${s} -e ${e} -C -p $i -t 9 ${f} > $log_path/${f##*/}.$e.$i \n"
 done
 }
 
