@@ -190,7 +190,12 @@ void do_find_parameter_C()
       log_step_fix_range_nowarm(&prob, &param, nr_fold);
     }
     else if( which_type == 8){
+      printf( "PC nowam with fix P and termination criteria\n");
       FP_C_nowarm(&prob, &param, nr_fold);
+    }
+    else if( which_type == 9){
+      printf( "Full grid grid fix P\n");
+      full_nowarm_fix_p(&prob, &param, nr_fold);
     }
 	}
 	//printf("Best C = %g  CV accuracy = %g%%\n", best_C, 100.0*best_rate);
