@@ -182,7 +182,7 @@ void do_find_parameter_C()
       C_P_new(&prob, &param, nr_fold);
     }
     else if( which_type == 6){
-      printf( "(P, C) linear fix range\n");
+      printf( "(P, C) linear fix range no warm\n");
       linear_step_fix_range_nowarm(&prob, &param, nr_fold);
     }
     else if( which_type == 7){
