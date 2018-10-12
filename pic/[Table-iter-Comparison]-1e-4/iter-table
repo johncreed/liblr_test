@@ -1,24 +1,24 @@
-log/linear.1e-4 & log/CP_new.1e-4 & log/PC_old.1e-4 & log/PC_new_1e-5.1e-4 \\ 
- E2006.train  & 126 & 100 & 100 \\ 
- YearPredictionMSD  & 123 & 97 & 100 \\ 
- abalone  & 146 & 100 & 100 \\ 
- abalone_scale  & 139 & 100 & 100 \\ 
- bodyfat  & 152 & 100 & 100 \\ 
- bodyfat_scale  & 134 & 100 & 100 \\ 
- cadata  & 210 & 99 & 100 \\ 
- cpusmall  & 159 & 100 & 100 \\ 
- cpusmall_scale  & 165 & 100 & 100 \\ 
- eunite2001  & 153 & 100 & 100 \\ 
- housing  & 181 & 99 & 100 \\ 
- housing_scale  & 158 & 100 & 100 \\ 
- log1p.E2006.train  & 158 & 100 & 100 \\ 
- mg  & 143 & 100 & 100 \\ 
- mg_scale  & 140 & 100 & 100 \\ 
- mpg  & 175 & 100 & 100 \\ 
- mpg_scale  & 141 & 100 & 100 \\ 
- pyrim  & 190 & 99 & 100 \\ 
- pyrim_scale  & 183 & 100 & 100 \\ 
- space_ga  & 142 & 100 & 100 \\ 
- space_ga_scale  & 173 & 100 & 100 \\ 
- triazines  & 193 & 100 & 100 \\ 
- triazines_scale  & 194 & 100 & 100 \\ 
+log/linear.1e-4 & log/CP_new.1e-4 & log/PC_old.1e-4 & log/PC_new_1e-5.1e-4& log/PC_noWarm.1e-4 \\ 
+ E2006.train  & 126 & 100 & 100 & 202\\ 
+ YearPredictionMSD  & 123 & 97 & 100 & 201\\ 
+ abalone  & 146 & 100 & 100 & 206\\ 
+ abalone_scale  & 139 & 100 & 100 & 225\\ 
+ bodyfat  & 152 & 100 & 100 & 186\\ 
+ bodyfat_scale  & 134 & 100 & 100 & 227\\ 
+ cadata  & 210 & 99 & 100 & 269\\ 
+ cpusmall  & 159 & 100 & 100 & 215\\ 
+ cpusmall_scale  & 165 & 100 & 100 & 217\\ 
+ eunite2001  & 153 & 100 & 100 & 208\\ 
+ housing  & 181 & 99 & 100 & 229\\ 
+ housing_scale  & 158 & 100 & 100 & 254\\ 
+ log1p.E2006.train  & 158 & 100 & 100 & 312\\ 
+ mg  & 143 & 100 & 100 & 212\\ 
+ mg_scale  & 140 & 100 & 100 & 202\\ 
+ mpg  & 175 & 100 & 100 & 238\\ 
+ mpg_scale  & 141 & 100 & 100 & 212\\ 
+ pyrim  & 190 & 99 & 100 & 298\\ 
+ pyrim_scale  & 183 & 100 & 100 & 321\\ 
+ space_ga  & 142 & 100 & 100 & 177\\ 
+ space_ga_scale  & 173 & 100 & 100 & 252\\ 
+ triazines  & 193 & 100 & 100 & 279\\ 
+ triazines_scale  & 194 & 100 & 100 & 265\\ 

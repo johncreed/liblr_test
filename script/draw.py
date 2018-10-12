@@ -575,10 +575,12 @@ def iter_table():
     PCold_dir = set_log_path()
     print("PCnew")
     PCnew_dir = set_log_path()
+    print("PCnowarm")
+    PCnowarm_dir = set_log_path()
     
     pic_path = choose_pic_folder(ext(PCnew_dir), "[Table-iter-Comparison]")
     f = open(join(pic_path,'iter-table'), 'w')
-    f.write("{} & {} & {} & {} \\\\ \n".format(nowarm_dir,CPnew_dir, PCold_dir, PCnew_dir))
+    f.write("{} & {} & {} & {}& {} \\\\ \n".format(nowarm_dir,CPnew_dir, PCold_dir, PCnew_dir, PCnowarm_dir))
     file_list = [trim(trim(f)) for f in os.listdir(nowarm_dir)]
     file_list.sort()
     for name in file_list:
@@ -586,6 +588,7 @@ def iter_table():
         CPnew = join(CPnew_dir, "{}.1e-4.CPnew".format(name))
         PCold = join(PCold_dir, "{}.1e-4.PCold".format(name))
         PCnew = join(PCnew_dir, "{}.1e-4.PCnew".format(name))
+        PCnowarm = join(PCnowarm_dir, "{}.1e-4.PCnowarm".format(name))
         #nowarm = join(nowarm_dir, "{}.PCnowarm".format(name))
         #CPnew = join(CPnew_dir, "{}.CPnew".format(name))
         #PCold = join(PCold_dir, "{}.PCold".format(name))
@@ -595,13 +598,15 @@ def iter_table():
         CPnew_D = read_log_file(CPnew)
         PCold_D = read_log_file(PCold)
         PCnew_D = read_log_file(PCnew)
+        PCnowarm_D = read_log_file(PCnowarm)
 
         nowarm_iter = sum(nowarm_D['iterSum'][0])
         CPnew_iter = sum(CPnew_D['iterSum'][0])*100 / nowarm_iter
         PCold_iter = sum(PCold_D['iterSum'][0])*100 / nowarm_iter
         PCnew_iter = sum(PCnew_D['iterSum'][0])*100 / nowarm_iter
+        PCnowarm_iter = sum(PCnowarm_D['iterSum'][0])*100 / nowarm_iter
 
-        f.write(" {}  & {} & {} & {} \\\\ \n".format(name, round(CPnew_iter), round(PCold_iter), round(PCnew_iter)))
+        f.write(" {}  & {} & {} & {} & {}\\\\ \n".format(name, round(CPnew_iter), round(PCold_iter), round(PCnew_iter), round(PCnowarm_iter)))
 
 def acc_table():
     print("s0old")

@@ -46,7 +46,7 @@ case $1 in
     t=6
     s='11'
     log_path='log/linear-nowarm'.$e
-    ext='PClinear'
+    ext='full-nowarm'
     ;;
   7)
     t=7
