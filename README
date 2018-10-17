@@ -8,10 +8,10 @@ Usage:
 
 https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/regression.html
 
-Please chooose and download to data folder
+Please choose and download to data folder
 
 
-3. Run experimanets
+3. Run experiments
 
 Run all the following setting : ./runall
 

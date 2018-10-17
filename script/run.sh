@@ -56,4 +56,4 @@ do
 done
 }
 
-grid | xargs -d '\n' -P $num_core -I {} sh -c {} &
+grid | xargs -P $num_core -I {} sh -c {} &

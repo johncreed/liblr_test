@@ -96,9 +96,9 @@ def logToNoLog( val ):
   else:
     return 0.0
 
-def set_log_path():
+def set_log_path(folder_name):
     log_path = ""
-    print("=== set_log_path ===")
+    print("=== Choose {} ===".format(folder_name))
     all_log_folders = [ x for x in os.listdir(all_logs) ]
     all_log_folders.sort()
     print_list_with_idx( all_log_folders )
@@ -469,10 +469,8 @@ def draw_fixP_vs_fixC():
     tbl_cnt = tbl_cnt + 1 
 
 def draw_linear_vs_log():
-  print ("=== Choose linear Folder ===")
-  linear_log_path = set_log_path()
-  print ("=== Choose log Folder ===")
-  log_log_path = set_log_path()
+  linear_log_path = set_log_path("linear")
+  log_log_path = set_log_path("log")
   pic_path = choose_pic_folder("{}-{}".format(name(linear_log_path),name(log_log_path)), "[Graph-linear-vs-log]")
   file_names = [trim(f) for f in os.listdir(linear_log_path)]
   for file_name in file_names:
@@ -525,16 +523,11 @@ def draw_linear_vs_log():
         plt.close()
 
 def mse_table():
-    print("full-nowarm")
-    nowarm_dir = set_log_path()
-    print("CPnew")
-    CPnew_dir = set_log_path()
-    print("PCold")
-    PCold_dir = set_log_path()
-    print("PCnew")
-    PCnew_dir = set_log_path()
-    print("linear")
-    PCfull_dir = set_log_path()
+    nowarm_dir = set_log_path("full-nowarm")
+    CPnew_dir = set_log_path("CPnew")
+    PCold_dir = set_log_path("PCold")
+    PCnew_dir = set_log_path("PCnew")
+    PCfull_dir = set_log_path("linear")
     
     pic_path = choose_pic_folder(ext(PCfull_dir), "[Table-MSE-Comparison]")
     f = open(join(pic_path,'mse-table'), 'w')
@@ -567,16 +560,11 @@ def mse_table():
 
 
 def iter_table():
-    print("full-nowarm")
-    nowarm_dir = set_log_path()
-    print("CPnew")
-    CPnew_dir = set_log_path()
-    print("PCold")
-    PCold_dir = set_log_path()
-    print("PCnew")
-    PCnew_dir = set_log_path()
-    print("linear")
-    PCfull_dir = set_log_path()
+    nowarm_dir = set_log_path("full-nowarm")
+    CPnew_dir = set_log_path("CPnew")
+    PCold_dir = set_log_path("PCold")
+    PCnew_dir = set_log_path("PCnew")
+    PCfull_dir = set_log_path("linear")
     
     pic_path = choose_pic_folder(ext(PCnew_dir), "[Table-iter-Comparison]")
     f = open(join(pic_path,'iter-table'), 'w')
