@@ -86,7 +86,7 @@ esac
 mkdir -p $log_path
 grid()
 {
-for f in `./small_data.sh reg`
+for f in data/*
 do
   echo "./train -s ${s} -e ${e} -C -t ${t} ${f} > $log_path/${f#*/}.$e.$ext &"
 done
