@@ -1,8 +1,8 @@
 #! /bin/bash
 
-./run 0
-./run 1
-./run 3
-./run 4
-./run 5
-./run 6
+./run.sh 0
+./run.sh 1
+./run.sh 3
+./run.sh 4
+./run.sh 5
+./run.sh 6
