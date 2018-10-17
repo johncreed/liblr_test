@@ -1,1 +1,0 @@
-script/small_data.sh
