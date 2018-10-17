@@ -1,14 +1,19 @@
 Usage:
 
-1. All data are in
+1. Set up basics
+ 
+./init.sh
+
+2. All data are in
 
 https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/regression.html
 
 Please chooose and download to data folder
 
-2. make
 
 3. Run experimanets
+
+Run all the following setting : ./runall
 
 For figure 1 in paper
 a) full-linear : ./run.sh 3
@@ -24,8 +29,8 @@ d) (eps, C) old : ./run.sh 1
 4. Logs' location
 
 For figure 1 in paper
-a) full-linear : log/PClinear
-b) full-log: log/PClog
+a) full-linear : log/linear
+b) full-log: log/log
 
 For table 1 & 2 in paper
 a) Full grid (Baseline) : log/full-nowarm
@@ -45,3 +50,5 @@ Warning:
 a) Picture : select [Graph-linear-vs-log]
 b) MSE table : select [Table-MSE-Comparison]
 c) iter table : select [Table-iter-Comparison]
+
+6. All picture and table are stored to pic folder.
