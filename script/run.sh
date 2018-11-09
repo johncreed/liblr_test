@@ -38,9 +38,9 @@ esac
 mkdir -p $log_path
 grid()
 {
-for f in "`./small_data.sh binary`"
+for f in `./small_data.sh binary`
 do
-  echo "./train -s ${s} -e ${e} -C -t ${t} ${f} > $log_path/${f#*/}.$e.$ext &"
+  echo "./train -s ${s} -e ${e} -C -t ${t} ${f} > $log_path/${f#*/}.$e.$ext"
 done
 }
 
