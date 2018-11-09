@@ -1,30 +1,30 @@
  a1a & 1.00 & 1.00 \\ 
- a2a & 1.00 & 1.00 \\ 
+ a2a & 1.00 & 1.01 \\ 
  a3a & 1.00 & 1.00 \\ 
  a4a & 1.00 & 1.00 \\ 
- a5a & 1.00 & 1.18 \\ 
- a6a & 1.00 & 1.03 \\ 
+ a5a & 1.00 & 1.02 \\ 
+ a6a & 1.00 & 1.00 \\ 
  a7a & 1.00 & 1.00 \\ 
  a8a & 1.00 & 1.00 \\ 
- a9a & 1.00 & 1.00 \\ 
+ a9a & 1.04 & 1.00 \\ 
  a9a-no & 1.00 & 1.00 \\ 
  australian & 1.00 & 1.00 \\ 
- australian-scale & 1.00 & 1.02 \\ 
+ australian-scale & 1.00 & 1.00 \\ 
  breast-cancer & 1.00 & 1.00 \\ 
- breast-cancer-scale & 1.00 & 1.03 \\ 
+ breast-cancer-scale & 1.00 & 1.00 \\ 
  cod-rna & 1.00 & 1.00 \\ 
- colon-cancer & 1.01 & 1.00 \\ 
+ colon-cancer & 1.00 & 1.00 \\ 
  covtype & 1.00 & 1.00 \\ 
- covtype-scale & 1.06 & 1.00 \\ 
+ covtype-scale & 1.00 & 1.00 \\ 
  diabetes & 1.00 & 1.00 \\ 
- diabetes-scale & 1.01 & 1.00 \\ 
+ diabetes-scale & 1.00 & 1.00 \\ 
  duke & 1.00 & 1.00 \\ 
  fourclass & 1.00 & 1.00 \\ 
- fourclass-scale & 1.00 & 1.00 \\ 
+ fourclass-scale & 1.00 & 1.02 \\ 
  german-number & 1.00 & 1.00 \\ 
  german-number-scale & 1.00 & 1.00 \\ 
- heart & 1.01 & 1.00 \\ 
- heart-scale & 1.00 & 1.05 \\ 
+ heart & 1.00 & 1.01 \\ 
+ heart-scale & 1.00 & 1.00 \\ 
  ijcnn1 & 1.00 & 1.00 \\ 
  ijcnn1-no & 1.00 & 1.00 \\ 
  ionosphere-scale & 1.00 & 1.00 \\ 
@@ -32,23 +32,23 @@
  liver-disorders & 1.00 & 1.00 \\ 
  liver-disorders-scale & 1.00 & 1.00 \\ 
  madelon & 1.00 & 1.00 \\ 
- madelon-no & 1.05 & 1.00 \\ 
+ madelon-no & 1.00 & 1.00 \\ 
  mushrooms & 1.00 & 1.00 \\ 
  mushrooms-no & 1.00 & 1.00 \\ 
  rcv1-train & 1.00 & 1.00 \\ 
  rcv1-train-no & 1.00 & 1.00 \\ 
- real-sim & 1.04 & 1.15 \\ 
+ real-sim & 1.00 & 1.00 \\ 
  skin-nonskin & 1.00 & 1.00 \\ 
  sonar-scale & 1.00 & 1.00 \\ 
  splice & 1.00 & 1.00 \\ 
- splice-scale & 1.00 & 1.00 \\ 
- svmguide1 & 1.01 & 1.00 \\ 
- svmguide3 & 1.00 & 1.07 \\ 
+ splice-scale & 1.01 & 1.00 \\ 
+ svmguide1 & 1.00 & 1.00 \\ 
+ svmguide3 & 1.00 & 1.00 \\ 
  w1a & 1.00 & 1.01 \\ 
  w2a & 1.00 & 1.00 \\ 
  w3a & 1.00 & 1.00 \\ 
- w4a & 1.05 & 1.00 \\ 
- w5a & 1.00 & 1.00 \\ 
+ w4a & 1.00 & 1.00 \\ 
+ w5a & 1.00 & 1.03 \\ 
  w6a & 1.00 & 1.00 \\ 
- w7a & 1.00 & 1.00 \\ 
+ w7a & 1.05 & 1.00 \\ 
  w8a & 1.00 & 1.00 \\ 
