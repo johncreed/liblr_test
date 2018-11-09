@@ -912,15 +912,14 @@ void cls_new(const problem *prob,const parameter *param, int nr_fold)
   param1.eps = (1 - delta1) * param->eps;
   param1.C = min_C;
   int w_diff_cnt = -1;
+  reset_iter_sum();
   while( param1.C < max_C )
   {
     double score = -1;
     bool w_diff = false;
 
     reset_new_break();
-    reset_iter_sum();
     cross_validation_with_splits(prob, prob_folds, &param1, nr_fold, score, w_diff);
-    print_iter_sum( 0, param1.C );
 
     printf("log2C: %10.5f Acc: %10.5f\n",log2(param1.C), score);
     if(best_score < score){
@@ -933,6 +932,7 @@ void cls_new(const problem *prob,const parameter *param, int nr_fold)
     
     param1.C *= 2.0;
   }
+  print_iter_sum( 0, param1.C );
   
   // Print the best result
   printf("======================================\n");
@@ -956,14 +956,13 @@ void cls_old(const problem *prob,const parameter *param, int nr_fold)
   struct parameter param1 = *param;
   param1.C = min_C;
   int w_diff_cnt = -1;
+  reset_iter_sum();
   while( param1.C < max_C )
   {
     double score = -1;
     bool w_diff = false;
 
-    reset_iter_sum();
     cross_validation_with_splits(prob, prob_folds, &param1, nr_fold, score, w_diff);
-    print_iter_sum( 0, param1.C );
 
     printf("log2C: %10.5f Acc: %10.5f\n",log2(param1.C), score);
     if(best_score < score){
@@ -978,6 +977,7 @@ void cls_old(const problem *prob,const parameter *param, int nr_fold)
     
     param1.C *= 2.0;
   }
+  print_iter_sum( 0, param1.C );
   
   // Print the best result
   printf("======================================\n");

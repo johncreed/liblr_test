@@ -21,13 +21,13 @@ case $1 in
   120)
     t=12
     s='0'
-    log_path='log/s0_new'.$e
+    log_path='log/s0_new.1e-5'.$e
     ext='s0new'
     ;;
   122)
     t=12
     s='2'
-    log_path='log/s2_new'.$e
+    log_path='log/s2_new.1e-5'.$e
     ext='s2new'
     ;;
   *)
