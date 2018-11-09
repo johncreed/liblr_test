@@ -1,46 +1,34 @@
 #! /bin/bash
-num_core=20
+num_core=8
 #e='1e-3'
 e='1e-4'
 #e='1e-5'
 #e='1e-7'
 
 case $1 in 
-  0)
-    t=0
-    s='11'
-    log_path='log/PCnew_1e-5'.$e
-    ext='PCnew'
+  110)
+    t=11
+    s='0'
+    log_path='log/s0_old'.$e
+    ext='s0old'
     ;;
-  1)
-    t=1
-    s='11'
-    log_path='log/PCold'.$e
-    ext='PCold'
+  112)
+    t=11
+    s='2'
+    log_path='log/s2_old'.$e
+    ext='s2old'
     ;;
-  3)
-    t=3
-    s='11'
-    log_path='log/linear'.$e
-    ext='PClinear'
+  120)
+    t=12
+    s='0'
+    log_path='log/s0_new'.$e
+    ext='s0new'
     ;;
-  4)
-    t=4
-    s='11'
-    log_path='log/log'.$e
-    ext='PClog'
-    ;;
-  5)
-    t=5
-    s='11'
-    log_path='log/CPnew'.$e
-    ext='CPnew'
-    ;;
-  6)
-    t=6
-    s='11'
-    log_path='log/full-nowarm'.$e
-    ext='full-nowarm'
+  122)
+    t=12
+    s='2'
+    log_path='log/s2_new'.$e
+    ext='s2new'
     ;;
   *)
     echo "Not match"
@@ -50,10 +38,11 @@ esac
 mkdir -p $log_path
 grid()
 {
-for f in data/*
+for f in "`./small_data.sh binary`"
 do
   echo "./train -s ${s} -e ${e} -C -t ${t} ${f} > $log_path/${f#*/}.$e.$ext &"
 done
 }
 
+#grid
 grid | xargs -P $num_core -I {} sh -c {} &
