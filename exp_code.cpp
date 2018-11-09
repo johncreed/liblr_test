@@ -171,7 +171,7 @@ void cross_validation_with_splits(const problem *prob, const problem_folds *prob
         norm_w_diff += (submodel->w[j] - init_sols[i][j])*(submodel->w[j] - init_sols[i][j]);
       norm_w_diff = sqrt(norm_w_diff);
 
-      if(norm_w_diff != 0.0){
+      if(norm_w_diff > 1e-15){
         w_diff  = true;
       }
     }
