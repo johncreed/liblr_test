@@ -1,0 +1,33 @@
+Doing parameter search with 5-fold cross validation.
+cls Old method
+log2C:  -13.00000 Acc:    0.64974
+log2C:  -12.00000 Acc:    0.65104
+log2C:  -11.00000 Acc:    0.65234
+log2C:  -10.00000 Acc:    0.65234
+log2C:   -9.00000 Acc:    0.65234
+log2C:   -8.00000 Acc:    0.65495
+log2C:   -7.00000 Acc:    0.66276
+log2C:   -6.00000 Acc:    0.67708
+log2C:   -5.00000 Acc:    0.71224
+log2C:   -4.00000 Acc:    0.74349
+log2C:   -3.00000 Acc:    0.75911
+log2C:   -2.00000 Acc:    0.77214
+log2C:   -1.00000 Acc:    0.76432
+log2C:    0.00000 Acc:    0.77083
+log2C:    1.00000 Acc:    0.77083
+log2C:    2.00000 Acc:    0.77083
+log2C:    3.00000 Acc:    0.77214
+log2C:    4.00000 Acc:    0.77344
+log2C:    5.00000 Acc:    0.77344
+log2C:    6.00000 Acc:    0.77344
+log2C:    7.00000 Acc:    0.77344
+log2C:    8.00000 Acc:    0.77344
+log2C:    9.00000 Acc:    0.77344
+log2C:   10.00000 Acc:    0.77344
+log2C:   11.00000 Acc:    0.77344
+log2C:   12.00000 Acc:    0.77344
+log2C:   13.00000 Acc:    0.77344
+log2C:   14.00000 Acc:    0.77344
+iter_sum: 1071 log2P: INF log2C:   14.00000
+======================================
+Best log2C:   14.00000 Best Acc:    0.77344
