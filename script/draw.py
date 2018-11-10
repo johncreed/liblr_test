@@ -147,7 +147,8 @@ def acc_table():
     pic_path = choose_pic_folder(ext(s2new_dir), "[Table-Acc-Comparison]")
     f = open(join(pic_path,'acc-table'), 'w')
     file_list = [ trim(trim(f)) for f in os.listdir(s0old_dir)]
-    f.write(" & {} & {} & {} & {} \\\\ \n".format(s0old_dir, s0new_dir, s2old_dir, s2new_dir))
+    file_list.sort()
+    #f.write(" & {} & {} & {} & {} \\\\ \n".format(s0old_dir, s0new_dir, s2old_dir, s2new_dir))
     e = ext(s0old_dir)
     for name in file_list:
         s0old = join(s0old_dir, "{}.{}.s0old".format(name, e))
@@ -165,7 +166,7 @@ def acc_table():
         s2old_best = s2old_D['best'][2][0]
         s2new_best = s2new_D['best'][2][0]
 
-        f.write("{} & {} & {} \\\\ \n".format( name, round(s0new_best*100 / s0old_best,2) , round(s2new_best * 100 / s2old_best, 2))) 
+        f.write("{} & {:.2f} & {:.2f} \\\\ \n".format( escape_keyword(name), s0new_best / s0old_best, s2new_best / s2old_best)) 
        # f.write(" {} & {} & {} & {} & {} \\\\ \n".format(name, s0old_best, s0new_best, s2old_best, s2new_best))
 
 def cls_iter_table():
@@ -181,8 +182,9 @@ def cls_iter_table():
     pic_path = choose_pic_folder(ext(s2new_dir), "[Table-cls-iter-Comparison]")
     f = open(join(pic_path,'cls-iter-table'), 'w')
     file_list = [ trim(trim(f)) for f in os.listdir(s0old_dir)]
+    file_list.sort()
     e = ext(s0old_dir)
-    f.write(" & {} & {} & {} & {} \\\\ \n".format(s0old_dir, s0new_dir, s2old_dir, s2new_dir))
+    #f.write(" & {} & {} & {} & {} \\\\ \n".format(s0old_dir, s0new_dir, s2old_dir, s2new_dir))
     for name in file_list:
         s0old = join(s0old_dir, "{}.{}.s0old".format(name, e))
         s0new = join(s0new_dir, "{}.{}.s0new".format(name, e))
@@ -200,7 +202,7 @@ def cls_iter_table():
         s2new_iter =sum( s2new_D['iterSum'][0])
 
 
-        f.write(" {} & {} & {} \\\\ \n".format(name, round ( 100 * s0new_iter / s0old_iter,2), round(100 * s2new_iter/ s2old_iter, 2)) )
+        f.write(" {} & {:.2f} & {:.2f} \\\\ \n".format( escape_keyword(name), s0new_iter / s0old_iter, s2new_iter/ s2old_iter, 3) )
         #f.write(" {} & {} & {} & {} & {} \\\\ \n".format(name, s0old_iter, s0new_iter, s2old_iter, s2new_iter))
 
 # Define which draw picture name and corresponded function

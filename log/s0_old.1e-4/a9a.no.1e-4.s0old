@@ -35,4 +35,4 @@ log2C:   16.00000 Acc:    0.84755
 log2C:   17.00000 Acc:    0.84755
 iter_sum: 4080 log2P: INF log2C:   17.00000
 ======================================
-Best log2C:   17.00000 Best Acc:    0.84792
+Best log2C:    1.00000 Best Acc:    0.84792
