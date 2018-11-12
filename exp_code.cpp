@@ -986,6 +986,48 @@ void cls_old(const problem *prob,const parameter *param, int nr_fold)
   printf("Best log2C: %10.5f Best Acc: %10.5f\n",log2(best_C), best_score);
 }
 
+void cls_full(const problem *prob,const parameter *param, int nr_fold)
+{
+  //Set range of parameter
+  double min_C = calc_min_C(prob, param);
+  double max_C = pow(2.0, 50);
+
+  //Split data
+  struct problem_folds *prob_folds = split_data(prob, nr_fold);
+
+  //Best score
+  double best_score = 0;
+  double best_C=-1;
+
+  //Run
+  struct parameter param1 = *param;
+  param1.eps = (1 - delta1) * param->eps;
+  param1.C = min_C;
+  int w_diff_cnt = -1;
+  reset_iter_sum();
+  while( param1.C < max_C )
+  {
+    double score = -1;
+    bool w_diff = false;
+
+    cross_validation_with_splits(prob, prob_folds, &param1, nr_fold, score, w_diff);
+
+    printf("log2C: %10.5f Acc: %10.5f\n",log2(param1.C), score);
+    if(best_score < score){
+      best_C = param1.C;
+      best_score = score;
+    }
+    
+    param1.C *= 2.0;
+  }
+  print_iter_sum( 0, param1.C );
+  
+  // Print the best result
+  printf("======================================\n");
+  printf("Best log2C: %10.5f Best Acc: %10.5f\n",log2(best_C), best_score);
+}
+
+
 #ifdef __cplusplus
 }
 #endif

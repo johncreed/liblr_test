@@ -2,9 +2,9 @@
 num_core=96
 #e='1e-2'
 #e='1e-3'
-e='1e-4'
+#e='1e-4'
 #e='1e-5'
-#e='1e-7'
+e='1e-6'
 
 case $1 in 
   110)
@@ -30,6 +30,18 @@ case $1 in
     s='2'
     log_path='log/s2_new.1e-5'.$e
     ext='s2new'
+    ;;
+  130)
+    t=13
+    s='0'
+    log_path='log/s0full'.$e
+    ext='s0full'
+    ;;
+  132)
+    t=13
+    s='2'
+    log_path='log/s2full'.$e
+    ext='s2full'
     ;;
   *)
     echo "Not match"

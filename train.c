@@ -155,6 +155,10 @@ void do_find_parameter_C()
       printf("cls new method\n");
       cls_new(&prob, &param, nr_fold); 
     }
+    else if( which_type == 13 ){
+      printf("cls new method\n");
+      cls_full(&prob, &param, nr_fold); 
+    }
 	}
 	else if( param.solver_type == L2R_L2LOSS_SVR){
 		if( which_type == 0 ){

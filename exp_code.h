@@ -45,6 +45,7 @@ void full_nowarm_fix_p(const problem *prob,const parameter *param,int nr_fold);
 
 void cls_old(const problem *prob,const parameter *param,int nr_fold); 
 void cls_new(const problem *prob,const parameter *param,int nr_fold); 
+void cls_full(const problem *prob,const parameter *param,int nr_fold); 
 
 double calc_error(const problem *prob ,const parameter *param, double *target);
 
