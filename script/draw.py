@@ -134,7 +134,7 @@ def log2List( origList ):
           ret.append(-30)
   return ret
 
-def acc_table():
+def cls_acc_table():
     print("s0old")
     s0old_dir = set_log_path("s0old")
     print("s0new")
@@ -205,10 +205,39 @@ def cls_iter_table():
         f.write(" {} & {:.2f} & {:.2f} \\\\ \n".format( escape_keyword(name), s0new_iter / s0old_iter, s2new_iter/ s2old_iter, 3) )
         #f.write(" {} & {} & {} & {} & {} \\\\ \n".format(name, s0old_iter, s0new_iter, s2old_iter, s2new_iter))
 
+
+def acc_table():
+    directory_list = []
+    while(1):
+        if 'n' == input("Continue? y/n"):
+            break
+        directory_list.append(set_log_path(""))
+
+    file_list = [ trim(trim(f)) for f in os.listdir(directory_list[0])]
+    file_list.sort()
+
+    pic_path = choose_pic_folder(ext(trim(directory_list[0])), "[ACC-Comparison]")
+    f = open(join(pic_path,'cls-iter-table'), 'w')
+
+    # Show which logs are included
+    for x in directory_list:
+        f.write("& {}".format(x))
+    f.write("\\\\  \n")
+
+    for name in file_list:
+        f.write("{} ".format(escape_keyword(name)))
+        for x in directory_list:
+            result_dict = read_log_file(join(x, "{}.{}".format(name, basename(x))))
+            best_acc = result_dict['best'][2][0]
+            f.write("& {:2f}".format(best_acc) )
+        f.write("\\\\  \n")
+
+
 # Define which draw picture name and corresponded function
 gDict = {
-         "[Table-acc-Comparison]": acc_table, 
+         "[Table-acc-Comparison]": cls_acc_table, 
          "[Table-iter-Comparison]": cls_iter_table ,
+         "[Table-Comparison]": acc_table, 
          }
 
 def choose_graph_type():
