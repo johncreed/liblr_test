@@ -5,6 +5,7 @@ LIBS = blas/blas.a
 SHVER = 3
 OS = $(shell uname)
 #LIBS = -lblas
+CFLAGS += -D ANALYSIS
 
 all: train predict
 

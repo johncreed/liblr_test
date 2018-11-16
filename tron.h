@@ -21,7 +21,7 @@ public:
 
 	void tron(double *w);
 	void set_print_string(void (*i_print) (const char *buf));
-  void parameter_search_break_condition(double *w);
+  void parameter_search_break_condition(double *w, double Cp);
 
 private:
 	int trcg(double delta, double *g, double *s, double *r, bool *reach_boundary);

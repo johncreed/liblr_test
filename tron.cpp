@@ -250,8 +250,11 @@ void TRON::set_print_string(void (*print_string) (const char *buf))
 	tron_print_string = print_string;
 }
 
+#ifdef ANALYSIS
+bool show_gnorm0 = true;
+#endif
 //Stopping condition for parameter search
-void TRON::parameter_search_break_condition(double *w){
+void TRON::parameter_search_break_condition(double *w, double Cp){
 	int n = fun_obj->get_nr_variable();
 	double *w0 = new double[n];
   double *gl = new double[n]; // gradient of loss term "C(Loss(w))"
@@ -263,14 +266,30 @@ void TRON::parameter_search_break_condition(double *w){
 	fun_obj->grad(w0, gl);
 	double glnorm0 = dnrm2_(&n, gl, &inc);
 	delete [] w0;
+#ifdef ANALYSIS
+  if (show_gnorm0){
+		show_gnorm0 = false;
+		printf("gnorm0: %.5f\n", glnorm0 / Cp);
+  }
+#endif
 
 	fun_obj->fun(w);
 	fun_obj->grad(w, gl);
 	for (int i = 0; i < n; i++)
 		gl[i] = gl[i] - w[i];
 	double glnorm = dnrm2_(&n, gl, &inc);
+#ifdef ANALYSIS
+	double w_w_inner = dnrm2_(&n, w, &inc);
+	double gl_gl_inner = dnrm2_(&n, gl, &inc);
+	double gl_w_inner = 0;
+	for (int i = 0; i < n ; i++){
+		gl_w_inner += w[i] * gl[i];
+	}
+	printf("cos: %.5f\n", gl_w_inner / (w_w_inner * gl_gl_inner));
+#endif
   delete [] gl;
- 
+
+
 	if( glnorm <= eps / (1.0 - 1e-5) * glnorm0 )
 		add_new_break();
 }

@@ -812,6 +812,11 @@ double calc_min_C(const problem *prob, const parameter *param)
   double phi, loss, yi_abs;
   double delta2 = 0.1;
   phi = loss = max_xTx = 0;
+#ifdef ANALYSIS
+  double max_abs_x = 0;
+  double avg_abs_x = 0;
+  long long int x_cnt = 0;
+#endif
   for(i=0; i<prob->l; i++)
   {
     xTx = 0;
@@ -820,6 +825,12 @@ double calc_min_C(const problem *prob, const parameter *param)
     while(xi->index != -1)
     {
       double val = xi->value;
+#ifdef ANALYSIS
+      double val_abs = (val >= 0)? val : -1.0 * val;
+      max_abs_x = max( max_abs_x, val_abs);
+      avg_abs_x += val_abs;
+      x_cnt++;
+#endif
       xTx += val*val;
       xi++;
     }
@@ -828,6 +839,11 @@ double calc_min_C(const problem *prob, const parameter *param)
     phi += max( yi_abs, 0.0 );
     loss += max( yi_abs - param->p, 0.0) * max(yi_abs - param->p, 0.0);
   }
+
+#ifdef ANALYSIS
+  printf("max-abs-x: %.5f\n", max_abs_x);
+  printf("avg-abs-x: %.5f\n", avg_abs_x / (double) x_cnt);
+#endif
 
   if(loss == 0.0){
     fprintf( stderr, "param->p is too large!!!\n");

@@ -2143,7 +2143,7 @@ static void train_one(const problem *prob, const parameter *param, double *w, do
 			TRON tron_obj(fun_obj, primal_solver_tol, eps_cg);
 			tron_obj.set_print_string(liblinear_print_string);
 			tron_obj.tron(w);
-      tron_obj.parameter_search_break_condition(w);
+      tron_obj.parameter_search_break_condition(w, Cp);
 			delete fun_obj;
 			delete[] C;
 			break;
@@ -2162,7 +2162,7 @@ static void train_one(const problem *prob, const parameter *param, double *w, do
 			TRON tron_obj(fun_obj, primal_solver_tol, eps_cg);
 			tron_obj.set_print_string(liblinear_print_string);
 			tron_obj.tron(w);
-      tron_obj.parameter_search_break_condition(w);
+      tron_obj.parameter_search_break_condition(w, Cp);
 			delete fun_obj;
 			delete[] C;
 			break;
@@ -2208,7 +2208,7 @@ static void train_one(const problem *prob, const parameter *param, double *w, do
 			TRON tron_obj(fun_obj, param->eps);
 			tron_obj.set_print_string(liblinear_print_string);
 			tron_obj.tron(w);
-      tron_obj.parameter_search_break_condition(w);
+      tron_obj.parameter_search_break_condition(w, param->C);
 			delete fun_obj;
 			delete[] C;
 			break;
