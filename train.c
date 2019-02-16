@@ -155,12 +155,16 @@ void do_find_parameter_C()
       P_C_linear_full(&prob, &param, nr_fold);
     }
     else if( which_type == 1 ){
-      printf( "(C, P) linear full\n");
+      printf( "(P, C) linear full\n");
       P_C_old(&prob, &param, nr_fold);
     }
     else if( which_type == 2 ){
       printf( "(C, P) linear full\n");
       C_P_linear_full(&prob, &param, nr_fold);
+    }
+    else if( which_type == 3 ){
+      printf( "(P, C) linear full nowarm\n");
+      P_C_linear_full_nowarm(&prob, &param, nr_fold);
     }
   }
   //printf("Best C = %g  CV accuracy = %g%%\n", best_C, 100.0*best_rate);

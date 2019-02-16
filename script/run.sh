@@ -1,5 +1,5 @@
 #! /bin/bash
-num_core=20
+num_core=24
 e='1e-4'
 S='5'
 
@@ -25,6 +25,13 @@ case $1 in
     ext=$type.$e
     log_path='log/'$ext
     ;;
+  3)
+    t=3
+    s='11'
+    type='P_C_linear_full_nowarm'
+    ext=$type.$e
+    log_path='log/'$ext
+    ;;
   *)
     echo "Not match"
     exit 1
@@ -33,7 +40,8 @@ esac
 mkdir -p $log_path
 grid()
 {
-for f in `./list_data.sh reg`
+#for f in `./list_data.sh reg`
+for f in reg/*
 do
   echo "./train -s ${s} -e ${e} -S ${S} -C -t ${t} ${f} > $log_path/${f#*/}.$ext &"
 done
