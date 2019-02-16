@@ -1,46 +1,29 @@
 #! /bin/bash
 num_core=20
-#e='1e-3'
 e='1e-4'
-#e='1e-5'
-#e='1e-7'
+S='5'
 
 case $1 in 
   0)
     t=0
     s='11'
-    log_path='log/PCnew_1e-5'.$e
-    ext='PCnew'
+    type='P_C_linear_full'
+    ext=$type.$e
+    log_path='log/'$ext
     ;;
   1)
     t=1
     s='11'
-    log_path='log/PCold'.$e
-    ext='PCold'
+    type='P_C_old'
+    ext=$type.$e.$S
+    log_path='log/'$ext
     ;;
-  3)
-    t=3
+  2)
+    t=2
     s='11'
-    log_path='log/linear'.$e
-    ext='PClinear'
-    ;;
-  4)
-    t=4
-    s='11'
-    log_path='log/log'.$e
-    ext='PClog'
-    ;;
-  5)
-    t=5
-    s='11'
-    log_path='log/CPnew'.$e
-    ext='CPnew'
-    ;;
-  6)
-    t=6
-    s='11'
-    log_path='log/full-nowarm'.$e
-    ext='full-nowarm'
+    type='C_P_linear_full'
+    ext=$type.$e
+    log_path='log/'$ext
     ;;
   *)
     echo "Not match"
@@ -50,9 +33,9 @@ esac
 mkdir -p $log_path
 grid()
 {
-for f in data/*
+for f in `./list_data.sh reg`
 do
-  echo "./train -s ${s} -e ${e} -C -t ${t} ${f} > $log_path/${f#*/}.$e.$ext &"
+  echo "./train -s ${s} -e ${e} -S ${S} -C -t ${t} ${f} > $log_path/${f#*/}.$ext &"
 done
 }
 

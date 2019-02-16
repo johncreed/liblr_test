@@ -40,6 +40,7 @@ struct parameter
 	double* weight;
 	double p;
 	double *init_sol;
+  int old_stop_cnt = 3;
 };
 
 struct model

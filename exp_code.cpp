@@ -193,7 +193,7 @@ void cross_validation_with_splits(const problem *prob, const problem_folds *prob
 }
 
 
-void linear_step_fix_range_nowarm(const problem *prob,const parameter *param, int nr_fold)
+void P_C_linear_full_nowarm(const problem *prob,const parameter *param, int nr_fold)
 {
   //Set range of parameter
   double min_P = 0.0;
@@ -245,7 +245,7 @@ void linear_step_fix_range_nowarm(const problem *prob,const parameter *param, in
     printf("Best log2P: %10.5f Best log2C: %10.5f Best MSE: %10.5f \n", log2(best_P), log2(best_C), best_score );
 }
 
-void linear_step_fix_range(const problem *prob,const parameter *param, int nr_fold)
+void P_C_linear_full(const problem *prob,const parameter *param, int nr_fold)
 {
   //Set range of parameter
   double min_P = 0.0;
@@ -298,7 +298,7 @@ void linear_step_fix_range(const problem *prob,const parameter *param, int nr_fo
 }
 
 
-void log_step_fix_range_nowarm(const problem *prob,const parameter *param, int nr_fold)
+void P_C_exp_full_nowarm(const problem *prob,const parameter *param, int nr_fold)
 {
   //Set range of parameter
   double min_P = pow(2.0, -30);
@@ -350,7 +350,7 @@ void log_step_fix_range_nowarm(const problem *prob,const parameter *param, int n
     printf("Best log2P: %10.5f Best log2C: %10.5f Best MSE: %10.5f \n", log2(best_P), log2(best_C), best_score );
 }
 
-void log_step_fix_range(const problem *prob,const parameter *param, int nr_fold)
+void P_C_exp_full(const problem *prob,const parameter *param, int nr_fold)
 {
   //Set range of parameter
   double min_P = pow(2.0, -30);
@@ -476,6 +476,63 @@ void C_P_new(const problem *prob,const parameter *param, int nr_fold)
     printf("Best log2P: %10.5f Best log2C: %10.5f Best MSE: %10.5f \n", log2(best_P), log2(best_C), best_score );
 }
 
+void C_P_linear_full(const problem *prob,const parameter *param, int nr_fold)
+{
+  //Set range of parameter
+  double min_P = 0.0;
+  double max_P = calc_max_P(prob, param);
+  double min_C = INF;
+  double max_C = pow(2.0, 50);
+
+  //Split data
+  struct problem_folds *prob_folds = split_data(prob, nr_fold);
+
+  //Best score
+  double best_score = INF;
+  double best_P=-1, best_C=-1;
+
+  //Run
+  struct parameter param1 = *param;
+  stepSz = max_P / double(numSteps);
+  for(int i = numSteps - 1; i >= 0; i--)
+  {
+    param1.p = stepSz * i;
+    min_C = min( min_C,calc_min_C(prob, &param1));
+  }
+  param1.C = min_C;
+  printf("Initialize numSteps: %d stepSz: %10.5f\n", numSteps, stepSz);
+  while( param1.C < max_C )
+  {
+    reset_init_sols(prob_folds);
+    for(int i = numSteps - 1; i >= 0; i--)
+    {
+      param1.p = stepSz * i;
+      double score = -1;
+      bool w_diff = false;
+      reset_iter_sum();
+      cross_validation_with_splits(prob, prob_folds, &param1, nr_fold, score, w_diff);
+      print_iter_sum(param1.p, param1.C);
+      if(param1.p == 0.0)
+        printf("log2P: INF log2C: %10.5f MSE: %10.5f\n",log2(param1.C), score);
+      else
+        printf("log2P: %10.5f log2C: %10.5f MSE: %10.5f\n", log2(param1.p), log2(param1.C), score);
+      if(best_score > score){
+        best_C = param1.C;
+        best_P = param1.p;
+        best_score = score;
+      }
+    }
+    param1.C *= 2.0;
+  }
+  
+  // Print the best result
+  printf("======================================\n");
+  if( best_P == 0.0 )
+    printf("Best log2P: INF Best log2C: %10.5f Best MSE: %10.5f \n", log2(best_C), best_score );
+  else
+    printf("Best log2P: %10.5f Best log2C: %10.5f Best MSE: %10.5f \n", log2(best_P), log2(best_C), best_score );
+}
+
 void P_C_new(const problem *prob,const parameter *param, int nr_fold)
 {
   //Set range of parameter
@@ -582,7 +639,7 @@ void P_C_old(const problem *prob,const parameter *param, int nr_fold)
       
       if(w_diff) w_diff_cnt = -1;
       w_diff_cnt++;
-      if(w_diff_cnt == 3)
+      if(w_diff_cnt == param1.old_stop_cnt)
         break;
       
       param1.C *= 2.0;
