@@ -32,9 +32,8 @@ extern "C" {
 // define in blas/dnrm2_ file
 extern double dnrm2_(int *, double *, int *);
 
-const int numSteps = 20.0;
+//const int numSteps = 20.0;
 double stepSz;
-const double max_PReduce = 5.0;
 const double delta1 = 1e-5;
 
 problem_folds::~problem_folds()
@@ -210,9 +209,9 @@ void P_C_linear_full_nowarm(const problem *prob,const parameter *param, int nr_f
 
   //Run
   struct parameter param1 = *param;
-  stepSz = max_P / double(numSteps);
-  printf("Initialize numSteps: %d stepSz: %10.5f\n", numSteps, stepSz);
-  for(int i = numSteps - 1; i >= 0; i--)
+  stepSz = max_P / double(param->num_step);
+  printf("Initialize numSteps: %d stepSz: %10.5f\n", param->num_step, stepSz);
+  for(int i = param->num_step - 1; i >= 0; i--)
   {
     param1.p = stepSz * i;
     param1.C = calc_min_C(prob, &param1);
@@ -262,9 +261,9 @@ void P_C_linear_full(const problem *prob,const parameter *param, int nr_fold)
 
   //Run
   struct parameter param1 = *param;
-  stepSz = max_P / double(numSteps);
-  printf("Initialize numSteps: %d stepSz: %10.5f\n", numSteps, stepSz);
-  for(int i = numSteps - 1; i >= 0; i--)
+  stepSz = max_P / double(param->num_step);
+  printf("Initialize numSteps: %d stepSz: %10.5f\n", param->num_step, stepSz);
+  for(int i = param->num_step - 1; i >= 0; i--)
   {
     param1.p = stepSz * i;
     param1.C = calc_min_C(prob, &param1);
@@ -419,22 +418,22 @@ void C_P_new(const problem *prob,const parameter *param, int nr_fold)
 
   //Run
   struct parameter param1 = *param;
-  stepSz = max_P / double(numSteps);
+  stepSz = max_P / double(param->num_step);
   double ratio = 2.0;
-  printf("Initialize numSteps: %d stepSz: %10.5f\n", numSteps, stepSz);
-  for(int i = numSteps - 1; i >= 0; i--)
+  printf("Initialize numSteps: %d stepSz: %10.5f\n", param->num_step, stepSz);
+  for(int i = param->num_step - 1; i >= 0; i--)
   {
     param1.p = stepSz * i; 
     min_C = min(min_C, calc_min_C(prob, &param1));
   }
   param1.C = min_C;
   long long pass_set = 0;
-  long long break_cond = 1 << (numSteps);
+  long long break_cond = 1 << (param->num_step);
   while( param1.C < max_C )
   {
     printf("=======\n");
     reset_init_sols(prob_folds);
-    for(int i = numSteps - 1; i >= 0; i--)
+    for(int i = param->num_step - 1; i >= 0; i--)
     {
       if( pass_set & (1 << i) )
         continue;
@@ -493,18 +492,18 @@ void C_P_linear_full(const problem *prob,const parameter *param, int nr_fold)
 
   //Run
   struct parameter param1 = *param;
-  stepSz = max_P / double(numSteps);
-  for(int i = numSteps - 1; i >= 0; i--)
+  stepSz = max_P / double(param->num_step);
+  for(int i = param->num_step - 1; i >= 0; i--)
   {
     param1.p = stepSz * i;
     min_C = min( min_C,calc_min_C(prob, &param1));
   }
   param1.C = min_C;
-  printf("Initialize numSteps: %d stepSz: %10.5f\n", numSteps, stepSz);
+  printf("Initialize numSteps: %d stepSz: %10.5f\n", param->num_step, stepSz);
   while( param1.C < max_C )
   {
     reset_init_sols(prob_folds);
-    for(int i = numSteps - 1; i >= 0; i--)
+    for(int i = param->num_step - 1; i >= 0; i--)
     {
       param1.p = stepSz * i;
       double score = -1;
@@ -550,9 +549,9 @@ void P_C_new(const problem *prob,const parameter *param, int nr_fold)
 
   //Run
   struct parameter param1 = *param;
-  stepSz = max_P / double(numSteps);
-  printf("Initialize numSteps: %d stepSz: %10.5f\n", numSteps, stepSz);
-  for(int i = numSteps - 1; i >= 0; i--)
+  stepSz = max_P / double(param->num_step);
+  printf("Initialize numSteps: %d stepSz: %10.5f\n", param->num_step, stepSz);
+  for(int i = param->num_step - 1; i >= 0; i--)
   {
     param1.p = stepSz * i;
     param1.C = calc_min_C(prob, &param1);
@@ -610,9 +609,9 @@ void P_C_old(const problem *prob,const parameter *param, int nr_fold)
 
   //Run
   struct parameter param1 = *param;
-  stepSz = max_P / double(numSteps);
-  printf("Initialize numSteps: %d stepSz: %10.5f\n", numSteps, stepSz);
-  for(int i = numSteps - 1; i >= 0; i--)
+  stepSz = max_P / double(param->num_step);
+  printf("Initialize numSteps: %d stepSz: %10.5f\n", param->num_step, stepSz);
+  for(int i = param->num_step - 1; i >= 0; i--)
   {
     param1.p = stepSz * i;
     param1.C = calc_min_C(prob, &param1);
@@ -671,8 +670,8 @@ void full_nowarm_fix_p(const problem *prob,const parameter *param, int nr_fold)
 
   //Run
   struct parameter param1 = *param;
-  stepSz = max_P / double(numSteps);
-  printf("Initialize numSteps: %d stepSz: %10.5f\n", numSteps, stepSz);
+  stepSz = max_P / double(param->num_step);
+  printf("Initialize numSteps: %d stepSz: %10.5f\n", param->num_step, stepSz);
 
   param1.p = stepSz * param->p;
   printf("param1.p %f step %f\n", param1.p, param->p);
@@ -726,8 +725,8 @@ void FP_C_nowarm(const problem *prob,const parameter *param, int nr_fold)
 
   //Run
   struct parameter param1 = *param;
-  stepSz = max_P / double(numSteps);
-  printf("Initialize numSteps: %d stepSz: %10.5f\n", numSteps, stepSz);
+  stepSz = max_P / double(param->num_step);
+  printf("Initialize numSteps: %d stepSz: %10.5f\n", param->num_step, stepSz);
 
   param1.p = stepSz * param->p;
   printf("param1.p %f step %f\n", param1.p, param->p);
@@ -785,9 +784,9 @@ void P_C_nowarm(const problem *prob,const parameter *param, int nr_fold)
 
   //Run
   struct parameter param1 = *param;
-  stepSz = max_P / double(numSteps);
-  printf("Initialize numSteps: %d stepSz: %10.5f\n", numSteps, stepSz);
-  for(int i = numSteps - 1; i >= 0; i--)
+  stepSz = max_P / double(param->num_step);
+  printf("Initialize numSteps: %d stepSz: %10.5f\n", param->num_step, stepSz);
+  for(int i = param->num_step - 1; i >= 0; i--)
   {
     param1.p = stepSz * i;
     param1.C = calc_min_C(prob, &param1);

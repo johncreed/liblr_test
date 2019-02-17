@@ -261,6 +261,10 @@ void parse_command_line(int argc, char **argv, char *input_file_name, char *mode
         param.old_stop_cnt = atoi(argv[i]);
         break;
 
+      case 'P':
+        param.num_step = atoi(argv[i]);
+        break;
+
       case 'e':
         param.eps = atof(argv[i]);
         break;

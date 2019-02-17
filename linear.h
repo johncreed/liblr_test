@@ -41,6 +41,7 @@ struct parameter
 	double p;
 	double *init_sol;
   int old_stop_cnt = 3;
+  int num_step = 20;
 };
 
 struct model
