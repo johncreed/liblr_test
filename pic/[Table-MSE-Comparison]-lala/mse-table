@@ -1,0 +1,21 @@
+& 1e-2 & 1e-3\\ 
+ abalone & 1.00 &     0.90 \\ 
+ abalone-scale & 1.00 &     0.96 \\ 
+ bodyfat & 1.00 &     0.37 \\ 
+ bodyfat-scale & 1.00 &     0.97 \\ 
+ cadata & 1.00 &     0.89 \\ 
+ cpusmall & 1.00 &     1.00 \\ 
+ cpusmall-scale & 1.00 &     0.96 \\ 
+ eunite2001 & 1.00 &     0.93 \\ 
+ housing & 1.00 &     0.72 \\ 
+ housing-scale & 1.00 &     1.00 \\ 
+ mg & 1.00 &     1.00 \\ 
+ mg-scale & 1.00 &     1.00 \\ 
+ mpg & 1.00 &     0.61 \\ 
+ mpg-scale & 1.00 &     1.00 \\ 
+ pyrim & 1.00 &     1.19 \\ 
+ pyrim-scale & 1.00 &     0.98 \\ 
+ space-ga & 1.00 &     1.00 \\ 
+ space-ga-scale & 1.00 &     1.00 \\ 
+ triazines & 1.00 &     1.02 \\ 
+ triazines-scale & 1.00 &     1.00 \\ 
