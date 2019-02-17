@@ -23,10 +23,20 @@ home = "/home/johncreed"
 tmp = join(home, "tmp")
 all_logs = "log"
 all_graphs = "pic"
-  
-ext = lambda x: x[x.rfind('.')+1:]
+
 name = lambda x: x[x.rfind('/')+1:]
-trim = lambda x: x[:x.rfind('.')]
+
+def trim(f, num):
+    res = f
+    trim_one = lambda x: x[:x.rfind('.')]
+    for i in range(num):
+        res = trim_one(res)
+    return res
+
+def ext(f, num):
+    f = trim(f, num-1)
+    ext_one = lambda x: x[x.rfind('.')+1:]
+    return ext_one(f)
 
 def escape_keyword( myS ):
   escapeWordList = ["_", "."]
@@ -106,6 +116,19 @@ def set_log_path(folder_name):
     log_path = join(all_logs, all_log_folders[choose_idx] )
     print("log_path is {}".format(log_path) )
     return log_path
+
+def set_log_list():
+    log_list = []
+    all_log_folders = [ x for x in os.listdir(all_logs) ]
+    all_log_folders.sort()
+    print_list_with_idx( all_log_folders )
+    while True:
+        choose_idx = int(input("Which folder to read log file: "))
+        if choose_idx == -1:
+            break
+        log_path = join(all_logs, all_log_folders[choose_idx] )
+        log_list.append(log_path)
+    return log_list
 
 def read_log_file(file_path):
       #(P, C, ERROR)
@@ -523,74 +546,84 @@ def draw_linear_vs_log():
         plt.close()
 
 def mse_table():
-    nowarm_dir = set_log_path("full-nowarm")
-    CPnew_dir = set_log_path("CPnew")
-    PCold_dir = set_log_path("PCold")
-    PCnew_dir = set_log_path("PCnew")
-    PCfull_dir = set_log_path("linear")
-    
-    pic_path = choose_pic_folder(ext(PCfull_dir), "[Table-MSE-Comparison]")
+    dir_list = set_log_list()
+    pic_path = choose_pic_folder(input("folder_name: "), "[Table-MSE-Comparison]")
     f = open(join(pic_path,'mse-table'), 'w')
-    f.write("{} & {} & {} & {} & {}\\\\ \n".format(nowarm_dir,CPnew_dir, PCold_dir, PCnew_dir, PCfull_dir))
-    file_list = [trim(f) for f in os.listdir(nowarm_dir)]
+    f.write("& {}".format( ext(dir_list[0],1) ))
+    for x in dir_list[1:]:
+        f.write(" & {}".format(ext(x,1)))
+    f.write("\\\\ \n")
+    file_list = [trim(f,4) for f in os.listdir(dir_list[0])]
     file_list.sort()
     for name in file_list:
-        name = trim(name)
-        nowarm = join(nowarm_dir, "{}.1e-4.full-nowarm".format(name))
-        CPnew = join(CPnew_dir, "{}.1e-4.CPnew".format(name))
-        PCold = join(PCold_dir, "{}.1e-4.PCold".format(name))
-        PCnew = join(PCnew_dir, "{}.1e-4.PCnew".format(name))
-        PCfull = join(PCfull_dir, "{}.1e-4.PClinear".format(name))
+        print(name)
+        best_list = []
+        for x in dir_list:
+            x_f = join(x, "{}.{}".format(name,basename(x)))
+            result_dict = read_log_file(x_f)
+            best_list.append(result_dict['best'][2][0])
 
-        nowarm_D = read_log_file(nowarm)
-        CPnew_D = read_log_file(CPnew)
-        PCold_D = read_log_file(PCold)
-        PCnew_D = read_log_file(PCnew)
-        PCfull_D = read_log_file(PCfull)
-
-        nowarm_best = min(nowarm_D['best'][2])
-        CPnew_best = CPnew_D['best'][2][0] / nowarm_best
-        PCold_best = PCold_D['best'][2][0]  / nowarm_best
-        PCnew_best = PCnew_D['best'][2][0]  / nowarm_best
-        PCfull_best = PCfull_D['best'][2][0] / nowarm_best
-
-        f.write(" {} & {} & {} & {} & {} \\\\ \n".format( name ,round(CPnew_best, 2), round(PCold_best, 2), round(PCnew_best, 2), round(PCfull_best, 2)))
-        #f.write(" {} & {} & {} & {} & {} \\\\ \n".format(name, nowarm_best, CPnew_best, PCold_best, PCnew_best))
-
+        f.write(" {} & 1.00 ".format(escape_keyword(name)))
+        for x in best_list[1:]:
+            f.write("& {0:8.2f} ".format( round( x / best_list[0], 2)))
+        f.write("\\\\ \n")
 
 
 def iter_table():
-    nowarm_dir = set_log_path("full-nowarm")
-    CPnew_dir = set_log_path("CPnew")
-    PCold_dir = set_log_path("PCold")
-    PCnew_dir = set_log_path("PCnew")
-    PCfull_dir = set_log_path("linear")
-    
-    pic_path = choose_pic_folder(ext(PCnew_dir), "[Table-iter-Comparison]")
+    dir_list = set_log_list()
+    pic_path = choose_pic_folder(input("folder_name: "), "[Table-iter-Comparison]")
     f = open(join(pic_path,'iter-table'), 'w')
-    f.write("{} & {} & {} & {}& {} \\\\ \n".format(nowarm_dir,CPnew_dir, PCold_dir, PCnew_dir, PCfull_dir))
-    file_list = [trim(trim(f)) for f in os.listdir(nowarm_dir)]
+    f.write("& {}".format( ext(dir_list[0],1) ))
+    for x in dir_list[1:]:
+        f.write(" & {}".format(ext(x,1)))
+    f.write("\\\\ \n")
+    file_list = [trim(f,4) for f in os.listdir(dir_list[0])]
     file_list.sort()
     for name in file_list:
-        nowarm = join(nowarm_dir, "{}.1e-4.full-nowarm".format(name))
-        CPnew = join(CPnew_dir, "{}.1e-4.CPnew".format(name))
-        PCold = join(PCold_dir, "{}.1e-4.PCold".format(name))
-        PCnew = join(PCnew_dir, "{}.1e-4.PCnew".format(name))
-        PCfull = join(PCfull_dir, "{}.1e-4.PClinear".format(name))
+        print(name)
+        best_list = []
+        for x in dir_list:
+            x_f = join(x, "{}.{}".format(name,basename(x)))
+            result_dict = read_log_file(x_f)
+            best_list.append(sum(result_dict['iterSum'][0]))
 
-        nowarm_D = read_log_file(nowarm)
-        CPnew_D = read_log_file(CPnew)
-        PCold_D = read_log_file(PCold)
-        PCnew_D = read_log_file(PCnew)
-        PCfull_D = read_log_file(PCfull)
+        f.write(" {} & 1.00 ".format(escape_keyword(name)))
+        for x in best_list[1:]:
+            f.write("& {0:8.2f} ".format( round( x / best_list[0], 2)))
+        f.write("\\\\ \n")
 
-        nowarm_iter = sum(nowarm_D['iterSum'][0])
-        CPnew_iter = sum(CPnew_D['iterSum'][0]) / nowarm_iter
-        PCold_iter = sum(PCold_D['iterSum'][0]) / nowarm_iter
-        PCnew_iter = sum(PCnew_D['iterSum'][0]) / nowarm_iter
-        PCfull_iter = sum(PCfull_D['iterSum'][0]) / nowarm_iter
-
-        f.write(" {}  & {} & {} & {} & {}\\\\ \n".format(name, round(CPnew_iter,2), round(PCold_iter,2), round(PCnew_iter,2), round(PCfull_iter, 2)))
+#def iter_table():
+#    nowarm_dir = set_log_path("full-nowarm")
+#    CPnew_dir = set_log_path("CPnew")
+#    PCold_dir = set_log_path("PCold")
+#    PCnew_dir = set_log_path("PCnew")
+#    PCfull_dir = set_log_path("linear")
+#    
+#    pic_path = choose_pic_folder(ext(PCnew_dir,1), "[Table-iter-Comparison]")
+#    f = open(join(pic_path,'iter-table'), 'w')
+#    f.write("{} & {} & {} & {}& {} \\\\ \n".format(nowarm_dir,CPnew_dir, PCold_dir, PCnew_dir, PCfull_dir))
+#    file_list = [trim(trim(f)) for f in os.listdir(nowarm_dir)]
+#    file_list.sort()
+#    for name in file_list:
+#        nowarm = join(nowarm_dir, "{}.1e-4.full-nowarm".format(name))
+#        CPnew = join(CPnew_dir, "{}.1e-4.CPnew".format(name))
+#        PCold = join(PCold_dir, "{}.1e-4.PCold".format(name))
+#        PCnew = join(PCnew_dir, "{}.1e-4.PCnew".format(name))
+#        PCfull = join(PCfull_dir, "{}.1e-4.PClinear".format(name))
+#
+#        nowarm_D = read_log_file(nowarm)
+#        CPnew_D = read_log_file(CPnew)
+#        PCold_D = read_log_file(PCold)
+#        PCnew_D = read_log_file(PCnew)
+#        PCfull_D = read_log_file(PCfull)
+#
+#        nowarm_iter = sum(nowarm_D['iterSum'][0])
+#        CPnew_iter = sum(CPnew_D['iterSum'][0]) / nowarm_iter
+#        PCold_iter = sum(PCold_D['iterSum'][0]) / nowarm_iter
+#        PCnew_iter = sum(PCnew_D['iterSum'][0]) / nowarm_iter
+#        PCfull_iter = sum(PCfull_D['iterSum'][0]) / nowarm_iter
+#
+#        f.write(" {}  & {} & {} & {} & {}\\\\ \n".format(name, round(CPnew_iter,2), round(PCold_iter,2), round(PCnew_iter,2), round(PCfull_iter, 2)))
 
 def acc_table():
     print("s0old")
@@ -602,7 +635,7 @@ def acc_table():
     print("s2new")
     s2new_dir = set_log_path()
     
-    pic_path = choose_pic_folder(ext(s2new_dir), "[Table-Acc-Comparison]")
+    pic_path = choose_pic_folder(ext(s2new_dir,1), "[Table-Acc-Comparison]")
     f = open(join(pic_path,'acc-table'), 'w')
     file_list = [trim(f) for f in os.listdir(s0old_dir)]
     for name in file_list:
@@ -635,7 +668,7 @@ def cls_iter_table():
     print("s2new")
     s2new_dir = set_log_path()
     
-    pic_path = choose_pic_folder(ext(s2new_dir), "[Table-cls-iter-Comparison]")
+    pic_path = choose_pic_folder(ext(s2new_dir,1), "[Table-cls-iter-Comparison]")
     f = open(join(pic_path,'cls-iter-table'), 'w')
     file_list = [trim(f) for f in os.listdir(s0old_dir)]
     for name in file_list:

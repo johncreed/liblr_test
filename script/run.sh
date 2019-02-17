@@ -1,8 +1,8 @@
 #! /bin/bash
 num_core=24
-e='1e-2'
+e='1e-4'
 S='5'
-P='20'
+P='100'
 
 case $1 in 
   0)
@@ -44,7 +44,7 @@ grid()
 for f in `./list_data.sh reg`
 #for f in reg/*
 do
-  echo "./train -s ${s} -e ${e} -S ${S} -C -t ${t} ${f} > $log_path/${f#*/}.$ext &"
+  echo "./train -s ${s} -e ${e} -S ${S} -P ${P} -C -t ${t} ${f} > $log_path/${f#*/}.$ext &"
 done
 }
 
