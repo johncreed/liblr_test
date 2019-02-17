@@ -155,7 +155,7 @@ void do_find_parameter_C()
       P_C_linear_full(&prob, &param, nr_fold);
     }
     else if( which_type == 1 ){
-      printf( "(P, C) linear full\n");
+      printf( "(P, C) linear old\n");
       P_C_old(&prob, &param, nr_fold);
     }
     else if( which_type == 2 ){

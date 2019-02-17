@@ -1,6 +1,6 @@
 #! /bin/bash
 num_core=24
-e='1e-4'
+e='1e-2'
 S='5'
 P='20'
 
